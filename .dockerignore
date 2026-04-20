@@ -1,0 +1,11 @@
+__pycache__/
+node_modules/
+client/node_modules/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.env
+.vscode/
+dist/
+build/

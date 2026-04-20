@@ -1,0 +1,24 @@
+<svg width="210" height="60" viewBox="0 0 210 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Diamond logo with circular outline -->
+  <g transform="translate(5, 5)">
+    <!-- Outer circular outline -->
+    <circle cx="25" cy="25" r="23" fill="none" stroke="#888888" stroke-width="2"/>
+    
+    <!-- Rotated diamond container -->
+    <g transform="translate(25, 25) rotate(45)">
+      <!-- Top dark triangle -->
+      <path d="M -17 -17 L 17 -17 L 17 0 L -17 0 Z" fill="#3C3C3C"/>
+      
+      <!-- Bottom blue triangle -->
+      <path d="M -17 0 L 17 0 L 17 17 L -17 17 Z" fill="#1AB3FF"/>
+      
+      <!-- White diamond in center -->
+      <circle cx="0" cy="0" r="10" fill="#FFFFFF"/>
+      
+      <!-- Dark center circle -->
+      <circle cx="0" cy="0" r="6" fill="#2C2C2C"/>
+    </g>
+  </g>
+  <text x="58" y="43" font-family="'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" font-size="36" font-weight="700" fill="#FFFFFF">DEV</text>
+  <text x="128" y="25" font-family="'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700" fill="#0089E5">47</text>
+</svg>

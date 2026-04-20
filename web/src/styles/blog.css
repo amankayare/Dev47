@@ -1,0 +1,204 @@
+/* Blog Layout Styles - GeeksForGeeks Inspired */
+.blog-content {
+  @apply min-h-[400px];
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Professional prose styles */
+.blog-content .prose {
+  @apply text-gray-700;
+}
+
+/* Heading styles with professional hierarchy */
+.blog-content .prose h1 {
+  @apply text-2xl md:text-3xl font-bold;
+  @apply text-gray-900 dark:text-gray-100;
+  @apply border-b border-gray-200 dark:border-gray-800;
+  @apply pb-2 mb-4 mt-8;
+}
+
+.blog-content .prose h1:first-child {
+  @apply mt-0;
+}
+
+.blog-content .prose h2 {
+  @apply text-xl md:text-2xl font-bold;
+  @apply text-gray-800 dark:text-gray-200;
+  @apply border-l-4 border-green-600 dark:border-green-500;
+  @apply pl-4 py-1 mb-3 mt-6;
+  @apply bg-green-50/50 dark:bg-green-950/20;
+}
+
+.blog-content .prose h3 {
+  @apply text-lg md:text-xl font-bold;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply mb-2.5 mt-5;
+}
+
+.blog-content .prose h4 {
+  @apply text-base md:text-lg font-semibold;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply mb-2 mt-4;
+}
+
+.blog-content .prose p {
+  @apply text-gray-700 dark:text-gray-300;
+  @apply leading-7 mb-4;
+  @apply text-[15px];
+}
+
+/* Blockquotes - Professional styling */
+.blog-content .prose blockquote {
+  @apply border-l-4 border-blue-500;
+  @apply bg-blue-50/50 dark:bg-blue-950/20;
+  @apply py-3 px-4 my-4;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply not-italic;
+}
+
+/* Inline code - Subtle and professional */
+.blog-content .prose code {
+  @apply bg-gray-100 dark:bg-gray-800;
+  @apply text-red-600 dark:text-red-400;
+  @apply px-1.5 py-0.5 rounded;
+  @apply text-[14px] font-mono font-normal;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.blog-content .prose code::before,
+.blog-content .prose code::after {
+  content: none;
+}
+
+/* Code blocks - Clean professional styling */
+.blog-content .prose pre {
+  @apply bg-gray-50 dark:bg-gray-900;
+  @apply border border-gray-200 dark:border-gray-800;
+  @apply rounded-lg p-4 my-4;
+  @apply overflow-x-auto;
+  @apply text-[14px] leading-6;
+  @apply shadow-sm;
+}
+
+.blog-content .prose pre code {
+  @apply bg-transparent border-none p-0;
+  @apply text-gray-800 dark:text-gray-200;
+}
+
+/* Lists - Clean spacing */
+.blog-content .prose ul,
+.blog-content .prose ol {
+  @apply my-4 pl-6;
+}
+
+.blog-content .prose li {
+  @apply mb-2 leading-7;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply text-[15px];
+}
+
+.blog-content .prose li::marker {
+  @apply text-gray-500;
+}
+
+/* Links - Green accent like GeeksForGeeks */
+.blog-content .prose a {
+  @apply text-green-600 dark:text-green-500;
+  @apply no-underline font-medium;
+  @apply transition-colors;
+}
+
+.blog-content .prose a:hover {
+  @apply text-green-700 dark:text-green-400;
+  @apply underline underline-offset-2;
+}
+
+/* Images - Professional presentation */
+.blog-content .prose img {
+  @apply rounded-lg shadow-md;
+  @apply border border-gray-200 dark:border-gray-800;
+  @apply my-6 mx-auto max-w-full h-auto;
+}
+
+/* Tables - Professional grid styling */
+.blog-content .prose table {
+  @apply w-full my-6 border-collapse;
+  @apply shadow-sm rounded-lg overflow-hidden;
+}
+
+.blog-content .prose thead {
+  @apply bg-gray-50 dark:bg-gray-800;
+}
+
+.blog-content .prose th {
+  @apply px-4 py-3 text-left;
+  @apply font-semibold;
+  @apply text-gray-900 dark:text-gray-100;
+  @apply border-b-2 border-gray-200 dark:border-gray-700;
+}
+
+.blog-content .prose td {
+  @apply px-4 py-3;
+  @apply text-gray-700 dark:text-gray-300;
+  @apply border-b border-gray-200 dark:border-gray-800;
+}
+
+.blog-content .prose tbody tr:last-child td {
+  @apply border-b-0;
+}
+
+.blog-content .prose tbody tr:hover {
+  @apply bg-gray-50/50 dark:bg-gray-800/50;
+}
+
+/* Horizontal rules - Subtle dividers */
+.blog-content .prose hr {
+  @apply border-gray-200 dark:border-gray-800;
+  @apply my-8;
+}
+
+/* Strong and emphasis */
+.blog-content .prose strong {
+  @apply text-gray-900 dark:text-gray-100;
+  @apply font-semibold;
+}
+
+.blog-content .prose em {
+  @apply text-gray-600 dark:text-gray-400;
+  @apply italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .blog-content .prose {
+    @apply text-base;
+  }
+  
+  .blog-content .prose h1 {
+    @apply text-2xl;
+  }
+  
+  .blog-content .prose h2 {
+    @apply text-xl;
+  }
+  
+  .blog-content .prose h3 {
+    @apply text-lg;
+  }
+}
+
+/* Print styles */
+@media print {
+  .blog-content .prose {
+    @apply text-black;
+  }
+  
+  .blog-content .prose a {
+    @apply text-black no-underline;
+  }
+  
+  .blog-content .prose a::after {
+    content: " (" attr(href) ")";
+    @apply text-sm text-gray-600;
+  }
+}

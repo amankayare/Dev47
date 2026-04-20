@@ -1,0 +1,24 @@
+{
+  "name": "visual-portfolio",
+  "version": "1.0.0",
+  "description": "Visual Portfolio - Full Stack Application",
+  "private": true,
+  "scripts": {
+    "dev": "npx concurrently \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:web": "cd web && npm run dev",
+    "dev:server": "cd server && conda run -n MPI-Applications python app.py",
+    "build": "cd web && npm run build",
+    "build:web": "cd web && npm run build",
+    "install:web": "cd web && npm install",
+    "install:server": "cd server && conda run -n MPI-Applications pip install -r requirements.txt",
+    "install:all": "npm run install:web && npm run install:server",
+    "start:server": "conda run -n MPI-Applications python scripts/start.py",
+    "setup": "python scripts/setup.py",
+    "clean": "cd web && npx rimraf dist node_modules/.vite",
+    "clean:all": "cd web && npx rimraf dist node_modules"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.8"
+  }
+}
