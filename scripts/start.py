@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
 Startup script for the Flask backend server
-Note: This should be run with conda environment MPI-Applications activated
-Usage: conda activate MPI-Applications && python scripts/start.py
+Note: This should be run with conda environmentportfolio-312 activated
+Usage: conda activateportfolio-312 && python scripts/start.py
 """
 import os
 import sys
 
 def main():
    print("🚀 Starting Portfolio Backend Server...")
-   print("⚠️  Make sure you're in the MPI-Applications conda environment!")
+   print("⚠️  Make sure you're in theportfolio-312 conda environment!")
    
    # Navigate to the server directory
    script_dir = os.path.dirname(__file__)
