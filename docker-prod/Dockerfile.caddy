@@ -25,8 +25,8 @@ WORKDIR /app
 
 COPY --from=git /src/web/package*.json ./
 
-# Install deps; skip optionalDependencies (bufferutil requires native build tools)
-RUN npm ci --omit=optional && test -x node_modules/.bin/vite || (echo "npm ci failed to link vite" && exit 1)
+# Install all dependencies (optional deps like rollup platform binaries are needed for build)
+RUN npm ci
 
 # Copy source and build
 COPY --from=git /src/web/ .
