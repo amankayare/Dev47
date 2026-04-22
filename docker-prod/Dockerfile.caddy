@@ -41,6 +41,11 @@ COPY --from=build /app/dist /srv
 # Copy Caddy configuration
 COPY Caddyfile /etc/caddy/Caddyfile
 
+# Ensure caddy can write to data/config dirs and serve files
+RUN chown -R 1000:1000 /srv /data /config
+
+USER 1000
+
 EXPOSE 80 443
 
 # Caddy runs as non-root by default
