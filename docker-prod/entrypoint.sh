@@ -16,7 +16,8 @@ with app.app_context():
         admin_pass = os.environ.get('ADMIN_PASSWORD')
         if not admin_pass:
             raise ValueError('ADMIN_PASSWORD environment variable must be set')
-        admin = User(username='admin', email='admin@portfolio.com', is_admin=True)
+        admin_user = os.environ.get('ADMIN_USERNAME', 'admin')
+        admin = User(username=admin_user, email='admin@portfolio.com', is_admin=True)
         admin.set_password(admin_pass)
         db.session.add(admin)
         db.session.commit()

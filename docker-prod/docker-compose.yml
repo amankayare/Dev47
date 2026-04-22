@@ -50,6 +50,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-https://amankayare.com}
       - CORS_ORIGINS=${FRONTEND_ORIGIN:-https://amankayare.com}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     volumes:
       - backend_uploads:/app/uploads
