@@ -20,7 +20,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: '0.50'
           memory: 512M
         reservations:
           memory: 128M
@@ -60,10 +60,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2.0'
-          memory: 1G
+          cpus: '0.75'
+          memory: 512M
         reservations:
-          memory: 256M
+          memory: 128M
     logging:
       driver: json-file
       options:
@@ -88,10 +88,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
-          memory: 512M
+          cpus: '0.50'
+          memory: 256M
         reservations:
-          memory: 128M
+          memory: 64M
     logging:
       driver: json-file
       options:

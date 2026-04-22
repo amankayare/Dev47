@@ -6,7 +6,7 @@ import os
 bind = "0.0.0.0:5000"
 
 # Worker processes
-workers = int(os.environ.get("WEB_CONCURRENCY", 4))
+workers = int(os.environ.get("WEB_CONCURRENCY", 2))
 worker_class = "sync"
 worker_tmp_dir = "/dev/shm"
 
