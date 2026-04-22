@@ -1,0 +1,6 @@
+# Local Docker: Serve pre-built frontend with Caddy
+# Build the frontend on your host first:  cd web && npm run build
+FROM caddy:2-alpine
+COPY web/dist /srv
+COPY docker-local/Caddyfile.local /etc/caddy/Caddyfile
+EXPOSE 80

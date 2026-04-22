@@ -1,11 +1,51 @@
-__pycache__/
+# Version control
+.git/
+.gitignore
+
+# Dependencies
 node_modules/
-client/node_modules/
+web/node_modules/
+
+# Build artifacts
+dist/
+# web/dist/ is needed for the Caddy image - DO NOT exclude
+build/
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.db
+
+# Environment files
 .env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+server/instance/
+
+# Docker directories (exclude build/compose files, keep configs needed by COPY)
+docker-local/Dockerfile.*
+docker-local/docker-compose.yml
+docker-local/.env*
+docker-local/README.md
+docker-prod/
+
+# IDE / Editor
 .vscode/
-dist/
-build/
+.idea/
+*.swp
+*.swo
+
+# Documentation
+docs/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Uploaded files
+server/uploads/
+
+# Test files
+server/tests/

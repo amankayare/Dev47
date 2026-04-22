@@ -1,0 +1,48 @@
+# Production Docker: Clone from Git, build Flask backend with Gunicorn + PostgreSQL support
+
+ARG GIT_BRANCH=main
+
+# --- Git Clone Stage ---
+FROM alpine:3.19 AS git
+
+ARG GIT_BRANCH
+
+RUN apk add --no-cache git
+
+WORKDIR /src
+RUN git clone --depth 1 --branch ${GIT_BRANCH} https://github.com/amankayare/Dev47.git .
+
+# --- Production Stage ---
+FROM python:3.11-slim
+
+# Create non-root user
+RUN addgroup --system app && adduser --system --ingroup app app
+
+WORKDIR /app
+
+# Install dependencies first for layer caching
+COPY --from=git /src/server/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt gunicorn psycopg2-binary
+
+# Copy server code
+COPY --from=git /src/server/ .
+
+# Copy Gunicorn config
+COPY gunicorn.conf.py .
+
+# Copy entrypoint script
+COPY entrypoint.sh .
+
+# Create uploads directory with correct ownership
+RUN mkdir -p uploads && chmod +x entrypoint.sh && chown -R app:app /app
+
+EXPOSE 5000
+
+ENV FLASK_ENV=production
+ENV PYTHONPATH=/app
+
+# Run as non-root user
+USER app
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["gunicorn", "-c", "gunicorn.conf.py", "app:app"]

@@ -43,7 +43,12 @@ def main():
     web_dir = os.path.join(project_root, "web")
     
     if not run_command("npm install", cwd=web_dir):
-        print("❌ Frontend setup failed")
+        print("❌ Frontend dependency install failed")
+        return False
+    
+    print("📦 Building frontend...")
+    if not run_command("npm run build", cwd=web_dir):
+        print("❌ Frontend build failed")
         return False
     
     print("✅ Frontend setup completed")

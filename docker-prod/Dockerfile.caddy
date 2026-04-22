@@ -1,0 +1,46 @@
+# Production Docker: Clone from Git, build frontend, serve with Caddy + auto HTTPS
+
+ARG GIT_BRANCH=main
+
+# --- Git Clone Stage ---
+FROM alpine:3.19 AS git
+
+ARG GIT_BRANCH
+
+RUN apk add --no-cache git
+
+WORKDIR /src
+RUN git clone --depth 1 --branch ${GIT_BRANCH} https://github.com/amankayare/Dev47.git .
+
+# --- Build Stage ---
+FROM node:20-bookworm-slim AS build
+
+# Increase Node heap and reduce npm concurrency to prevent OOM crashes
+ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV NPM_CONFIG_MAXSOCKETS=3
+ENV NPM_CONFIG_FUND=false
+ENV NPM_CONFIG_AUDIT=false
+
+WORKDIR /app
+
+COPY --from=git /src/web/package*.json ./
+
+# Install deps; skip optionalDependencies (bufferutil requires native build tools)
+RUN npm ci --omit=optional && test -x node_modules/.bin/vite || (echo "npm ci failed to link vite" && exit 1)
+
+# Copy source and build
+COPY --from=git /src/web/ .
+RUN npm run build
+
+# --- Production Stage ---
+FROM caddy:2-alpine
+
+# Copy built frontend files
+COPY --from=build /app/dist /srv
+
+# Copy Caddy configuration
+COPY Caddyfile /etc/caddy/Caddyfile
+
+EXPOSE 80 443
+
+# Caddy runs as non-root by default
