@@ -1,4 +1,10 @@
 # Production Caddyfile — auto HTTPS via Let's Encrypt
+
+# Explicit HTTP → HTTPS redirect (guaranteed, no edge cases)
+http://amankayare.com {
+	redir https://amankayare.com{uri} permanent
+}
+
 {$DOMAIN:amankayare.com} {
 	# Compression
 	encode zstd gzip

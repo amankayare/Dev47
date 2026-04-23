@@ -228,7 +228,7 @@ const DynamicAboutContent = () => {
     );
   }
 
-  if (aboutError || !about) {
+  if (aboutError) {
     return (
       <div className="hero-grid hero-squares p-4 sm:p-8 lg:px-16 xl:px-20 vs-scrollbar overflow-auto h-full">
         <div className="max-w-6xl mx-auto">
@@ -240,6 +240,22 @@ const DynamicAboutContent = () => {
               <p className="text-muted-foreground text-sm">
                 Please check your connection and try again
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!about || !about.name) {
+    return (
+      <div className="hero-grid hero-squares p-4 sm:p-8 lg:px-16 xl:px-20 vs-scrollbar overflow-auto h-full">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <User className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground mb-2">No about information yet</p>
+              <p className="text-muted-foreground text-sm">About data will appear here once added via the admin panel</p>
             </div>
           </div>
         </div>

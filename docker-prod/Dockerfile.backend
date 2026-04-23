@@ -16,7 +16,7 @@ RUN git clone --depth 1 --branch ${GIT_BRANCH} https://github.com/amankayare/Dev
 FROM python:3.11-slim
 
 # Create non-root user
-RUN addgroup --system app && adduser --system --ingroup app app
+RUN addgroup --system app && adduser --system --home /app --ingroup app app
 
 WORKDIR /app
 

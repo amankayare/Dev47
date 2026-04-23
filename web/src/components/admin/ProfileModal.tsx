@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { User, Lock, Eye, EyeOff, Shield, Calendar, Mail, UserCircle, KeyRound, CheckCircle2 } from "lucide-react";
-import { apiGet, apiPost } from '@/utils/api';
+import { apiGet, apiPut } from '@/utils/api';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -55,7 +55,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   // Mutation for password change - following AdminDashboard pattern
   const changePasswordMutation = useMutation({
     mutationFn: async (data: { current_password: string; new_password: string }) => {
-      return apiPost('/api/auth/change-password', {
+      return apiPut('/api/auth/change-password', {
         currentPassword: data.current_password,
         newPassword: data.new_password,
       });
