@@ -98,16 +98,20 @@ export default function AboutManagement() {
         social_links: socialLinksObj,
       };
 
-      return apiPut('/api/about/', payload);
+      // POST on first create (no existing record), PUT on update
+      const hasExistingRecord = about && about.name;
+      return hasExistingRecord
+        ? apiPut('/api/about/', payload)
+        : apiPost('/api/about/', payload);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/about'] });
-      toast({ title: 'Success', description: 'About information updated successfully.' });
+      toast({ title: 'Success', description: 'About information saved successfully.' });
     },
     onError: (error) => {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update about information.',
+        description: error.message || 'Failed to save about information.',
         variant: 'destructive'
       });
     },
