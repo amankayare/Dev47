@@ -83,6 +83,19 @@ type TabType =
   | "contact"
   | "resume";
 
+// Defined outside component so it's a stable reference — prevents useEffect from
+// re-running on every render and reverting the active tab via handleHashChange.
+const tabConfig: Record<TabType, { name: string; icon: React.ElementType }> = {
+  home: { name: "Home.jsx", icon: Home },
+  about: { name: "About.jsx", icon: User },
+  experience: { name: "Experience.jsx", icon: Briefcase },
+  projects: { name: "Projects.jsx", icon: FolderOpen },
+  certifications: { name: "Certifications.jsx", icon: Award },
+  resume: { name: "Resume.pdf", icon: FileText },
+  blog: { name: "Blogs.jsx", icon: BookOpen },
+  contact: { name: "Contact.jsx", icon: Mail },
+};
+
 // About data interface for dynamic content
 interface AboutData {
   id: number;
@@ -443,17 +456,6 @@ const Portfolio = () => {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  const tabConfig: Record<TabType, { name: string; icon: React.ElementType }> =
-    {
-      home: { name: "Home.jsx", icon: Home },
-      about: { name: "About.jsx", icon: User },
-      experience: { name: "Experience.jsx", icon: Briefcase },
-      projects: { name: "Projects.jsx", icon: FolderOpen },
-      certifications: { name: "Certifications.jsx", icon: Award },
-      resume: { name: "Resume.pdf", icon: FileText },
-      blog: { name: "Blogs.jsx", icon: BookOpen },
-      contact: { name: "Contact.jsx", icon: Mail },
-    };
 
   const openTab = useCallback(
     (tabId: TabType) => {
@@ -1355,7 +1357,7 @@ const Portfolio = () => {
                       ? "bg-[hsl(var(--vs-tab-active))] text-foreground"
                       : "bg-[hsl(var(--vs-tab-bg))] text-muted-foreground hover:bg-[hsl(var(--vs-tab-active))] hover:text-foreground"
                   }`}
-                  onClick={() => setActiveTab(tabId)}
+                  onClick={() => openTab(tabId)}
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
                   <span className="text-sm font-medium truncate hidden sm:block">
