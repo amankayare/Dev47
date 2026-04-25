@@ -50,6 +50,7 @@ import {
   Calendar,
   MapPin as Location,
   Mail as Email,
+  Menu,
 } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -442,7 +443,9 @@ const Portfolio = () => {
   const [, setLocation] = useLocation();
   const [openTabs, setOpenTabs] = useState<TabType[]>(["home"]);
   const [activeTab, setActiveTab] = useState<TabType>("home");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [blogSearchQuery, setBlogSearchQuery] = useState("");
   
@@ -463,6 +466,11 @@ const Portfolio = () => {
         setOpenTabs((prev) => [...prev, tabId]);
       }
       setActiveTab(tabId);
+      
+      // Auto-close sidebar on mobile after selecting a tab
+      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        setSidebarCollapsed(true);
+      }
       
       // Update URL hash for all tabs except home
       if (tabId !== 'home') {
@@ -534,6 +542,26 @@ const Portfolio = () => {
     },
     [openTabs, activeTab],
   );
+
+  // Handle responsive sidebar collapsing dynamically
+  useEffect(() => {
+    let prevWidth = window.innerWidth;
+    const handleResize = () => {
+      const currWidth = window.innerWidth;
+      // Crossing from desktop to mobile
+      if (prevWidth >= 768 && currWidth < 768) {
+        setSidebarCollapsed(true);
+      }
+      // Crossing from mobile to desktop
+      else if (prevWidth < 768 && currWidth >= 768) {
+        setSidebarCollapsed(false);
+      }
+      prevWidth = currWidth;
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -1248,11 +1276,19 @@ const Portfolio = () => {
   return (
     <div className="h-screen  flex flex-col bg-background text-foreground font-vs">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-[hsl(var(--vs-header-bg))] border-b border-border">
+      <div className="flex items-center justify-between p-4 bg-[var(--vs-header-bg)] border-b border-border z-10 relative">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleSidebar}
+              className="md:hidden p-1 h-8 w-8 rounded-lg -ml-2"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
             <VSIcon />
-            <span className="text-2xl font-savate font-bold text-foreground hidden sm:block">
+            <span className="text-2xl font-savate font-bold text-foreground hidden md:block">
               Aman Kayare
             </span>
           </div>
@@ -1261,7 +1297,7 @@ const Portfolio = () => {
         <div className="flex items-center space-x-2">
           <ThemeToggle 
             variant="ghost"
-            className="hover:bg-[hsl(var(--vs-sidebar-hover))] rounded-lg transition-all duration-200"
+            className="hover:bg-[var(--vs-sidebar-hover)] rounded-lg transition-all duration-200"
             showTooltip={true}
           />
           <Button
@@ -1283,17 +1319,27 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Mobile Overlay */}
+        {!sidebarCollapsed && (
+          <div 
+            className="absolute inset-0 bg-black/50 z-40 md:hidden" 
+            onClick={() => setSidebarCollapsed(true)}
+          />
+        )}
+        
         {/* Sidebar */}
         <div
-          className={`bg-[hsl(var(--vs-sidebar-bg))] border-r border-border transition-all duration-300 flex-shrink-0 ${
-            sidebarCollapsed ? "w-12" : "w-16 sm:w-64"
+          className={`bg-[var(--vs-sidebar-bg)] border-r border-border transition-all duration-300 flex-shrink-0 z-50 absolute md:relative h-full ${
+            sidebarCollapsed 
+              ? "-translate-x-full md:translate-x-0 w-64 md:w-12 overflow-hidden" 
+              : "translate-x-0 w-64"
           }`}
         >
           <div className="p-3 h-full">
             <div className="flex items-center justify-between mb-6">
               {!sidebarCollapsed && (
-                <h2 className="text-sm font-semibold text-[hsl(var(--vs-sidebar-text))] uppercase tracking-wider hidden sm:block">
+                <h2 className="text-sm font-semibold text-[var(--vs-sidebar-text)] uppercase tracking-wider">
                   Explorer
                 </h2>
               )}
@@ -1323,13 +1369,13 @@ const Portfolio = () => {
                     className={`w-full flex items-center p-2 rounded-lg text-left transition-all duration-200 ${
                       isActive
                         ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-[hsl(var(--vs-sidebar-text))] hover:bg-[hsl(var(--vs-sidebar-hover))] hover:text-foreground"
+                        : "text-[var(--vs-sidebar-text)] hover:bg-[var(--vs-sidebar-hover)] hover:text-foreground"
                     } ${sidebarCollapsed ? "justify-center" : "justify-start"}`}
                     title={sidebarCollapsed ? config.name : undefined}
                   >
                     <Icon className="h-4 w-4 flex-shrink-0" />
                     {!sidebarCollapsed && (
-                      <span className="text-sm font-medium truncate ml-3 hidden sm:block">
+                      <span className="text-sm font-medium truncate ml-3">
                         {config.name}
                       </span>
                     )}
@@ -1343,7 +1389,7 @@ const Portfolio = () => {
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Tabs */}
-          <div className="flex items-center bg-[hsl(var(--vs-tab-bg))] border-b border-border overflow-x-auto">
+          <div className="flex items-center bg-[var(--vs-tab-bg)] border-b border-border overflow-x-auto">
             {openTabs.map((tabId) => {
               const config = tabConfig[tabId];
               const Icon = config.icon;
@@ -1354,13 +1400,13 @@ const Portfolio = () => {
                   key={tabId}
                   className={`flex items-center space-x-2 px-3 lg:px-4 py-3 border-r border-border cursor-pointer group relative min-w-0 flex-shrink-0 ${
                     isActive
-                      ? "bg-[hsl(var(--vs-tab-active))] text-foreground"
-                      : "bg-[hsl(var(--vs-tab-bg))] text-muted-foreground hover:bg-[hsl(var(--vs-tab-active))] hover:text-foreground"
+                      ? "bg-[var(--vs-tab-active)] text-foreground"
+                      : "bg-[var(--vs-tab-bg)] text-muted-foreground hover:bg-[var(--vs-tab-active)] hover:text-foreground"
                   }`}
                   onClick={() => openTab(tabId)}
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="text-sm font-medium truncate hidden sm:block">
+                  <span className="text-sm font-medium truncate ml-2">
                     {config.name}
                   </span>
                   {openTabs.length > 1 && (
