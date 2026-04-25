@@ -41,56 +41,16 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-
-            DEPLOY_DIR=/opt/Dev47/docker-prod
-
-            echo "========================================="
-            echo " Dev47 — Manual Deployment"
-            echo " Branch  : ${DEPLOY_BRANCH}"
-            echo " Rebuild : ${REBUILD_TARGET}"
-            echo " $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-            echo "========================================="
-
-            # ── Checkout the requested branch on VPS ──────────────────────────
-            echo ">>> Fetching and checking out '${DEPLOY_BRANCH}'..."
+            
+            echo ">>> Pulling latest deployment script..."
             cd /opt/Dev47
             git fetch origin
             git checkout "${DEPLOY_BRANCH}"
             git pull origin "${DEPLOY_BRANCH}"
-
-            cd "$DEPLOY_DIR"
-
-            # ── Build the requested target ─────────────────────────────────────
-            if [ "${REBUILD_TARGET}" = "backend" ]; then
-              echo ">>> Building: backend only"
-              docker compose build --no-cache backend
-              docker compose up -d backend
-            elif [ "${REBUILD_TARGET}" = "caddy" ]; then
-              echo ">>> Building: caddy (frontend) only"
-              docker compose build --no-cache caddy
-              docker compose up -d caddy
-            else
-              echo ">>> Building: all services"
-              docker compose build --no-cache
-              docker compose up -d
-            fi
-
-            # ── Health check ───────────────────────────────────────────────────
-            echo ">>> Waiting for backend to become healthy..."
-            for i in $(seq 1 12); do
-              STATUS=$(docker compose ps --format json backend 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('Health','unknown'))" 2>/dev/null || echo "unknown")
-              echo "  attempt $i/12 — backend: $STATUS"
-              if [ "$STATUS" = "healthy" ]; then
-                break
-              fi
-              sleep 5
-            done
-
-            echo ">>> Container status:"
-            docker compose ps
-
-            echo ""
-            echo ">>> Deployment complete!"
+            
+            echo ">>> Executing deployment script..."
+            chmod +x docker-prod/deploy.sh
+            bash docker-prod/deploy.sh "${REBUILD_TARGET}" "${DEPLOY_BRANCH}"
         env:
           DEPLOY_BRANCH:  ${{ github.event.inputs.branch }}
           REBUILD_TARGET: ${{ github.event.inputs.rebuild_target }}
