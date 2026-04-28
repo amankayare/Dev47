@@ -14,6 +14,9 @@ echo " Rebuild : ${REBUILD_TARGET}"
 echo " $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "========================================="
 
+# Export for Docker build args
+export GIT_BRANCH="${DEPLOY_BRANCH}"
+
 # ── Checkout the requested branch on VPS ──────────────────────────
 echo ">>> Fetching and checking out '${DEPLOY_BRANCH}'..."
 cd /opt/Dev47
