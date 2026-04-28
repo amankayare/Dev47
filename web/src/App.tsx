@@ -8,6 +8,8 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import BlogPost from "@/pages/BlogPost";
 import BlogHome from "@/pages/BlogHome";
 import UserProfile from "@/pages/UserProfile";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
 
 // Lazy load admin pages
 const ProjectsManagement = lazy(() => import("./pages/admin/ProjectsManagement"));
@@ -41,6 +43,8 @@ function App() {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route path="/reset-password/:token" component={ResetPassword} />
             <Route path="/profile" component={UserProfile} />
             <Route path="/admin" component={AdminDashboard} />
             <Route path="/admin/projects">{() => <DelayedContent><ProjectsManagement /></DelayedContent>}</Route>
