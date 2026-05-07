@@ -1,15 +1,13 @@
 # Production Caddyfile — auto HTTPS via Let's Encrypt
 
-# Explicit HTTP → HTTPS redirect (guaranteed, no edge cases)
+# Explicit HTTP → HTTPS redirect
 http://amankayare.com {
 	redir https://amankayare.com{uri} permanent
 }
 
+# Main Portfolio Domain
 {$DOMAIN:amankayare.com} {
-	# Compression
 	encode zstd gzip
-
-	# Security headers
 	header {
 		X-Frame-Options "SAMEORIGIN"
 		X-Content-Type-Options "nosniff"
@@ -19,7 +17,7 @@ http://amankayare.com {
 		-Server
 	}
 
-	# Reverse proxy API and backend requests (handle blocks enforce ordering)
+	# Portfolio API
 	handle /api/* {
 		reverse_proxy backend:5000
 	}
@@ -33,15 +31,29 @@ http://amankayare.com {
 		reverse_proxy backend:5000
 	}
 
-	# Serve built React frontend with SPA fallback
+	# Portfolio Frontend
 	handle {
 		root * /srv
-
-		# Static asset caching (Vite hashed filenames)
 		@assets path /assets/*
 		header @assets Cache-Control "public, max-age=31536000, immutable"
-
 		try_files {path} /index.html
 		file_server
 	}
+}
+
+# Email Microservice Domain
+email.amankayare.com {
+    reverse_proxy email-api:8080 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    header {
+        Permissions-Policy interest-cohort=()
+        Strict-Transport-Security max-age=31536000;
+        X-Frame-Options DENY
+        X-Content-Type-Options nosniff
+        -Server
+    }
 }
