@@ -140,3 +140,9 @@ class ContentConversionSchema(Schema):
             "validator_failed": "raw_text must be between 10 and 50,000 characters.",
         },
     )
+    # Optional: when provided, overrides the server's default system prompt.
+    custom_system_prompt = fields.Str(
+        load_default=None,
+        allow_none=True,
+        validate=validate.Length(max=10_000),
+    )

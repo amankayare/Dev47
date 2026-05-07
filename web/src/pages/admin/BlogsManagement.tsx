@@ -285,18 +285,27 @@ export default function BlogsManagement() {
 
   // --- AI Conversion ---
   const [activeTab, setActiveTab] = useState('draft');
+  // Prompt state is lifted here (not inside AIContentDraft) so it survives
+  // form open/close/submit cycles and is never wiped unless the user resets it.
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiPromptLoaded, setAiPromptLoaded] = useState(false);
   const { isConverting, error: aiError, convert, reset: resetAI } = useAIConvert();
 
-  const handleAIConvert = async (rawText: string) => {
-    const result = await convert(rawText);
+  const handleAIConvert = async (rawText: string, customPrompt?: string) => {
+    const result = await convert(rawText, customPrompt);
     if (!result) return; // error is already set inside the hook
 
     setFormData(prev => ({
       ...prev,
       content: result.html_content,
-      // Only overwrite title/excerpt when they are currently empty
-      title:   prev.title   || result.suggested_title,
-      excerpt: prev.excerpt || result.suggested_excerpt,
+      // Only overwrite each field when it is currently empty
+      title:        prev.title        || result.suggested_title,
+      excerpt:      prev.excerpt      || result.suggested_excerpt,
+      reading_time: prev.reading_time || (
+        result.reading_time_minutes > 0
+          ? String(result.reading_time_minutes)
+          : prev.reading_time
+      ),
     }));
 
     // Switch to HTML editor tab automatically
@@ -613,6 +622,10 @@ export default function BlogsManagement() {
                       <AIContentDraft
                         isConverting={isConverting}
                         onConvert={handleAIConvert}
+                        customPrompt={aiPrompt}
+                        onCustomPromptChange={setAiPrompt}
+                        promptLoaded={aiPromptLoaded}
+                        onPromptLoaded={() => setAiPromptLoaded(true)}
                       />
                       {aiError && (
                         <p className="mt-2 text-xs text-red-500 flex items-center gap-1">

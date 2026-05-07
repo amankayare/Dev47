@@ -12,6 +12,7 @@ class ConversionResult:
     html_content: str
     suggested_title: str
     suggested_excerpt: str
+    reading_time_minutes: int = 0
 
 
 class BaseAIService(ABC):
@@ -22,7 +23,7 @@ class BaseAIService(ABC):
     """
 
     @abstractmethod
-    def convert_to_html(self, raw_text: str) -> ConversionResult:
+    def convert_to_html(self, raw_text: str, system_prompt: str | None = None) -> ConversionResult:
         """
         Convert plain text or markdown into structured HTML.
 
@@ -30,7 +31,7 @@ class BaseAIService(ABC):
             raw_text: Raw content (plain text or markdown).
 
         Returns:
-            ConversionResult with html_content, suggested_title, suggested_excerpt.
+            ConversionResult with html_content, suggested_title, suggested_excerpt, reading_time_minutes.
 
         Raises:
             ValueError: If the AI returns an unparseable response.

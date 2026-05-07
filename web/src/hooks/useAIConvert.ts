@@ -9,6 +9,7 @@ export interface AIConversionResult {
   html_content: string;
   suggested_title: string;
   suggested_excerpt: string;
+  reading_time_minutes: number;
 }
 
 interface UseAIConvertReturn {
@@ -38,7 +39,7 @@ export function useAIConvert(): UseAIConvertReturn {
   const [error, setError] = useState<string | null>(null);
 
   const convert = useCallback(
-    async (rawText: string): Promise<AIConversionResult | null> => {
+    async (rawText: string, customPrompt?: string): Promise<AIConversionResult | null> => {
       // Client-side guard — mirrors the server-side Marshmallow validation.
       if (!rawText.trim() || rawText.trim().length < 10) {
         setError('Content must be at least 10 characters long.');
@@ -49,7 +50,10 @@ export function useAIConvert(): UseAIConvertReturn {
       setError(null);
 
       try {
-        const result = await apiPost('/api/blogs/convert', { raw_text: rawText });
+        const result = await apiPost('/api/blogs/convert', {
+          raw_text: rawText,
+          ...(customPrompt ? { custom_system_prompt: customPrompt } : {}),
+        });
         return result as AIConversionResult;
       } catch (err: any) {
         // Normalise error messages from the various HTTP error codes

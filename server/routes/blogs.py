@@ -64,7 +64,8 @@ def convert_content_to_html():
     # The route never imports or instantiates Gemini directly.
     try:
         ai_service = create_ai_service()
-        result = ai_service.convert_to_html(data["raw_text"])
+        custom_prompt = data.get("custom_system_prompt") or None
+        result = ai_service.convert_to_html(data["raw_text"], system_prompt=custom_prompt)
     except RuntimeError as exc:
         # GEMINI_API_KEY not configured
         logger.error("AI service not configured: %s", exc)
@@ -80,10 +81,20 @@ def convert_content_to_html():
 
     # --- Step 3: Return structured result ---
     return jsonify({
-        "html_content":      result.html_content,
-        "suggested_title":   result.suggested_title,
-        "suggested_excerpt": result.suggested_excerpt,
+        "html_content":          result.html_content,
+        "suggested_title":       result.suggested_title,
+        "suggested_excerpt":     result.suggested_excerpt,
+        "reading_time_minutes":  result.reading_time_minutes,
     }), 200
+
+
+@blogs_bp.route('/convert/default-prompt', methods=['GET'])
+@admin_required
+def get_default_prompt():
+    """Return the current server-side default system prompt so the frontend
+    can pre-populate the optional prompt editor (admin only)."""
+    from utils.gemini_ai_service import _SYSTEM_PROMPT
+    return jsonify({"prompt": _SYSTEM_PROMPT}), 200
 
 
 @blogs_bp.route('/test', methods=['GET'])

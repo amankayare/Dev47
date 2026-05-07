@@ -151,8 +151,13 @@ The layout should feel like:
    - Key takeaway (blockquote)
    - Closing paragraph
 
-4. Author Signature
-   — Written by Aman Kayare
+4. Blog/Article length:
+   — Must be atleast 1500 words
+   — Must have atleast 5 headings
+   — Must have atleast 15 paragraphs
+   — Must have atleast 2 code blocks
+   — Must have atleast 2 info boxes
+   — Must have atleast 1 feature grids
 
 --------------------------------------------------
 💡 SMART FORMATTING RULES
@@ -168,13 +173,27 @@ The layout should feel like:
 ⚠️ OUTPUT FORMAT
 --------------------------------------------------
 
-Return ONLY HTML.
+Return ONLY a valid JSON object — no markdown fences, no extra text, no HTML outside the json value:
+
+{{
+  "html_content": "<div class=\"blog-content-container\">...</div>",
+  "suggested_title": "A catchy, SEO-friendly title (max 70 characters)",
+  "suggested_excerpt": "One compelling sentence that summarises the post (max 160 characters)",
+  "reading_time_minutes": 5
+}}
+
+Notes:
+- reading_time_minutes: estimate based on ~200 words per minute for technical readers
+- suggested_title: must be unique, engaging, and NOT start with generic words like 'Understanding' or 'Exploring'
+- suggested_excerpt: must hook the reader in one sentence
 
 DO NOT:
+- Add explanations before or after the JSON
+- Wrap the JSON in markdown fences (```)
+- Add HTML comments outside the html_content value
 - Add explanations
 - Add markdown
 - Add comments outside HTML
-
 """
 
 
@@ -220,28 +239,53 @@ class GeminiAIService(BaseAIService):
     # Public interface (satisfies BaseAIService contract)
     # ------------------------------------------------------------------
 
-    def convert_to_html(self, raw_text: str) -> ConversionResult:
+    def convert_to_html(self, raw_text: str, system_prompt: str | None = None) -> ConversionResult:
         """
         Invoke the Gemini model via LangChain and return a ConversionResult.
 
+        Args:
+            raw_text:      The raw text/markdown to convert.
+            system_prompt: Optional override. When provided, a fresh LangChain
+                           chain is built with this prompt instead of the default.
+
         Raises:
-            Exception: Propagated as-is for upstream API / network failures.
+            ValueError: If the model returns unparseable JSON or is missing required keys.
+            Exception:  Propagated as-is for upstream API / network failures.
         """
+        # Build a one-off chain when a custom prompt is requested;
+        # fall back to the pre-built default chain otherwise.
+        if system_prompt:
+            prompt_template = ChatPromptTemplate.from_messages([
+                ("system", system_prompt),
+                ("human", "Convert this content:\n\n{raw_text}"),
+            ])
+            chain = prompt_template | self._llm | StrOutputParser()
+        else:
+            chain = self._chain
+
         try:
-            raw_response: str = self._chain.invoke({"raw_text": raw_text})
+            raw_response: str = chain.invoke({"raw_text": raw_text})
         except Exception as exc:
             logger.error("Gemini API call failed: %s", exc, exc_info=True)
             raise
 
-        # Strip any markdown code fences the model might include (e.g. ```html ... ```)
-        html_fence_re = re.compile(r"^```(?:html)?\s*|\s*```$", re.MULTILINE)
-        html_content = html_fence_re.sub("", raw_response).strip()
+        # Strip markdown fences the model sometimes wraps around JSON
+        fence_re = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
+        cleaned = fence_re.sub("", raw_response).strip()
 
-        # Since we are no longer using JSON, we don't have suggested title/excerpt
-        # from the model in this format. We return empty strings which the frontend
-        # will handle by not overwriting existing values.
-        return ConversionResult(
-            html_content=html_content,
-            suggested_title="",
-            suggested_excerpt="",
-        )
+        try:
+            data = json.loads(cleaned)
+        except json.JSONDecodeError as exc:
+            logger.error("Failed to parse AI JSON. Raw output: %s", raw_response[:500])
+            raise ValueError(f"AI returned an invalid JSON response: {exc}") from exc
+
+        try:
+            return ConversionResult(
+                html_content=data["html_content"],
+                suggested_title=data.get("suggested_title", ""),
+                suggested_excerpt=data.get("suggested_excerpt", ""),
+                reading_time_minutes=int(data.get("reading_time_minutes", 0)),
+            )
+        except KeyError as exc:
+            logger.error("AI JSON missing key: %s. Data: %s", exc, data)
+            raise ValueError(f"AI response missing required field: {exc}") from exc
