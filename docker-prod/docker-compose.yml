@@ -40,6 +40,8 @@ services:
       - EMAIL_SERVICE_URL=${EMAIL_SERVICE_URL}
       - EMAIL_SERVICE_API_KEY=${EMAIL_SERVICE_API_KEY}
       - FRONTEND_URL=${FRONTEND_URL}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
     volumes:
       - backend_uploads:/app/uploads
     depends_on:
