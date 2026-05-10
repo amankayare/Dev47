@@ -3,7 +3,12 @@
 # Exit on error, undefined vars, and pipe failures
 set -euo pipefail
 
-DEPLOY_DIR="/opt/Dev47/docker-prod"
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Project root is one level up from docker-prod/
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+DEPLOY_DIR="${SCRIPT_DIR}"
 REBUILD_TARGET="${1:-all}"
 DEPLOY_BRANCH="${2:-main}"
 
@@ -11,6 +16,7 @@ echo "========================================="
 echo " Dev47 — Manual Deployment"
 echo " Branch  : ${DEPLOY_BRANCH}"
 echo " Rebuild : ${REBUILD_TARGET}"
+echo " Root    : ${PROJECT_ROOT}"
 echo " $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "========================================="
 echo ""
@@ -23,7 +29,7 @@ export GIT_BRANCH="${DEPLOY_BRANCH}"
 
 # ── Checkout the requested branch on VPS ──────────────────────────
 echo ">>> Fetching and checking out '${DEPLOY_BRANCH}'..."
-cd /opt/Dev47
+cd "${PROJECT_ROOT}"
 git fetch origin
 git checkout "${DEPLOY_BRANCH}"
 git pull origin "${DEPLOY_BRANCH}"
