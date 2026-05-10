@@ -16,7 +16,7 @@ on:
         options:
           - all
           - backend
-          - caddy
+          - frontend
 
 concurrency:
   group: deploy

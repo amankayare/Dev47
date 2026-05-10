@@ -1,21 +1,11 @@
 services:
-  caddy:
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile.caddy
+      dockerfile: Dockerfile.frontend
       args:
         GIT_BRANCH: ${GIT_BRANCH:-main}
-    ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      - DOMAIN=${DOMAIN:-amankayare.com}
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      backend:
-        condition: service_healthy
+    container_name: dev47-frontend
     restart: unless-stopped
     networks:
       - web-network
@@ -27,6 +17,7 @@ services:
       dockerfile: Dockerfile.backend
       args:
         GIT_BRANCH: ${GIT_BRANCH:-main}
+    container_name: dev47-backend
     environment:
       - FLASK_ENV=production
       - ENVIRONMENT=production
@@ -40,6 +31,8 @@ services:
       - EMAIL_SERVICE_URL=${EMAIL_SERVICE_URL}
       - EMAIL_SERVICE_API_KEY=${EMAIL_SERVICE_API_KEY}
       - FRONTEND_URL=${FRONTEND_URL}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
     volumes:
       - backend_uploads:/app/uploads
     depends_on:
@@ -76,12 +69,10 @@ services:
 
 networks:
   web-network:
-    name: web-network
+    external: true   # created and owned by Global-Proxy
   default:
     driver: bridge
 
 volumes:
-  caddy_data:
-  caddy_config:
   backend_uploads:
   postgres_data:

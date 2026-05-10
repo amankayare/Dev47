@@ -11,9 +11,12 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { HtmlCodeEditor } from '@/components/ui/html-code-editor';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Trash2, Star, Search, X, Eye, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Star, Search, X, Eye, ExternalLink, Sparkles, Code2 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { useAIConvert } from '@/hooks/useAIConvert';
+import { AIContentDraft } from '@/components/ui/AIContentDraft';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDeleteConfirmation } from '@/hooks/useDeleteConfirmation';
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api';
 import { CategoryDropdown } from '@/components/ui/CategoryDropdown';
@@ -244,6 +247,8 @@ export default function BlogsManagement() {
       author_name: '',
       quick_links: []
     });
+    setActiveTab('draft');
+    resetAI();
   };
 
   const handleEdit = (blog: Blog) => {
@@ -260,6 +265,8 @@ export default function BlogsManagement() {
       quick_links: blog.quick_links || []
     });
     setEditingBlog(blog);
+    setActiveTab('html');
+    resetAI();
   };
 
   const handleViewBlog = (blog: Blog) => {
@@ -274,6 +281,40 @@ export default function BlogsManagement() {
     } else {
       createMutation.mutate(formData);
     }
+  };
+
+  // --- AI Conversion ---
+  const [activeTab, setActiveTab] = useState('draft');
+  // Prompt state is lifted here (not inside AIContentDraft) so it survives
+  // form open/close/submit cycles and is never wiped unless the user resets it.
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiPromptLoaded, setAiPromptLoaded] = useState(false);
+  const { isConverting, error: aiError, convert, reset: resetAI } = useAIConvert();
+
+  const handleAIConvert = async (rawText: string, customPrompt?: string) => {
+    const result = await convert(rawText, customPrompt);
+    if (!result) return; // error is already set inside the hook
+
+    setFormData(prev => ({
+      ...prev,
+      content: result.html_content,
+      // Only overwrite each field when it is currently empty
+      title:        prev.title        || result.suggested_title,
+      excerpt:      prev.excerpt      || result.suggested_excerpt,
+      reading_time: prev.reading_time || (
+        result.reading_time_minutes > 0
+          ? String(result.reading_time_minutes)
+          : prev.reading_time
+      ),
+    }));
+
+    // Switch to HTML editor tab automatically
+    setActiveTab('html');
+
+    toast({
+      title: '✨ AI Conversion Complete',
+      description: 'HTML content has been generated. Review and edit before saving.',
+    });
   };
 
   // Filter and sort blogs by category
@@ -551,18 +592,59 @@ export default function BlogsManagement() {
                   />
                 </div>
 
+                {/* Content Section — tabbed: AI Draft or direct HTML editor */}
                 <div className="space-y-3">
-                  <Label htmlFor="content" className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                    Content
+                  <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-red-500 rounded-full" />
+                    Content *
                   </Label>
-                  <div className="border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800">
-                    <HtmlCodeEditor
-                      value={formData.content}
-                      onChange={(content) => setFormData(prev => ({ ...prev, content }))}
-                      placeholder="Enter your HTML content here... Use any HTML tags and styling."
-                    />
-                  </div>
+
+                  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 rounded-xl mb-3 bg-gray-100 dark:bg-gray-800">
+                      <TabsTrigger
+                        value="draft"
+                        className="flex items-center gap-1.5 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700"
+                      >
+                        <Sparkles className="w-3 h-3 text-purple-500" />
+                        AI Draft
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="html"
+                        className="flex items-center gap-1.5 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700"
+                      >
+                        <Code2 className="w-3 h-3 text-blue-500" />
+                        HTML Editor
+                      </TabsTrigger>
+                    </TabsList>
+
+                    {/* AI Draft tab */}
+                    <TabsContent value="draft" className="mt-0">
+                      <AIContentDraft
+                        isConverting={isConverting}
+                        onConvert={handleAIConvert}
+                        customPrompt={aiPrompt}
+                        onCustomPromptChange={setAiPrompt}
+                        promptLoaded={aiPromptLoaded}
+                        onPromptLoaded={() => setAiPromptLoaded(true)}
+                      />
+                      {aiError && (
+                        <p className="mt-2 text-xs text-red-500 flex items-center gap-1">
+                          <span>⚠️</span> {aiError}
+                        </p>
+                      )}
+                    </TabsContent>
+
+                    {/* Direct HTML editor tab */}
+                    <TabsContent value="html" className="mt-0">
+                      <div className="border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800">
+                        <HtmlCodeEditor
+                          value={formData.content}
+                          onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                          placeholder="Enter HTML here, or use the AI Draft tab to auto-generate it."
+                        />
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
