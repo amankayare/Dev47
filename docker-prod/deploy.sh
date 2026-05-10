@@ -13,6 +13,10 @@ echo " Branch  : ${DEPLOY_BRANCH}"
 echo " Rebuild : ${REBUILD_TARGET}"
 echo " $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "========================================="
+echo ""
+echo "NOTE: Global-Proxy must already be running ('web-network' must exist)."
+echo "      Run: cd /opt/Global-Proxy && docker compose up -d"
+echo ""
 
 # Export for Docker build args
 export GIT_BRANCH="${DEPLOY_BRANCH}"
@@ -33,10 +37,10 @@ case "${REBUILD_TARGET}" in
     docker compose build --no-cache backend
     docker compose up -d backend
     ;;
-  caddy)
-    echo ">>> Building: caddy (frontend) only"
-    docker compose build --no-cache caddy
-    docker compose up -d caddy
+  frontend)
+    echo ">>> Building: frontend only"
+    docker compose build --no-cache frontend
+    docker compose up -d frontend
     ;;
   all|*)
     echo ">>> Building: all services"
@@ -48,10 +52,9 @@ esac
 # ── Health check ───────────────────────────────────────────────────
 echo ">>> Waiting for backend to become healthy..."
 for i in $(seq 1 12); do
-  # Use docker inspect for a robust health check instead of python
-  STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unknown{{end}}' docker-prod-backend-1 2>/dev/null || echo "unknown")
+  STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unknown{{end}}' dev47-backend 2>/dev/null || echo "unknown")
   echo "  attempt $i/12 — backend: $STATUS"
-  
+
   if [ "$STATUS" = "healthy" ]; then
     break
   fi
