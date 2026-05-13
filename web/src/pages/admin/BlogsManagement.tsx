@@ -88,6 +88,11 @@ export default function BlogsManagement() {
   const [newCategory, setNewCategory] = useState('');
   const [addingCategory, setAddingCategory] = useState(false);
 
+  // Polyglot Staging State
+  const [stagingId, setStagingId] = useState<string | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState('github');
+  const [showPromoteConfirm, setShowPromoteConfirm] = useState(false);
+
   // Debounce search input
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -247,6 +252,7 @@ export default function BlogsManagement() {
       author_name: '',
       quick_links: []
     });
+    setStagingId(null);
     setActiveTab('draft');
     resetAI();
   };
@@ -274,12 +280,41 @@ export default function BlogsManagement() {
     window.open(`/blog/${blog.id}`, '_blank');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // If we have a staged image, show the promotion confirmation dialog first
+    if (stagingId) {
+      setShowPromoteConfirm(true);
+      return;
+    }
+
+    processSubmit(formData.cover_image);
+  };
+
+  const handleConfirmPromotion = async () => {
+    setShowPromoteConfirm(false);
+    if (!stagingId) return;
+
+    try {
+      toast({ title: 'Promoting...', description: `Uploading image to ${selectedProvider === 'github' ? 'GitHub' : 'Google Drive'}...` });
+      const res = await apiPost(`/api/polyglot/confirm/${stagingId}`, { provider: selectedProvider });
+      if (res.success && res.data) {
+        setStagingId(null);
+        processSubmit(res.data.publicUrl);
+      }
+    } catch (err: any) {
+      toast({ title: 'Upload Failed', description: err.message, variant: 'destructive' });
+    }
+  };
+
+  const processSubmit = (finalCoverImage: string) => {
+    const payload = { ...formData, cover_image: finalCoverImage };
+
     if (editingBlog) {
-      updateMutation.mutate({ id: editingBlog.id, data: formData });
+      updateMutation.mutate({ id: editingBlog.id, data: payload });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(payload);
     }
   };
 
@@ -654,7 +689,16 @@ export default function BlogsManagement() {
                       currentUrl={formData.cover_image}
                       onUrlChange={(url) => setFormData(prev => ({ ...prev, cover_image: url }))}
                       onUploadSuccess={(url) => setFormData(prev => ({ ...prev, cover_image: url }))}
-                      onDelete={() => setFormData(prev => ({ ...prev, cover_image: '' }))}
+                      onStaged={(id, preview) => {
+                        setStagingId(id);
+                        setFormData(prev => ({ ...prev, cover_image: preview }));
+                      }}
+                      onDelete={() => {
+                        setFormData(prev => ({ ...prev, cover_image: '' }));
+                        setStagingId(null);
+                      }}
+                      onProviderChange={setSelectedProvider}
+                      selectedProvider={selectedProvider}
                       accept="image/*"
                       maxSize={5}
                       uploadType="cover"
@@ -1364,6 +1408,18 @@ export default function BlogsManagement() {
         }
       `}</style>
       </div>
+
+      {/* Promote Confirmation Dialog */}
+      <ConfirmDialog
+        open={showPromoteConfirm}
+        onOpenChange={setShowPromoteConfirm}
+        title="Confirm Final Image Storage"
+        description={`Your cover image is currently staged in memory. Click "Confirm" to permanently save it to ${selectedProvider === 'github' ? 'GitHub' : 'Google Drive'}.`}
+        confirmText="Confirm & Save"
+        cancelText="Cancel"
+        onConfirm={handleConfirmPromotion}
+        isLoading={false} // Would be better if we tracked promotion loading state, but for now it's fine.
+      />
 
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog

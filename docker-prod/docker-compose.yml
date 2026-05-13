@@ -34,6 +34,8 @@ services:
       - FRONTEND_URL=${FRONTEND_URL}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GEMINI_MODEL=${GEMINI_MODEL}
+      - POLYGLOT_URL=${POLYGLOT_URL}
+      - POLYGLOT_API_KEY=${POLYGLOT_API_KEY}
     volumes:
       - backend_uploads:/app/uploads
     depends_on:
@@ -51,6 +53,7 @@ services:
       start_period: 60s
 
   postgres:
+    container_name: dev47-postgres
     image: postgres:16-alpine
     environment:
       - POSTGRES_DB=${POSTGRES_DB:-portfolio}

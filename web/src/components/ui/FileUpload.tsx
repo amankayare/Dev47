@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,24 +8,30 @@ import { useMutation } from '@tanstack/react-query';
 interface FileUploadProps {
   label?: string;
   currentUrl?: string;
-  onUploadSuccess: (url: string) => void;
+  onUploadSuccess?: (url: string) => void;
+  onStaged?: (stageId: string, previewUrl: string) => void;
   onDelete?: () => void;
   accept?: string;
   maxSize?: number; // in MB
   disabled?: boolean;
-  uploadType?: 'profile' | 'cover' | 'project' | 'certificate' | 'resume'; // Updated to include resume
+  uploadType?: 'profile' | 'cover' | 'project' | 'certificate' | 'resume';
 }
 
 interface UploadResponse {
-  url: string;
-  filename: string;
-  message: string;
+  success: boolean;
+  data: {
+    stageId: string;
+    previewUrl: string;
+    expiresAt: string;
+  };
+  error: any;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
   label = "Upload File",
   currentUrl = "",
   onUploadSuccess,
+  onStaged,
   onDelete,
   accept = "image/*",
   maxSize = 5,
@@ -33,8 +39,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
   uploadType = 'profile',
 }) => {
   const [preview, setPreview] = useState<string>(currentUrl);
-  const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [dragActive, setDragActive] = useState(false);
+
+  // Sync preview with currentUrl from parent
+  useEffect(() => {
+    setPreview(currentUrl);
+  }, [currentUrl]);
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File): Promise<UploadResponse> => {
@@ -42,7 +53,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
       formData.append('file', file);
 
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/upload/${uploadType}`, {
+      // Use Polyglot proxy for everything except profile/resume (or we can use it for everything)
+      const endpoint = '/api/polyglot/stage';
+      
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -52,14 +66,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Upload failed');
+        throw new Error(error.error?.message || error.error || 'Upload failed');
       }
 
       return response.json();
     },
-    onSuccess: (data) => {
-      setPreview(data.url);
-      onUploadSuccess(data.url);
+    onSuccess: (response) => {
+      if (response.success && response.data) {
+        const token = localStorage.getItem('token');
+        const securePreviewUrl = token 
+          ? `${response.data.previewUrl}?jwt=${token}` 
+          : response.data.previewUrl;
+
+        setPreview(securePreviewUrl);
+        if (onStaged) {
+          onStaged(response.data.stageId, securePreviewUrl);
+        }
+      }
     },
     onError: (error: Error) => {
       console.error('Upload error:', error);
@@ -176,9 +199,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Current Image Preview */}
       {preview && (
         <div className="relative border-2 border-slate-200 dark:border-slate-600 rounded-lg p-2 bg-white dark:bg-gray-700">
+          <div className="absolute top-4 left-4 z-10">
+             <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+               <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+               STAGED PREVIEW
+             </span>
+          </div>
           <img
             src={preview}
-            alt="Profile preview"
+            alt="Preview"
             className="w-full h-48 object-cover rounded-lg"
           />
           <div className="absolute top-4 right-4 flex gap-2">
