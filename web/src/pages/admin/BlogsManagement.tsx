@@ -21,6 +21,7 @@ import { useDeleteConfirmation } from '@/hooks/useDeleteConfirmation';
 import { apiGet, apiPost, apiPut, apiDelete } from '@/utils/api';
 import { CategoryDropdown } from '@/components/ui/CategoryDropdown';
 import ImageInput from '@/components/ui/ImageInput';
+import { decodeHtmlEntities } from '@/utils/textUtils';
 
 interface Blog {
   id: number;
@@ -334,8 +335,8 @@ export default function BlogsManagement() {
       ...prev,
       content: result.html_content,
       // Only overwrite each field when it is currently empty
-      title:        prev.title        || result.suggested_title,
-      excerpt:      prev.excerpt      || result.suggested_excerpt,
+      title:        prev.title        || decodeHtmlEntities(result.suggested_title),
+      excerpt:      prev.excerpt      || decodeHtmlEntities(result.suggested_excerpt),
       reading_time: prev.reading_time || (
         result.reading_time_minutes > 0
           ? String(result.reading_time_minutes)

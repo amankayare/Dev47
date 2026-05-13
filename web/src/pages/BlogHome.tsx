@@ -25,6 +25,7 @@ import { Search, ExternalLink, Calendar, User, Clock, Eye, BookOpen, X, LogIn, U
 import { useTheme } from '@/hooks/use-theme';
 import { useToast } from '@/hooks/use-toast';
 import { useBlogs } from '@/hooks/useBlogs';
+import { decodeHtmlEntities } from '@/utils/textUtils';
 
 interface Blog {
   id: number;
@@ -732,7 +733,7 @@ export default function BlogHome() {
                             href={`/blog/${post.id}`}
                             className="block text-black dark:text-white font-semibold text-base leading-tight hover:text-yellow-600 hover:underline"
                           >
-                            {post.title}
+                            {decodeHtmlEntities(post.title)}
                           </a>
                           {post.reading_time && (
                             <span className="block text-xs text-muted-foreground mt-1">{post.reading_time} min read</span>
@@ -884,7 +885,7 @@ export default function BlogHome() {
                             className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 text-primary drop-shadow-lg cursor-pointer hover:text-primary/80 transition-colors duration-200"
                             onClick={() => window.open(`${window.location.origin}/blog/${blog.id}`, '_blank')}
                           >
-                            {blog.title}
+                            {decodeHtmlEntities(blog.title)}
                           </h3>
 
                           {/* Category Badge */}
@@ -900,7 +901,7 @@ export default function BlogHome() {
                             </div>
                           )}
 
-                          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm sm:text-base lg:text-lg">{blog.excerpt}</p>
+                          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm sm:text-base lg:text-lg">{decodeHtmlEntities(blog.excerpt || '')}</p>
                           <div className="flex flex-wrap gap-2 mb-4">
                             {blog.tags?.map((tag: { id: number; name: string }) => (
                               <Badge
@@ -1136,7 +1137,7 @@ export default function BlogHome() {
                             href={`/blog/${post.id}`}
                             className="block text-black dark:text-white font-semibold text-base leading-tight hover:text-primary hover:underline"
                           >
-                            {post.title}
+                            {decodeHtmlEntities(post.title)}
                           </a>
                           {post.reading_time && (
                             <span className="block text-xs text-muted-foreground mt-1">{post.reading_time} min read</span>

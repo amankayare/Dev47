@@ -16,6 +16,7 @@ import { ArrowLeft, Calendar, Clock, User, Share2, BookOpen, ExternalLink, Trend
 import { useTheme } from '@/hooks/use-theme';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { decodeHtmlEntities } from '@/utils/textUtils';
 
 interface BlogAuthor {
   id: number;
@@ -567,8 +568,8 @@ export default function BlogLayout({
             <div className="space-y-6 bg-background/50 backdrop-blur-sm border border-border/50 rounded-2xl p-5 lg:p-6 shadow-xl max-w-5xl mx-auto">
               {/* Hero Section */}
               <BlogHero
-                title={title}
-                excerpt={excerpt}
+                title={decodeHtmlEntities(title)}
+                excerpt={decodeHtmlEntities(excerpt)}
                 featured={featured}
                 author={author}
                 date={date}
