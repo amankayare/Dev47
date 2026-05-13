@@ -243,29 +243,29 @@ export default function ProjectsManagement() {
 
   return (
     <AdminLayout title="Manage Projects">
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-gray-100 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           
-          {/* Enhanced Header Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-gray-900 dark:from-gray-800 dark:via-gray-900 dark:to-black mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"></div>
-            <div className="relative px-8 py-12">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
-                    <FolderOpen className="h-8 w-8 text-white" />
+          {/* Enhanced Header Section - Cyberpunk Indigo */}
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 border border-indigo-200/50 dark:border-indigo-500/10 mb-10 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent"></div>
+            <div className="relative px-8 py-10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex items-center space-x-5">
+                  <div className="p-4 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl backdrop-blur-md border border-indigo-200/50 dark:border-indigo-500/10 shadow-inner">
+                    <FolderOpen className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold text-white mb-2">Project Management</h1>
-                    <p className="text-gray-300 text-lg">Showcase your portfolio projects and manage your work effectively</p>
+                    <h1 className="text-4xl font-black text-indigo-950 dark:text-indigo-50 mb-1 tracking-tight uppercase">Project Archive</h1>
+                    <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-lg">Managing digital assets across the nexus</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-white">{projects?.length || 0}</div>
-                  <div className="text-gray-300 text-sm">Total Projects</div>
-                  <div className="text-gray-400 text-sm mt-1">
-                    {projects?.filter(p => p.is_visible).length || 0} visible, {" "}
-                    {projects?.filter(p => !p.is_visible).length || 0} hidden
+                <div className="flex flex-col items-end">
+                  <div className="text-5xl font-black text-indigo-600 dark:text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.3)]">{projects?.length || 0}</div>
+                  <div className="text-indigo-900/40 dark:text-indigo-50/40 text-xs font-black uppercase tracking-widest mt-1">Total Repository Count</div>
+                  <div className="flex gap-4 text-xs font-bold mt-2">
+                    <span className="text-indigo-500">{projects?.filter(p => p.is_visible).length || 0} DEPLOYED</span>
+                    <span className="text-indigo-900/30 dark:text-indigo-50/30">{projects?.filter(p => !p.is_visible).length || 0} ENCRYPTED</span>
                   </div>
                 </div>
               </div>
@@ -277,41 +277,47 @@ export default function ProjectsManagement() {
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
                 <Button 
-                  className="bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 text-lg font-semibold rounded-xl border-0 transform hover:scale-105" 
+                  className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
                   onClick={() => { resetForm(); setEditingProject(null); }}
                 >
-                  <Plus className="w-5 h-5 mr-2" />
-                  Add New Project
+                  <Plus className="w-5 h-5 mr-3" />
+                  Initialize New Artifact
                 </Button>
               </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-0 shadow-2xl">
-              <DialogHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
-                <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-gray-800 bg-clip-text text-transparent">
-                  {editingProject ? 'Edit Project' : 'Create New Project'}
+            <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-white/90 dark:bg-black/90 backdrop-blur-2xl border-0 shadow-2xl rounded-[2.5rem] p-0">
+              <DialogHeader className="p-8 sm:p-10 border-b border-indigo-200/50 dark:border-indigo-500/10">
+                <DialogTitle className="text-3xl font-black text-indigo-950 dark:text-indigo-50 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl flex items-center justify-center shadow-inner">
+                    <FolderOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
+                  </div>
+                  {editingProject ? 'Modify Artifact' : 'Initialize Artifact'}
                 </DialogTitle>
-                <DialogDescription className="text-gray-600 dark:text-gray-400">
-                  Fill out the form below to {editingProject ? 'update' : 'create'} a project.
+                <DialogDescription className="text-indigo-700/70 dark:text-indigo-300/70 text-base mt-3 font-medium">
+                  Configure the project parameters in the digital registry.
                 </DialogDescription>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-6 p-1">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Title *</Label>
+              <form onSubmit={handleSubmit} className="p-8 sm:p-10 space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <Label htmlFor="title" className="text-xs font-black text-indigo-500 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
+                      Artifact Title *
+                    </Label>
                     <Input
                       id="title"
                       value={formData.title}
                       onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                       required
-                      className="border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-lg"
+                      className="h-14 border-2 border-indigo-200/50 dark:border-indigo-500/20 rounded-2xl focus:border-indigo-500 transition-all bg-indigo-50/30 dark:bg-black/30 backdrop-blur-md text-indigo-950 dark:text-indigo-50"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="project_type" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Project Type</Label>
+                  <div className="space-y-3">
+                    <Label htmlFor="project_type" className="text-xs font-black text-indigo-500 dark:text-indigo-400 uppercase tracking-widest">Project Classification</Label>
                     <Input
                       id="project_type"
                       value={formData.project_type}
                       onChange={(e) => setFormData(prev => ({ ...prev, project_type: e.target.value }))}
-                      className="border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-lg"
+                      className="h-14 border-2 border-indigo-200/50 dark:border-indigo-500/20 rounded-2xl focus:border-indigo-500 transition-all bg-indigo-50/30 dark:bg-black/30 backdrop-blur-md text-indigo-950 dark:text-indigo-50"
                     />
                   </div>
                 </div>
@@ -427,26 +433,28 @@ export default function ProjectsManagement() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex items-center space-x-4 p-6 bg-indigo-50/50 dark:bg-indigo-500/5 rounded-[2rem] border border-indigo-200/50 dark:border-indigo-500/10 backdrop-blur-sm">
                     <Switch
                       id="is_visible"
                       checked={formData.is_visible}
                       onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_visible: checked }))}
+                      className="data-[state=checked]:bg-indigo-500"
                     />
-                    <Label htmlFor="is_visible" className="text-sm font-medium text-gray-700 dark:text-gray-300">Visible on portfolio</Label>
+                    <Label htmlFor="is_visible" className="text-sm font-black text-indigo-900 dark:text-indigo-50 uppercase tracking-widest">Public Access</Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                  <div className="flex items-center space-x-4 p-6 bg-indigo-900/5 dark:bg-indigo-500/10 rounded-[2rem] border border-indigo-200/50 dark:border-indigo-500/10 backdrop-blur-sm">
                     <Switch
                       id="is_featured"
                       checked={formData.is_featured}
                       onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_featured: checked }))}
+                      className="data-[state=checked]:bg-indigo-500"
                     />
-                    <Label htmlFor="is_featured" className="text-sm font-medium text-blue-700 dark:text-blue-300">Featured project</Label>
+                    <Label htmlFor="is_featured" className="text-sm font-black text-indigo-900 dark:text-indigo-50 uppercase tracking-widest">Priority Artifact</Label>
                   </div>
                 </div>
 
-                <DialogFooter className="border-t border-gray-200 dark:border-gray-700 pt-6 gap-3">
+                <DialogFooter className="pt-10 border-t border-indigo-200/50 dark:border-indigo-500/10 gap-4">
                   <Button 
                     type="button" 
                     variant="outline" 
@@ -455,39 +463,38 @@ export default function ProjectsManagement() {
                       setEditingProject(null);
                       resetForm();
                     }}
-                    className="px-6 py-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200"
+                    className="px-8 py-6 rounded-full border-2 border-indigo-200 text-indigo-700 hover:bg-indigo-50 dark:border-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/10 transition-all font-black uppercase tracking-widest text-xs"
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="submit" 
                     disabled={createMutation.isPending || updateMutation.isPending} 
-                    className="px-6 py-2 bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
+                    className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-10 py-6 rounded-full font-black uppercase tracking-widest text-xs shadow-xl shadow-indigo-500/20 transition-all duration-300 transform hover:scale-105 border-0"
                   >
-                    {editingProject ? 'Update' : 'Create'} Project
+                    {editingProject ? 'Update Core' : 'Initialize Artifact'}
                   </Button>
                 </DialogFooter>
               </form>
             </DialogContent>
           </Dialog>
         </div>
-
         {isLoading ? (
-          <div className="flex justify-center items-center py-16">
+          <div className="flex justify-center items-center py-20">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600 dark:text-gray-400">Loading projects...</p>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600 dark:border-indigo-500 border-r-transparent border-b-indigo-200 dark:border-b-indigo-900 border-l-transparent mx-auto mb-6"></div>
+              <p className="text-indigo-900/60 dark:text-indigo-50/60 font-black uppercase tracking-widest text-sm">Synchronizing data streams...</p>
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {projects?.map((project) => (
-              <Card key={project.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800 transform hover:-translate-y-1">
-                <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-start mb-4">
+              <Card key={project.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden shadow-xl transform hover:-translate-y-2">
+                <div className="p-8 border-b border-indigo-100/50 dark:border-indigo-500/10">
+                  <div className="flex justify-between items-start mb-6">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <div className="flex items-center gap-4 mb-3">
+                        <h3 className="text-2xl font-black text-indigo-950 dark:text-indigo-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors uppercase tracking-tight">
                           {project.title}
                         </h3>
                         <div className="flex items-center gap-2">
@@ -495,51 +502,54 @@ export default function ProjectsManagement() {
                             variant={project.is_visible ? "default" : "secondary"}
                             className={`${
                               project.is_visible 
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" 
-                                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
-                            } font-medium`}
+                                ? "bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300" 
+                                : "bg-indigo-900 dark:bg-black text-white"
+                            } font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0`}
                           >
                             {project.is_visible ? (
                               <>
-                                <Eye className="w-3 h-3 mr-1" />
-                                Visible
+                                <Eye className="w-3 h-3 mr-1.5" />
+                                Public
                               </>
                             ) : (
                               <>
-                                <EyeOff className="w-3 h-3 mr-1" />
-                                Hidden
+                                <EyeOff className="w-3 h-3 mr-1.5" />
+                                Private
                               </>
                             )}
                           </Badge>
                           {project.is_featured && (
                             <Badge 
                               variant="default"
-                              className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 font-medium pulse"
+                              className="bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 shadow-lg shadow-indigo-500/30"
                             >
-                              <Zap className="w-3 h-3 mr-1" />
-                              Featured
+                              <Zap className="w-3 h-3 mr-1.5 fill-current" />
+                              Priority
                             </Badge>
                           )}
                         </div>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-indigo-500/60 dark:text-indigo-400/60 mb-4">
                         {project.project_type && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 mr-2">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300 mr-3">
                             {project.project_type}
                           </span>
                         )}
-                        <span>Created: {new Date(project.created_at).toLocaleDateString()}</span>
+                        <span className="flex items-center gap-1.5 inline-flex">
+                          <div className="w-1 h-1 bg-indigo-400 rounded-full"></div>
+                          SYNCED: {new Date(project.created_at).toLocaleDateString()}
+                        </span>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                      <p className="text-indigo-700/70 dark:text-indigo-300/70 text-sm font-medium leading-relaxed mb-6 line-clamp-3">
                         {project.description}
                       </p>
                     </div>
-                    <div className="flex gap-2 ml-4">
+                    <div className="flex gap-2.5 ml-4">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleEdit(project)}
-                        className="hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/50 transition-all duration-200"
+                        className="w-10 h-10 p-0 rounded-full border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 dark:border-indigo-500/20 dark:text-indigo-400 dark:hover:bg-indigo-500/10 transition-all duration-300"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -548,7 +558,7 @@ export default function ProjectsManagement() {
                         size="sm" 
                         onClick={() => deleteConfirmation.openConfirmDialog(project)}
                         disabled={deleteMutation.isPending}
-                        className="hover:bg-red-600 transition-all duration-200"
+                        className="w-10 h-10 p-0 rounded-full bg-indigo-950 text-white hover:bg-black transition-all duration-300"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -559,10 +569,10 @@ export default function ProjectsManagement() {
                 <div className="p-6 space-y-4">
                   {project.tech && project.tech.length > 0 && (
                     <div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">Technologies:</span>
+                      <span className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] mb-3 block">Digital Stack:</span>
                       <div className="flex flex-wrap gap-2">
                         {project.tech.map((tech, index) => (
-                          <Badge key={index} variant="outline" className="text-xs bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                          <Badge key={index} variant="outline" className="text-[10px] font-bold uppercase tracking-wider bg-indigo-500/5 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border-indigo-200/50 dark:border-indigo-500/20 px-3 py-1 rounded-full">
                             {tech}
                           </Badge>
                         ))}
@@ -572,12 +582,12 @@ export default function ProjectsManagement() {
 
                   {project.links && project.links.length > 0 && (
                     <div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">Links:</span>
+                      <span className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] mb-3 block">External Nodes:</span>
                       <div className="flex flex-wrap gap-2">
                         {project.links.map((link, index) => (
                           <a key={index} href={link.url} target="_blank" rel="noopener noreferrer">
-                            <Badge variant="outline" className="text-xs cursor-pointer hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/50 transition-all duration-200">
-                              <ExternalLink className="w-3 h-3 mr-1" />
+                            <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider cursor-pointer bg-indigo-600 text-white border-0 shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all duration-300 px-4 py-1.5 rounded-full">
+                              <ExternalLink className="w-3.5 h-3.5 mr-2" />
                               {link.name}
                             </Badge>
                           </a>
@@ -586,11 +596,11 @@ export default function ProjectsManagement() {
                     </div>
                   )}
 
-                  <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md">Order: {project.order}</span>
-                    <div className="flex gap-4">
-                      {project.role && <span>Role: {project.role}</span>}
-                      {project.team_size && <span>Team: {project.team_size}</span>}
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-indigo-500/40 pt-6 border-t border-indigo-100/30 dark:border-indigo-500/10">
+                    <span className="bg-indigo-500/5 dark:bg-indigo-500/10 px-3 py-1 rounded-full">ORDER_INDEX: {project.order}</span>
+                    <div className="flex gap-6">
+                      {project.role && <span className="flex items-center gap-1.5"><div className="w-1 h-1 bg-indigo-400 rounded-full"></div> ROLE: {project.role}</span>}
+                      {project.team_size && <span className="flex items-center gap-1.5"><div className="w-1 h-1 bg-indigo-400 rounded-full"></div> UNIT: {project.team_size}</span>}
                     </div>
                   </div>
                 </div>

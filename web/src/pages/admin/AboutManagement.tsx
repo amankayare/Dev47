@@ -133,35 +133,38 @@ export default function AboutManagement() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <AdminLayout title="Manage About Information">
-        {/* Professional Header Section */}
-        <div className="bg-gradient-to-r from-slate-700 via-slate-800 to-gray-900 dark:from-slate-800 dark:via-slate-900 dark:to-gray-950 text-white rounded-lg shadow-2xl mb-8 mx-2 sm:mx-0">
-          <div className="p-4 sm:p-6 lg:p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="bg-white/10 dark:bg-white/5 p-3 rounded-lg backdrop-blur-sm">
-                <UserIcon className="w-8 h-8 text-white" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">About Profile Management</h1>
-                <p className="text-slate-200 dark:text-slate-100 mt-2 text-sm sm:text-base">Manage your personal information, bio, and profile details</p>
+        {/* Professional Header Section - Cyberpunk Indigo */}
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 border border-indigo-200/50 dark:border-indigo-500/10 mb-10 shadow-sm">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent"></div>
+          <div className="relative px-8 py-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+              <div className="flex items-center space-x-5">
+                <div className="p-4 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl backdrop-blur-md border border-indigo-200/50 dark:border-indigo-500/10 shadow-inner">
+                  <UserIcon className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-black text-indigo-950 dark:text-indigo-50 mb-1 tracking-tight uppercase">Identity Hub</h1>
+                  <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-lg">Managing the digital persona matrix</p>
+                </div>
               </div>
             </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-              <div className="bg-white/10 dark:bg-white/5 rounded-lg p-3 sm:p-4 backdrop-blur-sm">
-                <div className="text-xl sm:text-2xl font-bold mb-1">{about?.name ? '1' : '0'}</div>
-                <div className="text-slate-200 dark:text-slate-100 text-xs sm:text-sm">Profile Configured</div>
+ 
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white/40 dark:bg-indigo-500/5 rounded-3xl p-6 backdrop-blur-sm border border-indigo-100/50 dark:border-indigo-500/10">
+                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mb-1">{about?.name ? '1' : '0'}</div>
+                <div className="text-indigo-900/40 dark:text-indigo-50/40 text-[10px] font-black uppercase tracking-widest">Active Core</div>
               </div>
-              <div className="bg-white/10 dark:bg-white/5 rounded-lg p-3 sm:p-4 backdrop-blur-sm">
-                <div className="text-xl sm:text-2xl font-bold mb-1">{about?.photo ? 'Yes' : 'No'}</div>
-                <div className="text-slate-200 dark:text-slate-100 text-xs sm:text-sm">Profile Photo</div>
+              <div className="bg-white/40 dark:bg-indigo-500/5 rounded-3xl p-6 backdrop-blur-sm border border-indigo-100/50 dark:border-indigo-500/10">
+                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mb-1">{about?.photo ? 'YES' : 'NO'}</div>
+                <div className="text-indigo-900/40 dark:text-indigo-50/40 text-[10px] font-black uppercase tracking-widest">Visual Hash</div>
               </div>
-              <div className="bg-white/10 dark:bg-white/5 rounded-lg p-3 sm:p-4 backdrop-blur-sm">
-                <div className="text-xl sm:text-2xl font-bold mb-1">{about?.cover_image ? 'Yes' : 'No'}</div>
-                <div className="text-slate-200 dark:text-slate-100 text-xs sm:text-sm">Cover Image</div>
+              <div className="bg-white/40 dark:bg-indigo-500/5 rounded-3xl p-6 backdrop-blur-sm border border-indigo-100/50 dark:border-indigo-500/10">
+                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mb-1">{about?.cover_image ? 'YES' : 'NO'}</div>
+                <div className="text-indigo-900/40 dark:text-indigo-50/40 text-[10px] font-black uppercase tracking-widest">Environment Map</div>
               </div>
-              <div className="bg-white/10 dark:bg-white/5 rounded-lg p-3 sm:p-4 backdrop-blur-sm">
-                <div className="text-xl sm:text-2xl font-bold mb-1">{about?.social_links ? Object.keys(about.social_links).length : 0}</div>
-                <div className="text-slate-200 dark:text-slate-100 text-xs sm:text-sm">Social Links</div>
+              <div className="bg-white/40 dark:bg-indigo-500/5 rounded-3xl p-6 backdrop-blur-sm border border-indigo-100/50 dark:border-indigo-500/10">
+                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mb-1">{about?.social_links ? Object.keys(about.social_links).length : 0}</div>
+                <div className="text-indigo-900/40 dark:text-indigo-50/40 text-[10px] font-black uppercase tracking-widest">External Links</div>
               </div>
             </div>
           </div>
@@ -169,17 +172,19 @@ export default function AboutManagement() {
 
         <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-6 xl:px-8">
           <div className="space-y-4 sm:space-y-6">
-            <Card className="shadow-lg border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mx-2 sm:mx-0">
-              <CardHeader className="bg-gradient-to-r from-gray-50 via-slate-50 to-gray-100 dark:from-gray-700 dark:via-slate-700 dark:to-gray-600 border-b border-gray-200 dark:border-gray-600 p-4 sm:p-6">
-                <CardTitle className="flex items-center gap-2 text-slate-800 dark:text-slate-100 text-lg sm:text-xl">
-                  <UserIcon className="w-5 h-5" />
-                  Personal Information
+            <Card className="shadow-xl border-0 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-8 border-b border-indigo-100/50 dark:border-indigo-500/10">
+                <CardTitle className="flex items-center gap-4 text-indigo-950 dark:text-indigo-50 font-black uppercase tracking-tight">
+                  <div className="bg-indigo-500/10 dark:bg-indigo-500/20 p-2.5 rounded-2xl shadow-inner">
+                    <UserIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  Profile Configuration
                 </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-300 text-sm sm:text-base">
-                  Update your personal and professional information displayed on the portfolio.
+                <CardDescription className="text-indigo-700/60 dark:text-indigo-300/60 font-bold">
+                  Update the core identity modules displayed on your portfolio interface.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-4 sm:p-6 lg:p-8 bg-white/80 dark:bg-gray-800/80">
+              <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div className="space-y-2">
@@ -299,14 +304,14 @@ export default function AboutManagement() {
                     />
                   </div>
 
-                  <div className="flex justify-end pt-6 border-t border-slate-200 dark:border-slate-600">
+                  <div className="flex justify-end pt-10 border-t border-indigo-100/30 dark:border-indigo-500/10">
                     <Button
                       type="submit"
                       disabled={updateMutation.isPending}
-                      className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 dark:from-slate-500 dark:to-slate-600 dark:hover:from-slate-600 dark:hover:to-slate-700 text-white font-medium px-8 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+                      className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
                     >
-                      <Save className="w-4 h-4 mr-2" />
-                      {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                      <Save className="w-4 h-4 mr-3" />
+                      {updateMutation.isPending ? 'UPLOADING...' : 'SAVE_PROFILE'}
                     </Button>
                   </div>
                 </form>
@@ -314,14 +319,14 @@ export default function AboutManagement() {
             </Card>
 
             {about && (
-              <Card className="shadow-lg border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mx-2 sm:mx-0">
-                <CardHeader className="bg-gradient-to-r from-gray-50 via-slate-50 to-gray-100 dark:from-gray-700 dark:via-slate-700 dark:to-gray-600 border-b border-gray-200 dark:border-gray-600 p-4 sm:p-6">
-                  <CardTitle className="text-slate-800 dark:text-slate-100 text-lg sm:text-xl">Preview</CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-300 text-sm sm:text-base">
-                    This is how your information currently appears on the portfolio.
+              <Card className="shadow-xl border-0 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden mt-10">
+                <CardHeader className="p-8 border-b border-indigo-100/50 dark:border-indigo-500/10">
+                  <CardTitle className="text-indigo-950 dark:text-indigo-50 font-black uppercase tracking-tight">Identity Preview</CardTitle>
+                  <CardDescription className="text-indigo-700/60 dark:text-indigo-300/60 font-bold">
+                    Visual verification of the current profile state.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="p-4 sm:p-6 lg:p-8 bg-white/80 dark:bg-gray-800/80">
+                <CardContent className="p-8">
                   <div className="space-y-4 sm:space-y-6">
                     <div className="bg-gradient-to-r from-slate-100 to-gray-100 dark:from-slate-700 dark:to-gray-700 p-4 sm:p-6 rounded-lg">
                       <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100">{decodeHtmlEntities(about.name)}</h3>

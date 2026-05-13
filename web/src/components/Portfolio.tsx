@@ -1301,20 +1301,16 @@ const Portfolio = () => {
             showTooltip={true}
           />
           <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLocation("/login")}
-            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
-          >
-            Login
-          </Button>
-          <Button
             variant="default"
             size="sm"
-            onClick={() => setLocation("/register")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm font-medium"
+            onClick={() => setLocation("/blogs")}
+            className="group relative flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2 h-10 rounded-xl text-sm font-black uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-500/25 overflow-hidden"
           >
-            Sign Up
+            <FileText className="h-4 w-4" />
+            <span>Blog</span>
+            <Badge className="ml-1 bg-white/20 text-[10px] py-0 px-1.5 border-0 hover:bg-white/30 text-white">
+              NEW
+            </Badge>
           </Button>
         </div>
       </div>

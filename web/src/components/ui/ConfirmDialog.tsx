@@ -40,27 +40,27 @@ export function ConfirmDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="rounded-[2.5rem] border-indigo-500/20 bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-2xl">
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">System Confirmation</AlertDialogTitle>
+          <AlertDialogDescription className="text-indigo-700/60 dark:text-indigo-300/60 font-medium text-base">
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>
+        <AlertDialogFooter className="mt-8 gap-3">
+          <AlertDialogCancel disabled={isLoading} className="rounded-full border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest text-[10px] h-12 px-8">
             {cancelText}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             disabled={isLoading}
-            className={
+            className={`rounded-full font-black uppercase tracking-widest text-[10px] h-12 px-8 transition-all duration-300 transform hover:scale-105 ${
               variant === 'destructive'
-                ? 'bg-red-600 hover:bg-red-700 focus:ring-red-600 text-white dark:text-white border-red-600 dark:border-red-600'
-                : ''
-            }
+                ? 'bg-indigo-950 text-white hover:bg-black shadow-lg shadow-indigo-950/20'
+                : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-600/20'
+            }`}
           >
-            {isLoading ? 'Processing...' : confirmText}
+            {isLoading ? 'EXECUTING...' : `CONFIRM_${confirmText.toUpperCase()}`}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

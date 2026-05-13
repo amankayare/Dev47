@@ -129,348 +129,199 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col">
-        {/* Modern Header */}
-        <DialogHeader className="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white p-4 sm:p-6 rounded-t-lg flex-shrink-0">
-          <div className="absolute inset-0 bg-black/10 rounded-t-lg"></div>
+      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col rounded-[2.5rem] border-indigo-500/20 bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+        {/* Modern Header - Cyberpunk Indigo */}
+        <DialogHeader className="relative bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 border-b border-indigo-200/50 dark:border-indigo-500/10 p-8 flex-shrink-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent"></div>
           <div className="relative">
-            <DialogTitle className="flex items-center gap-3 text-lg sm:text-xl font-bold mb-1">
-              <div className="p-2 bg-white/20 rounded-full backdrop-blur-sm">
-                <UserCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+            <DialogTitle className="flex items-center gap-4 text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">
+              <div className="p-3 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl shadow-inner">
+                <UserCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
               </div>
-              Profile Settings
+              Identity Matrix
             </DialogTitle>
-            <p className="text-white/90 text-sm">Manage your account information and security</p>
+            <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-sm mt-1">Managing account kernels and security protocols</p>
           </div>
         </DialogHeader>
-
-        <div className="p-4 sm:p-6 flex-1 overflow-y-auto">
+ 
+        <div className="p-8 flex-1 overflow-y-auto">
           <Tabs defaultValue="info" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 h-10 bg-gray-50 dark:bg-gray-800/50 p-1 rounded-xl mb-4">
+            <TabsList className="grid w-full grid-cols-2 h-12 bg-indigo-500/5 dark:bg-indigo-500/10 p-1.5 rounded-2xl mb-8">
               <TabsTrigger 
                 value="info" 
-                className="flex items-center gap-2 text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-lg transition-all duration-200"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-500 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
               >
                 <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Profile Info</span>
-                <span className="sm:hidden">Info</span>
+                <span className="hidden sm:inline">Profile_Kernel</span>
+                <span className="sm:hidden">Kernel</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="password" 
-                className="flex items-center gap-2 text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-lg transition-all duration-200"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-500 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
               >
                 <KeyRound className="h-4 w-4" />
-                <span className="hidden sm:inline">Security</span>
-                <span className="sm:hidden">Password</span>
+                <span className="hidden sm:inline">Security_Protocol</span>
+                <span className="sm:hidden">Security</span>
               </TabsTrigger>
             </TabsList>
             {/* Profile Info Tab */}
-            <TabsContent value="info" className="space-y-4">
+            <TabsContent value="info" className="space-y-6">
               {profileLoading ? (
-                <Card className="border-0 shadow-sm">
-                  <CardContent className="flex items-center justify-center py-8">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-200 border-t-indigo-600"></div>
-                      <span className="text-sm text-muted-foreground">Loading profile...</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="flex flex-col items-center justify-center py-12 gap-4">
+                  <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-600 dark:border-indigo-400 border-r-transparent"></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500/60">Syncing identity...</span>
+                </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {/* User Avatar & Basic Info */}
-                  <Card className="border-0 shadow-sm bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20">
-                    <CardContent className="p-4 sm:p-6">
-                      <div className="flex flex-col sm:flex-row items-center gap-4">
-                        <div className="relative">
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg">
-                            {profileData?.user?.username?.charAt(0).toUpperCase() || 'U'}
+                  <div className="p-8 rounded-[2rem] bg-indigo-500/5 dark:bg-indigo-500/10 border border-indigo-100/50 dark:border-indigo-500/10 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Shield className="w-24 h-24 text-indigo-600" />
+                    </div>
+                    <div className="relative flex flex-col sm:flex-row items-center gap-6">
+                      <div className="relative">
+                        <div className="w-20 h-20 bg-indigo-600 dark:bg-indigo-500 rounded-[1.5rem] flex items-center justify-center text-white text-3xl font-black shadow-xl shadow-indigo-500/20">
+                          {profileData?.user?.username?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                        {profileData?.user?.is_admin && (
+                          <div className="absolute -top-2 -right-2 bg-indigo-950 dark:bg-black rounded-full p-2 border-4 border-white dark:border-indigo-900 shadow-lg">
+                            <Shield className="h-4 w-4 text-white" />
                           </div>
-                          {profileData?.user?.is_admin && (
-                            <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-1.5 shadow-sm">
-                              <Shield className="h-3 w-3 text-white" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-center sm:text-left flex-1">
-                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">
-                            {profileData?.user?.username || ""}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            {profileData?.user?.email || ""}
-                          </p>
-                          <Badge 
-                            variant="secondary" 
-                            className={profileData?.user?.is_admin 
-                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" 
-                              : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                            }
-                          >
-                            <Shield className="h-3 w-3 mr-1" />
-                            {profileData?.user?.is_admin ? "Administrator" : "User"}
-                          </Badge>
-                        </div>
+                        )}
                       </div>
-                    </CardContent>
-                  </Card>
-
+                      <div className="text-center sm:text-left flex-1">
+                        <h3 className="text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">
+                          {profileData?.user?.username || ""}
+                        </h3>
+                        <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold mb-4">
+                          {profileData?.user?.email || ""}
+                        </p>
+                        <Badge className="bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-4 py-1.5 border-0">
+                          <Shield className="h-3 w-3 mr-2" />
+                          {profileData?.user?.is_admin ? "ADMIN_PRIVILEGES" : "STANDARD_ACCESS"}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+ 
                   {/* Account Details */}
-                  <Card className="border-0 shadow-sm">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                        <User className="h-4 w-4 text-indigo-600" />
-                        Account Details
-                      </CardTitle>
-                      <CardDescription className="text-sm">Your account information and settings</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            <UserCircle className="h-4 w-4" />
-                            Username
+                  <div className="space-y-4">
+                    <h4 className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] px-2">Account Metadata:</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { label: 'USERNAME', value: profileData?.user?.username, icon: UserCircle },
+                        { label: 'CORE_EMAIL', value: profileData?.user?.email, icon: Mail },
+                        { label: 'ACCESS_LEVEL', value: profileData?.user?.is_admin ? "ADMINISTRATOR" : "USER", icon: Shield },
+                        { label: 'NODE_CREATED', value: profileData?.user?.created_at ? new Date(profileData.user.created_at).toLocaleDateString() : "", icon: Calendar },
+                      ].map((item, idx) => (
+                        <div key={idx} className="space-y-2">
+                          <Label className="flex items-center gap-2 text-[10px] font-black text-indigo-500/60 uppercase tracking-widest">
+                            <item.icon className="h-3 w-3" />
+                            {item.label}
                           </Label>
                           <div className="relative">
                             <Input 
-                              value={profileData?.user?.username || ""} 
+                              value={item.value || ""} 
                               readOnly 
-                              className="bg-gray-50/80 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700 pl-4 pr-10 font-medium h-10" 
+                              className="bg-white/50 dark:bg-black/20 border-indigo-100 dark:border-indigo-500/10 rounded-xl font-bold text-indigo-900 dark:text-indigo-100 h-11" 
                             />
-                            <CheckCircle2 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-500" />
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-indigo-500 rounded-full"></div>
                           </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            <Mail className="h-4 w-4" />
-                            Email Address
-                          </Label>
-                          <div className="relative">
-                            <Input 
-                              value={profileData?.user?.email || ""} 
-                              readOnly 
-                              className="bg-gray-50/80 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700 pl-4 pr-10 font-medium h-10" 
-                            />
-                            <CheckCircle2 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-500" />
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            <Shield className="h-4 w-4" />
-                            Account Role
-                          </Label>
-                          <div className="relative">
-                            <Input 
-                              value={profileData?.user?.is_admin ? "Administrator" : "User"} 
-                              readOnly 
-                              className="bg-gray-50/80 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700 pl-4 pr-10 font-medium h-10" 
-                            />
-                            <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-indigo-500" />
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            <Calendar className="h-4 w-4" />
-                            Member Since
-                          </Label>
-                          <div className="relative">
-                            <Input 
-                              value={profileData?.user?.created_at ? new Date(profileData.user.created_at).toLocaleDateString('en-US', { 
-                                year: 'numeric', 
-                                month: 'long', 
-                                day: 'numeric' 
-                              }) : ""} 
-                              readOnly 
-                              className="bg-gray-50/80 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700 pl-4 pr-10 font-medium h-10" 
-                            />
-                            <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500" />
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </TabsContent>
-
+ 
             {/* Change Password Tab */}
-            <TabsContent value="password" className="space-y-3">
-              <Card className="border-0 shadow-sm">
-                <CardHeader className="pb-2">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <KeyRound className="h-4 w-4 text-red-600" />
-                    Change Password
-                  </CardTitle>
-                  <CardDescription className="text-sm">Update your account password for better security</CardDescription>
-                </CardHeader>
-                <CardContent className="pb-4">
-                  <form onSubmit={handlePasswordSubmit} className="space-y-3">
-                    <div className="space-y-2">
-                      <Label htmlFor="current_password" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        <Lock className="h-4 w-4" />
-                        Current Password
+            <TabsContent value="password" className="space-y-6">
+              <div className="p-8 rounded-[2rem] border-2 border-dashed border-indigo-100 dark:border-indigo-500/20 bg-indigo-500/5">
+                <form onSubmit={handlePasswordSubmit} className="space-y-6">
+                  {[
+                    { id: 'current_password', label: 'CURRENT_KEY', show: showPasswords.current, toggle: 'current' },
+                    { id: 'new_password', label: 'NEW_KEY', show: showPasswords.new, toggle: 'new' },
+                    { id: 'confirm_password', label: 'VERIFY_KEY', show: showPasswords.confirm, toggle: 'confirm' },
+                  ].map((field) => (
+                    <div key={field.id} className="space-y-2">
+                      <Label htmlFor={field.id} className="flex items-center gap-2 text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-widest">
+                        <Lock className="h-3 w-3" />
+                        {field.label}
                       </Label>
                       <div className="relative">
                         <Input
-                          id="current_password"
-                          type={showPasswords.current ? "text" : "password"}
-                          value={passwordData.current_password}
-                          onChange={(e) => handleInputChange("current_password", e.target.value)}
-                          className={`pr-12 h-10 border-2 transition-all duration-200 ${
-                            errors.current_password 
-                              ? 'border-red-300 focus:border-red-500 bg-red-50/50 dark:bg-red-900/10' 
-                              : 'border-gray-200 focus:border-indigo-500 bg-white dark:bg-gray-900'
+                          id={field.id}
+                          type={field.show ? "text" : "password"}
+                          value={passwordData[field.id as keyof ChangePasswordData]}
+                          onChange={(e) => handleInputChange(field.id as keyof ChangePasswordData, e.target.value)}
+                          className={`pr-12 h-12 border-2 transition-all duration-300 rounded-xl font-bold bg-white dark:bg-black/20 ${
+                            errors[field.id as keyof ChangePasswordData] 
+                              ? 'border-indigo-950 dark:border-white shadow-inner' 
+                              : 'border-indigo-100 dark:border-indigo-500/10 focus:border-indigo-600 dark:focus:border-indigo-400'
                           }`}
-                          placeholder="Enter your current password"
+                          placeholder={`Enter ${field.label.toLowerCase()}...`}
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                          onClick={() => togglePasswordVisibility('current')}
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-indigo-500/10 rounded-lg"
+                          onClick={() => togglePasswordVisibility(field.toggle as 'current' | 'new' | 'confirm')}
                         >
-                          {showPasswords.current ? (
-                            <EyeOff className="h-4 w-4 text-gray-500" />
+                          {field.show ? (
+                            <EyeOff className="h-4 w-4 text-indigo-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-500" />
+                            <Eye className="h-4 w-4 text-indigo-500" />
                           )}
                         </Button>
                       </div>
-                      {errors.current_password && (
-                        <p className="text-sm text-red-600 font-medium flex items-center gap-1">
-                          <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                          {errors.current_password}
+                      {errors[field.id as keyof ChangePasswordData] && (
+                        <p className="text-[10px] font-black text-indigo-950 dark:text-white uppercase tracking-widest flex items-center gap-2 mt-1">
+                          <div className="w-1 h-1 bg-indigo-600 rounded-full"></div>
+                          {errors[field.id as keyof ChangePasswordData]}
                         </p>
                       )}
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="new_password" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        <KeyRound className="h-4 w-4" />
-                        New Password
-                      </Label>
-                      <div className="relative">
-                        <Input
-                          id="new_password"
-                          type={showPasswords.new ? "text" : "password"}
-                          value={passwordData.new_password}
-                          onChange={(e) => handleInputChange("new_password", e.target.value)}
-                          className={`pr-12 h-10 border-2 transition-all duration-200 ${
-                            errors.new_password 
-                              ? 'border-red-300 focus:border-red-500 bg-red-50/50 dark:bg-red-900/10' 
-                              : 'border-gray-200 focus:border-indigo-500 bg-white dark:bg-gray-900'
-                          }`}
-                          placeholder="Enter your new password"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                          onClick={() => togglePasswordVisibility('new')}
-                        >
-                          {showPasswords.new ? (
-                            <EyeOff className="h-4 w-4 text-gray-500" />
-                          ) : (
-                            <Eye className="h-4 w-4 text-gray-500" />
-                          )}
-                        </Button>
-                      </div>
-                      {errors.new_password && (
-                        <p className="text-sm text-red-600 font-medium flex items-center gap-1">
-                          <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                          {errors.new_password}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="confirm_password" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        <CheckCircle2 className="h-4 w-4" />
-                        Confirm New Password
-                      </Label>
-                      <div className="relative">
-                        <Input
-                          id="confirm_password"
-                          type={showPasswords.confirm ? "text" : "password"}
-                          value={passwordData.confirm_password}
-                          onChange={(e) => handleInputChange("confirm_password", e.target.value)}
-                          className={`pr-12 h-10 border-2 transition-all duration-200 ${
-                            errors.confirm_password 
-                              ? 'border-red-300 focus:border-red-500 bg-red-50/50 dark:bg-red-900/10' 
-                              : 'border-gray-200 focus:border-indigo-500 bg-white dark:bg-gray-900'
-                          }`}
-                          placeholder="Confirm your new password"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                          onClick={() => togglePasswordVisibility('confirm')}
-                        >
-                          {showPasswords.confirm ? (
-                            <EyeOff className="h-4 w-4 text-gray-500" />
-                          ) : (
-                            <Eye className="h-4 w-4 text-gray-500" />
-                          )}
-                        </Button>
-                      </div>
-                      {errors.confirm_password && (
-                        <p className="text-sm text-red-600 font-medium flex items-center gap-1">
-                          <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-                          {errors.confirm_password}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Password Requirements */}
-                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2.5 border border-blue-200 dark:border-blue-800">
-                      <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-0.5 flex items-center gap-2">
-                        <Shield className="h-3 w-3" />
-                        Password Requirements
-                      </h4>
-                      <ul className="text-xs text-blue-800 dark:text-blue-200 space-y-0.5">
-                        <li className="flex items-center gap-1.5">
-                          <CheckCircle2 className="h-3 w-3" />
-                          At least 8 characters long
-                        </li>
-                        <li className="flex items-center gap-1.5">
-                          <CheckCircle2 className="h-3 w-3" />
-                          Mix of letters, numbers, and symbols
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={onClose}
-                        className="h-10 px-6 border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
-                      >
-                        Cancel
-                      </Button>
-                      <Button 
-                        type="submit" 
-                        disabled={changePasswordMutation.isPending}
-                        className="h-10 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {changePasswordMutation.isPending ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white mr-2"></div>
-                            Updating...
-                          </>
-                        ) : (
-                          <>
-                            <KeyRound className="h-4 w-4 mr-2" />
-                            Update Password
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
+                  ))}
+ 
+                  {/* Password Requirements */}
+                  <div className="bg-indigo-600 text-white rounded-2xl p-6 shadow-xl shadow-indigo-600/20">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                      <Shield className="h-3 w-3" />
+                      Protocol Requirements
+                    </h4>
+                    <ul className="text-xs font-bold space-y-2 opacity-90">
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                        Entropy Level: At least 8 units
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                        Complexity: Alphanumeric + Symbols
+                      </li>
+                    </ul>
+                  </div>
+ 
+                  <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-indigo-100/30 dark:border-indigo-500/10">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={onClose}
+                      className="rounded-full border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-[10px] h-12 px-8"
+                    >
+                      ABORT
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      disabled={changePasswordMutation.isPending}
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-600/20 rounded-full font-black uppercase tracking-widest text-[10px] h-12 px-8 transition-all duration-300 transform hover:scale-105"
+                    >
+                      {changePasswordMutation.isPending ? 'RECODING...' : 'UPDATE_KERNEL'}
+                    </Button>
+                  </div>
+                </form>
+              </div>
             </TabsContent>
           </Tabs>
         </div>

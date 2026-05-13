@@ -168,16 +168,16 @@ export default function BlogsManagement() {
   // Generate default cover image placeholder
   const getDefaultCoverImage = (title: string, index: number) => {
     const gradients = [
-      "from-blue-500 to-purple-600",
-      "from-green-500 to-teal-600", 
-      "from-orange-500 to-red-600",
-      "from-purple-500 to-pink-600",
-      "from-cyan-500 to-blue-600",
-      "from-yellow-500 to-orange-600",
-      "from-indigo-500 to-purple-600",
-      "from-pink-500 to-rose-600",
-      "from-emerald-500 to-cyan-600",
-      "from-violet-500 to-purple-600"
+      "from-indigo-400 to-indigo-600",
+      "from-indigo-500 to-indigo-700", 
+      "from-indigo-600 to-indigo-800",
+      "from-indigo-300 to-indigo-500",
+      "from-indigo-700 to-indigo-900",
+      "from-indigo-400 to-indigo-500",
+      "from-indigo-500 to-indigo-600",
+      "from-indigo-600 to-indigo-700",
+      "from-indigo-300 to-indigo-400",
+      "from-indigo-700 to-indigo-800"
     ];
     
     const gradient = gradients[index % gradients.length];
@@ -395,35 +395,35 @@ export default function BlogsManagement() {
     <AdminLayout title="Manage Blog Posts">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-10">
-          {/* Enhanced Header Section */}
-          <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-sm">
+          {/* Enhanced Header Section - Cyberpunk Indigo */}
+          <div className="bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 rounded-[2.5rem] p-8 border border-indigo-200/50 dark:border-indigo-500/10 shadow-sm">
             <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                   </div>
-                  <h1 className="text-3xl p-2 font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  <h1 className="text-3xl p-2 font-black tracking-tight text-indigo-900 dark:text-indigo-50 drop-shadow-[0_0_10px_rgba(99,102,241,0.3)]">
                     Blog Management
                   </h1>
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 text-base max-w-2xl leading-relaxed">
-                  Create, edit, and manage your blog articles. Share your thoughts, tutorials, and insights with your audience.
+                <p className="text-indigo-700/70 dark:text-indigo-300/70 text-base max-w-2xl leading-relaxed font-medium">
+                  Create, edit, and manage your blog articles. Share your futuristic thoughts, tutorials, and insights with your audience.
                 </p>
                 
                 {/* Search Bar and Filters */}
                 <div className="space-y-4 mt-4">
                   <div className="relative max-w-md">
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400 dark:text-indigo-500 w-4 h-4" />
                       <Input
                         type="text"
                         placeholder="Search blog posts..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="pl-10 pr-10 h-10 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                        className="pl-10 pr-10 h-10 bg-white/50 dark:bg-black/30 backdrop-blur-md border-indigo-200/50 dark:border-indigo-500/20 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-indigo-900 dark:text-indigo-100"
                       />
                       {search && (
                         <button
@@ -436,7 +436,7 @@ export default function BlogsManagement() {
                       )}
                     </div>
                     {search && (
-                      <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      <div className="mt-2 text-xs font-bold text-indigo-500/60 dark:text-indigo-400/60 uppercase tracking-widest">
                         {typedBlogsData ? `Found ${typedBlogsData.total} results` : 'Searching...'}
                       </div>
                     )}
@@ -446,10 +446,10 @@ export default function BlogsManagement() {
                   <div className="flex flex-wrap gap-2">
                     <Badge
                       variant={statusFilter === 'all' ? 'default' : 'secondary'}
-                      className={`cursor-pointer transition-colors ${
+                      className={`cursor-pointer transition-all duration-300 rounded-full font-black text-[10px] uppercase tracking-wider px-3 py-1 ${
                         statusFilter === 'all' 
-                          ? 'bg-blue-500 hover:bg-blue-600 text-white' 
-                          : 'hover:bg-gray-200 dark:hover:bg-gray-700'
+                          ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' 
+                          : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 border-0'
                       }`}
                       onClick={() => {
                         setStatusFilter('all');
@@ -460,10 +460,10 @@ export default function BlogsManagement() {
                     </Badge>
                     <Badge
                       variant={statusFilter === 'visible' ? 'default' : 'secondary'}
-                      className={`cursor-pointer transition-colors ${
+                      className={`cursor-pointer transition-all duration-300 rounded-full font-black text-[10px] uppercase tracking-wider px-3 py-1 ${
                         statusFilter === 'visible' 
-                          ? 'bg-green-500 hover:bg-green-600 text-white' 
-                          : 'hover:bg-gray-200 dark:hover:bg-gray-700'
+                          ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' 
+                          : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 border-0'
                       }`}
                       onClick={() => {
                         setStatusFilter('visible');
@@ -474,10 +474,10 @@ export default function BlogsManagement() {
                     </Badge>
                     <Badge
                       variant={statusFilter === 'hidden' ? 'default' : 'secondary'}
-                      className={`cursor-pointer transition-colors ${
+                      className={`cursor-pointer transition-all duration-300 rounded-full font-black text-[10px] uppercase tracking-wider px-3 py-1 ${
                         statusFilter === 'hidden' 
-                          ? 'bg-red-500 hover:bg-red-600 text-white' 
-                          : 'hover:bg-gray-200 dark:hover:bg-gray-700'
+                          ? 'bg-indigo-900 dark:bg-indigo-950 text-white shadow-lg shadow-indigo-900/20' 
+                          : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 border-0'
                       }`}
                       onClick={() => {
                         setStatusFilter('hidden');
@@ -489,19 +489,19 @@ export default function BlogsManagement() {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mt-3">
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-indigo-500/60 dark:text-indigo-400/60 mt-3">
+                  <span className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
                     {typedBlogsData?.total || (isLoading ? '...' : '0')} Total Posts
                   </span>
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <span className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 bg-indigo-400 rounded-full shadow-[0_0_8px_rgba(129,140,248,0.6)]"></div>
                     {typedBlogsData?.blogs?.filter(blog => blog.featured).length || (isLoading ? '...' : '0')} Featured
                   </span>
                   {typedBlogsData && (
-                    <span className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      Page {typedBlogsData.page} of {typedBlogsData.total_pages} (Size: {typedBlogsData.page_size})
+                    <span className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                      Page {typedBlogsData.page} of {typedBlogsData.total_pages}
                     </span>
                   )}
                 </div>
@@ -511,31 +511,31 @@ export default function BlogsManagement() {
               <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
                 <DialogTrigger asChild>
                   <Button 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 font-semibold rounded-xl border-0 w-full lg:w-auto transform hover:scale-105" 
+                    className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 px-8 py-6 font-black uppercase tracking-widest rounded-full border-0 w-full lg:w-auto transform hover:scale-105" 
                     onClick={() => { resetForm(); setEditingBlog(null); }}
                   >
                     <Plus className="w-5 h-5 mr-2" />
                     Create New Post
                   </Button>
                 </DialogTrigger>
-            <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 border-0 shadow-2xl rounded-2xl">
-              <DialogHeader className="pb-6 border-b border-gray-200 dark:border-gray-700">
-                <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <Plus className="w-4 h-4 text-white" />
+            <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto bg-white/90 dark:bg-black/90 backdrop-blur-2xl border-0 shadow-2xl rounded-[2.5rem] p-0">
+              <DialogHeader className="p-8 sm:p-10 border-b border-indigo-200/50 dark:border-indigo-500/10">
+                <DialogTitle className="text-3xl font-black text-indigo-950 dark:text-indigo-50 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl flex items-center justify-center shadow-inner">
+                    <Plus className="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
                   </div>
                   {editingBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
                 </DialogTitle>
-                <DialogDescription className="text-gray-600 dark:text-gray-300 text-base mt-2">
-                  Fill out the form below to {editingBlog ? 'update' : 'create'} a blog post. All fields marked with * are required.
+                <DialogDescription className="text-indigo-700/70 dark:text-indigo-300/70 text-base mt-3 font-medium">
+                  Fill out the form below to {editingBlog ? 'update' : 'create'} a futuristic blog post. All fields marked with * are required.
                 </DialogDescription>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-6 pt-6">
+              <form onSubmit={handleSubmit} className="p-8 sm:p-10 space-y-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {/* Title */}
                   <div className="space-y-3">
-                    <Label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <Label htmlFor="title" className="text-xs font-black text-indigo-500 dark:text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
                       Title
                     </Label>
                     <Input
@@ -543,8 +543,8 @@ export default function BlogsManagement() {
                       value={formData.title}
                       onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                       required
-                      className="h-12 text-base border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 transition-colors bg-gray-50 dark:bg-gray-800"
-                      placeholder="Enter an engaging title for your blog post"
+                      className="h-14 text-base border-2 border-indigo-200/50 dark:border-indigo-500/20 rounded-2xl focus:border-indigo-500 focus:ring-0 transition-all bg-indigo-50/30 dark:bg-black/30 backdrop-blur-md text-indigo-950 dark:text-indigo-50 placeholder:text-indigo-300/50"
+                      placeholder="Enter an engaging title..."
                     />
                   </div>
                   {/* Reading Time */}
@@ -726,44 +726,44 @@ export default function BlogsManagement() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                  <div className="bg-indigo-50/50 dark:bg-indigo-500/5 rounded-[2rem] p-6 border border-indigo-200/50 dark:border-indigo-500/10 backdrop-blur-sm">
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label htmlFor="featured" className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                          <Star className="w-4 h-4 text-yellow-500" />
+                        <Label htmlFor="featured" className="text-sm font-black text-indigo-900 dark:text-indigo-50 flex items-center gap-2 uppercase tracking-wider">
+                          <Star className="w-4 h-4 text-indigo-500" />
                           Featured Post
                         </Label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Featured posts appear prominently on your blog</p>
+                        <p className="text-xs text-indigo-700/60 dark:text-indigo-300/60 mt-1 font-bold">Featured posts appear prominently on your blog</p>
                       </div>
                       <Switch
                         id="featured"
                         checked={formData.featured}
                         onCheckedChange={(checked) => setFormData(prev => ({ ...prev, featured: checked }))}
-                        className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-blue-500 data-[state=checked]:to-purple-600"
+                        className="data-[state=checked]:bg-indigo-500"
                       />
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                  <div className="bg-indigo-50/50 dark:bg-indigo-500/5 rounded-[2rem] p-6 border border-indigo-200/50 dark:border-indigo-500/10 backdrop-blur-sm">
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label htmlFor="is_visible" className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                          <Eye className="w-4 h-4 text-green-500" />
+                        <Label htmlFor="is_visible" className="text-sm font-black text-indigo-900 dark:text-indigo-50 flex items-center gap-2 uppercase tracking-wider">
+                          <Eye className="w-4 h-4 text-indigo-400" />
                           Visible to Public
                         </Label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Controls whether visitors can see this post</p>
+                        <p className="text-xs text-indigo-700/60 dark:text-indigo-300/60 mt-1 font-bold">Controls whether visitors can see this post</p>
                       </div>
                       <Switch
                         id="is_visible"
                         checked={formData.is_visible}
                         onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_visible: checked }))}
-                        className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-green-500 data-[state=checked]:to-emerald-600"
+                        className="data-[state=checked]:bg-indigo-500"
                       />
                     </div>
                   </div>
                 </div>
 
-                <DialogFooter className="pt-6 border-t border-gray-200 dark:border-gray-700 gap-3">
+                <DialogFooter className="pt-10 border-t border-indigo-200/50 dark:border-indigo-500/10 gap-4">
                   <Button 
                     type="button" 
                     variant="outline" 
@@ -772,14 +772,14 @@ export default function BlogsManagement() {
                       setEditingBlog(null);
                       resetForm();
                     }}
-                    className="px-6 py-3 rounded-xl border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="px-8 py-6 rounded-full border-2 border-indigo-200 text-indigo-700 hover:bg-indigo-50 dark:border-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/10 transition-all font-black uppercase tracking-widest text-xs"
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="submit" 
                     disabled={createMutation.isPending || updateMutation.isPending} 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                    className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-10 py-6 rounded-full font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-500/20 transition-all duration-300 transform hover:scale-105 border-0"
                   >
                     {(createMutation.isPending || updateMutation.isPending) ? (
                       <div className="flex items-center gap-2">
@@ -787,7 +787,7 @@ export default function BlogsManagement() {
                         {editingBlog ? 'Updating...' : 'Creating...'}
                       </div>
                     ) : (
-                      <>{editingBlog ? 'Update' : 'Create'} Blog Post</>
+                      <>{editingBlog ? 'Update' : 'Create'} Post</>
                     )}
                   </Button>
                 </DialogFooter>
@@ -799,14 +799,14 @@ export default function BlogsManagement() {
         {/* Enhanced Loading State */}
         {isLoading ? (
           <div className="space-y-6">
-            <div className="text-center py-12">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl mx-auto mb-4 flex items-center justify-center animate-pulse">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center py-20">
+              <div className="w-16 h-16 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-[2rem] mx-auto mb-6 flex items-center justify-center animate-pulse shadow-inner">
+                <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Loading your blog posts...</h3>
-              <p className="text-gray-500 dark:text-gray-400">Please wait while we fetch your content</p>
+              <h3 className="text-xl font-black text-indigo-950 dark:text-indigo-50 mb-2 uppercase tracking-widest">Accessing digital logs...</h3>
+              <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-sm">Please wait while we sync with the mainframe</p>
             </div>
           </div>
         ) : error ? (
@@ -837,22 +837,22 @@ export default function BlogsManagement() {
             </p>
           </div>
         ) : typedBlogsData && typedBlogsData.blogs && typedBlogsData.blogs.length === 0 && !search ? (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-              <svg className="w-10 h-10 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-20">
+            <div className="w-24 h-24 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-[2.5rem] mx-auto mb-8 flex items-center justify-center shadow-inner">
+              <svg className="w-12 h-12 text-indigo-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">No blog posts yet</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
-              Start creating engaging content for your audience. Your first blog post is just a click away!
+            <h3 className="text-2xl font-black text-indigo-950 dark:text-indigo-50 mb-4 uppercase tracking-[0.2em]">Zero Data Streams</h3>
+            <p className="text-indigo-700/60 dark:text-indigo-300/60 mb-8 max-w-md mx-auto font-bold">
+              Your digital logbook is empty. Initialize your first transmission to the network.
             </p>
             <Button 
               onClick={() => setIsCreateOpen(true)}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+              className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-10 py-6 rounded-full font-black uppercase tracking-widest text-xs shadow-xl shadow-indigo-500/30 transition-all duration-300 transform hover:scale-105 border-0"
             >
               <Plus className="w-5 h-5 mr-2" />
-              Create Your First Post
+              Initiate Transmission
             </Button>
           </div>
         ) : typedBlogsData && typedBlogsData.total === 0 && search ? (
@@ -881,8 +881,8 @@ export default function BlogsManagement() {
               {filteredBlogs.map((blog, index) => (
               <Card 
                 key={blog.id} 
-                className={`group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md w-full ${
-                  blog.featured ? 'ring-2 ring-yellow-400 dark:ring-yellow-500' : ''
+                className={`group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-0 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-[2rem] overflow-hidden shadow-lg w-full ${
+                  blog.featured ? 'ring-2 ring-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.2)]' : ''
                 }`}
                 style={{
                   animationDelay: `${index * 100}ms`,
@@ -958,10 +958,9 @@ export default function BlogsManagement() {
                   {blog.category && (
                     <div className="absolute bottom-4 right-4 z-20">
                       <div
-                        className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg border border-blue-400/40"
+                        className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 shadow-lg shadow-indigo-500/20"
                         style={{
-                          letterSpacing: '0.01em',
-                          boxShadow: '0 2px 8px 0 rgba(59,130,246,0.10)',
+                          letterSpacing: '0.05em',
                         }}
                       >
                         <svg className="w-3 h-3 mr-1 opacity-80" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -973,8 +972,8 @@ export default function BlogsManagement() {
                   )}
                   {blog.featured && (
                     <div className="absolute top-4 left-4 z-20">
-                      <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
-                        <Star className="w-3 h-3 fill-current" />
+                      <div className="bg-indigo-900 dark:bg-indigo-950 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 shadow-lg">
+                        <Star className="w-3 h-3 fill-current text-indigo-400" />
                         Featured
                       </div>
                     </div>
@@ -986,7 +985,7 @@ export default function BlogsManagement() {
                         size="sm" 
                         onClick={() => handleViewBlog(blog)}
                         title="View Blog Post"
-                        className="bg-blue-500/90 hover:bg-blue-600 text-white backdrop-blur-sm border-0 shadow-lg rounded-xl"
+                        className="bg-indigo-500/90 hover:bg-indigo-600 text-white backdrop-blur-sm border-0 shadow-lg rounded-full w-9 h-9 p-0 flex items-center justify-center"
                       >
                         <Eye className="w-4 h-4" />
                       </Button>
@@ -994,7 +993,7 @@ export default function BlogsManagement() {
                         variant="secondary" 
                         size="sm" 
                         onClick={() => handleEdit(blog)}
-                        className="bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 backdrop-blur-sm border-0 shadow-lg rounded-xl"
+                        className="bg-white/90 dark:bg-indigo-900/90 hover:bg-white dark:hover:bg-indigo-800 text-indigo-950 dark:text-indigo-50 backdrop-blur-sm border-0 shadow-lg rounded-full w-9 h-9 p-0 flex items-center justify-center"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -1003,7 +1002,7 @@ export default function BlogsManagement() {
                         size="sm" 
                         onClick={() => deleteConfirmation.openConfirmDialog(blog)}
                         disabled={deleteMutation.isPending}
-                        className="bg-red-500/90 hover:bg-red-600 backdrop-blur-sm border-0 shadow-lg rounded-xl"
+                        className="bg-indigo-950/90 hover:bg-black text-white backdrop-blur-sm border-0 shadow-lg rounded-full w-9 h-9 p-0 flex items-center justify-center"
                       >
                         {deleteMutation.isPending ? (
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -1017,7 +1016,7 @@ export default function BlogsManagement() {
                 
                 <CardHeader className="p-6 pb-4">
                   <div className="space-y-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                    <CardTitle className="text-xl font-black text-indigo-950 dark:text-indigo-50 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-tight tracking-tight uppercase">
                       {blog.title}
                     </CardTitle>
                     {/* Category Badge moved to image area */}
@@ -1032,8 +1031,8 @@ export default function BlogsManagement() {
                           day: 'numeric' 
                         })}
                         {blog.author?.name && (
-                          <span className="ml-2 flex items-center gap-1 text-xs text-primary font-semibold">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                          <span className="ml-2 flex items-center gap-1.5 text-[10px] text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest">
+                            <div className="w-1 h-1 bg-indigo-500 rounded-full"></div>
                             {blog.author.name}
                           </span>
                         )}
@@ -1066,7 +1065,7 @@ export default function BlogsManagement() {
                           <Badge 
                             key={tag.id} 
                             variant="secondary" 
-                            className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 border-blue-400/30 hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/50 dark:hover:to-purple-900/50 transition-colors rounded-full px-3 py-1.5 text-xs font-medium"
+                            className="bg-indigo-500/5 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200/50 dark:border-indigo-500/20 hover:bg-indigo-500/10 transition-all rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest"
                           >
                             #{tag.name}
                           </Badge>
@@ -1080,21 +1079,21 @@ export default function BlogsManagement() {
                     </div>
                   )}
 
-                  <div className="flex justify-between items-center pt-4 mt-2 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex justify-between items-center pt-4 mt-2 border-t border-indigo-200/30 dark:border-indigo-500/10">
                     <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${blog.featured ? 'bg-yellow-400' : 'bg-gray-400'}`}></div>
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        {blog.featured ? 'Featured Post' : 'Regular Post'}
+                      <div className={`w-2.5 h-2.5 rounded-full ${blog.featured ? 'bg-indigo-500 animate-pulse' : 'bg-indigo-200 dark:bg-indigo-900/50'}`}></div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-indigo-700/60 dark:text-indigo-400/60">
+                        {blog.featured ? 'Priority Post' : 'Standard Log'}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1">
-                        <div className={`w-2 h-2 rounded-full ${blog.is_visible ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {blog.is_visible ? 'Visible' : 'Hidden'}
+                      <div className="flex items-center gap-1.5">
+                        <div className={`w-1.5 h-1.5 rounded-full ${blog.is_visible ? 'bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.6)]' : 'bg-indigo-950'}`}></div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-700/60 dark:text-indigo-400/60">
+                          {blog.is_visible ? 'Live' : 'Encrypted'}
                         </span>
                       </div>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">ID: {blog.id}</span>
+                      <span className="text-[10px] font-bold text-indigo-400/40">#{blog.id}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -1125,20 +1124,18 @@ export default function BlogsManagement() {
                     >
                       ← Prev
                     </button>
-                    {Array.from({ length: typedBlogsData.total_pages }, (_, i) => i + 1).map((p) => (
                       <button
                         key={p}
-                        className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
+                        className={`px-4 py-2 rounded-full font-black text-xs transition-all duration-300 uppercase tracking-widest ${
                           p === typedBlogsData.page
-                            ? "bg-blue-600 dark:bg-blue-700 text-white shadow-lg transform scale-105"
-                            : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                            ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/30 transform scale-110"
+                            : "bg-indigo-500/10 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-500/20"
                         }`}
                         onClick={() => setPage(p)}
                         aria-current={p === typedBlogsData.page ? "page" : undefined}
                       >
                         {p}
                       </button>
-                    ))}
                     <button
                       className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
                       onClick={() => setPage(typedBlogsData.page + 1)}
@@ -1164,9 +1161,9 @@ export default function BlogsManagement() {
       }}>
         <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 border-0 shadow-2xl rounded-2xl">
           <DialogHeader className="pb-6 border-b border-gray-200 dark:border-gray-700">
-            <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
-                <Edit className="w-4 h-4 text-white" />
+            <DialogTitle className="text-3xl font-black text-indigo-950 dark:text-indigo-50 flex items-center gap-4">
+              <div className="w-12 h-12 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl flex items-center justify-center shadow-inner">
+                <Edit className="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
               </div>
               Edit Blog Post
             </DialogTitle>
@@ -1478,8 +1475,8 @@ function QuickLinksEditor({ quickLinks, onChange }: QuickLinksEditorProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-          <ExternalLink className="w-4 h-4 text-blue-500" />
+        <Label className="text-sm font-black text-indigo-900 dark:text-indigo-50 flex items-center gap-2 uppercase tracking-widest">
+          <ExternalLink className="w-4 h-4 text-indigo-500" />
           Quick Links
         </Label>
         <Button

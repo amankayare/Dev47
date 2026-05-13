@@ -12,10 +12,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { LogOut, Users, MessageSquare, FolderOpen, FileText, Award, BarChart3, User, Briefcase, Code, ShieldCheck, Sun, Moon, ArrowLeft, Eye, EyeOff, Trash2 } from 'lucide-react';
+import { LogOut, Users, MessageSquare, FolderOpen, FileText, Award, BarChart3, User, Briefcase, Code, ShieldCheck, Sun, Moon, ArrowLeft, Eye, EyeOff, Trash2, Settings, ChevronDown, Mail, Clock } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { useDeleteConfirmation } from '@/hooks/useDeleteConfirmation';
 import { apiGet, apiPut, apiDelete } from '@/utils/api';
+import AdminLayout from '@/components/admin/AdminLayout';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface DashboardStats {
   projects_count: number;
@@ -201,7 +209,11 @@ export default function AdminDashboard() {
     page: number;
     page_size: number;
     total_pages: number;
-    unseen_count: number;
+    counts: {
+      all: number;
+      read: number;
+      unread: number;
+    };
   };
 
   const toggleAdminMutation = useMutation({
@@ -228,8 +240,12 @@ export default function AdminDashboard() {
 
   const toggleMessageReadMutation = useMutation({
     mutationFn: (messageId: number) => apiPut(`/api/contact/admin/messages/${messageId}/toggle-read`, {}),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['/api/contact/admin/messages'] });
+      // Update selected message state locally if it's the one being toggled
+      if (selectedMessage && selectedMessage.id === variables) {
+        setSelectedMessage(prev => prev ? { ...prev, is_read: !prev.is_read } : null);
+      }
       toast({
         title: 'Success',
         description: data.message,
@@ -257,175 +273,174 @@ export default function AdminDashboard() {
   if (!currentUser) return null;
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-gray-950/90 shadow-md border-b border-gray-200 dark:border-gray-800 backdrop-blur">
-        <div className="px-4 py-2 sm:p-4 flex h-14 sm:h-16 items-center justify-between">
-          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1 mr-4">
-            <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-700 dark:text-indigo-300 flex-shrink-0" />
-            <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
-              <h1 className="text-base sm:text-xl font-bold truncate">Admin Dashboard</h1>
-              <Badge className="hidden md:inline-flex">Welcome, {currentUser.username}</Badge>
-              <Badge className="hidden sm:inline-flex md:hidden text-xs px-2 py-1">Hi, {currentUser.username.slice(0, 10)}</Badge>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-            <ThemeToggle 
-              variant="outline"
-              className="h-8 w-8 sm:h-9 sm:w-9 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
-              showTooltip={true}
-            />
-            <ProfileButton 
-              onClick={() => setProfileModalOpen(true)}
-            />
-            <Button 
-              onClick={handleLogout} 
-              size="sm"
-              className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 px-2 sm:px-4 h-8 sm:h-9 text-xs sm:text-sm"
-            >
-              <LogOut className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
-              <span className="hidden sm:inline">Logout</span>
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="pt-2 pb-6 w-full px-1 sm:px-6">
-        <div className="w-full max-w-7xl mx-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-3 sm:space-y-6">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto sm:h-10 p-1 gap-1 sm:gap-0">
-              <TabsTrigger value="overview" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-1 sm:px-4 py-2 sm:py-0 h-auto sm:h-9 min-h-8">
-                <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="hidden xs:inline truncate">Overview</span>
-                <span className="xs:hidden">📊</span>
+    <AdminLayout title="Admin Dashboard" backTo="/">
+      <div className="w-full max-w-7xl mx-auto space-y-6 sm:space-y-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 sm:space-y-10">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto p-1.5 gap-2 bg-indigo-500/10 dark:bg-indigo-500/10 rounded-[2rem] border border-indigo-500/20 dark:border-indigo-500/20 backdrop-blur-md">
+              <TabsTrigger value="overview" className="flex items-center justify-center gap-2 text-xs sm:text-sm px-4 py-2 sm:py-2.5 rounded-full data-[state=active]:bg-indigo-500 data-[state=active]:text-white shadow-sm transition-all duration-300">
+                <BarChart3 className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden xs:inline truncate font-bold">Overview</span>
               </TabsTrigger>
-              <TabsTrigger value="users" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-1 sm:px-4 py-2 sm:py-0 h-auto sm:h-9 min-h-8">
-                <Users className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="hidden xs:inline truncate">Users</span>
-                <span className="xs:hidden">👥</span>
+              <TabsTrigger value="users" className="flex items-center justify-center gap-2 text-xs sm:text-sm px-4 py-2 sm:py-2.5 rounded-full data-[state=active]:bg-indigo-500 data-[state=active]:text-white shadow-sm transition-all duration-300">
+                <Users className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden xs:inline truncate font-bold">Users</span>
               </TabsTrigger>
-              <TabsTrigger value="messages" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-1 sm:px-4 py-2 sm:py-0 h-auto sm:h-9 min-h-8 relative">
-                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="hidden xs:inline truncate">Messages</span>
-                <span className="xs:hidden">💬</span>
-                {typedMessagesData?.unseen_count > 0 && (
-                  <Badge variant="destructive" className="absolute -top-0.5 -right-0.5 sm:relative sm:top-0 sm:right-0 sm:ml-1 px-1 py-0 text-xs h-3.5 min-w-3.5 sm:h-4 sm:min-w-4 flex items-center justify-center">
-                    {typedMessagesData.unseen_count}
+              <TabsTrigger value="messages" className="flex items-center justify-center gap-2 text-xs sm:text-sm px-4 py-2 sm:py-2.5 rounded-full data-[state=active]:bg-indigo-500 data-[state=active]:text-white shadow-sm transition-all duration-300 relative">
+                <MessageSquare className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden xs:inline truncate font-bold">Messages</span>
+                {typedMessagesData?.counts?.unread > 0 && (
+                  <Badge variant="destructive" className="absolute -top-0.5 -right-0.5 sm:relative sm:top-0 sm:right-0 sm:ml-1 px-1.5 py-0.5 text-xs h-4 min-w-4 rounded-full border-2 border-white dark:border-indigo-950">
+                    {typedMessagesData.counts.unread}
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="content" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-1 sm:px-4 py-2 sm:py-0 h-auto sm:h-9 min-h-8">
-                <FolderOpen className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="hidden xs:inline truncate">Content</span>
-                <span className="xs:hidden">📁</span>
+              <TabsTrigger value="content" className="flex items-center justify-center gap-2 text-xs sm:text-sm px-4 py-2 sm:py-2.5 rounded-full data-[state=active]:bg-indigo-500 data-[state=active]:text-white shadow-sm transition-all duration-300">
+                <FolderOpen className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden xs:inline truncate font-bold">Content</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="space-y-4 sm:space-y-8 px-1 sm:px-0">
-              {/* Welcome Section */}
-              <div className="text-center space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard Overview</h2>
-                <p className="text-sm sm:text-base text-muted-foreground">Monitor your portfolio performance and manage content</p>
+            <TabsContent value="overview" className="space-y-6 sm:space-y-8 px-1 sm:px-0">
+              {/* Ghibli-style Welcome Header - Cyberpunk Indigo */}
+              <div className="relative overflow-hidden text-center space-y-3 p-8 sm:p-12 rounded-[2rem] bg-gradient-to-b from-indigo-100 via-indigo-50 to-white dark:from-indigo-950 dark:via-indigo-900/50 dark:to-black/40 shadow-sm border border-indigo-200/50 dark:border-indigo-500/10">
+                {/* Decorative Neon Pulse */}
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-400/30 dark:bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute -bottom-10 -left-10 w-56 h-56 bg-indigo-300/20 dark:bg-indigo-600/10 rounded-full blur-3xl"></div>
+                
+                <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-indigo-900 dark:text-indigo-50 z-10 relative drop-shadow-[0_0_15px_rgba(99,102,241,0.3)]">
+                  Dashboard Overview
+                </h2>
+                <p className="text-base sm:text-lg font-medium text-indigo-700/80 dark:text-indigo-300/80 z-10 relative max-w-2xl mx-auto">
+                  Monitor your digital journey and manage your realm's futuristic content.
+                </p>
               </div>
 
-              {/* Stats Cards */}
-              <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                <Card className="hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 dark:bg-gray-900 rounded-t">
-                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">Projects</CardTitle>
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full ring-1 ring-gray-200 dark:ring-gray-700">
-                      <FolderOpen className="h-4 w-4 text-blue-500 dark:text-blue-300" />
+              {/* Ghibli-style Stats Cards */}
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+                {/* Card 1: Projects - Indigo Neon */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950/80 dark:to-indigo-900/80">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/40 dark:bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
+                    <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-100 uppercase tracking-wider">Projects</CardTitle>
+                    <div className="p-3 bg-white/60 dark:bg-indigo-500/20 backdrop-blur-md rounded-2xl shadow-sm group-hover:rotate-12 transition-transform duration-300">
+                      <FolderOpen className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-blue-600">
+                  <CardContent className="relative z-10">
+                    <div className="text-4xl font-black text-indigo-950 dark:text-indigo-50 tracking-tighter drop-shadow-sm">
                       {statsLoading ? '...' : stats?.projects_count || 0}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Active projects</p>
+                    <p className="text-xs font-bold text-indigo-700/80 dark:text-indigo-300/80 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span> Active
+                    </p>
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 dark:bg-gray-900 rounded-t">
-                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">Blog Posts</CardTitle>
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full ring-1 ring-gray-200 dark:ring-gray-700">
-                      <FileText className="h-4 w-4 text-green-500 dark:text-green-300" />
+                {/* Card 2: Blog Posts - Indigo Neon Variation */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-indigo-100/50 to-indigo-200/50 dark:from-indigo-900/40 dark:to-indigo-950/60">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/40 dark:bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
+                    <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-100 uppercase tracking-wider">Blog Posts</CardTitle>
+                    <div className="p-3 bg-white/60 dark:bg-indigo-500/20 backdrop-blur-md rounded-2xl shadow-sm group-hover:-rotate-12 transition-transform duration-300">
+                      <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-green-600">
+                  <CardContent className="relative z-10">
+                    <div className="text-4xl font-black text-indigo-950 dark:text-indigo-50 tracking-tighter drop-shadow-sm">
                       {statsLoading ? '...' : stats?.blogs_count || 0}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Published articles</p>
+                    <p className="text-xs font-bold text-indigo-700/80 dark:text-indigo-300/80 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span> Published
+                    </p>
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 dark:bg-gray-900 rounded-t">
-                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">Certifications</CardTitle>
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full ring-1 ring-gray-200 dark:ring-gray-700">
-                      <Award className="h-4 w-4 text-purple-500 dark:text-purple-300" />
+                {/* Card 3: Certifications - Indigo Neon Variation */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-indigo-50/80 to-indigo-100/80 dark:from-indigo-950/60 dark:to-indigo-900/40">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/40 dark:bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
+                    <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-100 uppercase tracking-wider">Certs</CardTitle>
+                    <div className="p-3 bg-white/60 dark:bg-indigo-500/20 backdrop-blur-md rounded-2xl shadow-sm group-hover:rotate-12 transition-transform duration-300">
+                      <Award className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-purple-600">
+                  <CardContent className="relative z-10">
+                    <div className="text-4xl font-black text-indigo-950 dark:text-indigo-50 tracking-tighter drop-shadow-sm">
                       {statsLoading ? '...' : stats?.certifications_count || 0}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Earned certificates</p>
+                    <p className="text-xs font-bold text-indigo-700/80 dark:text-indigo-300/80 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-indigo-300 animate-pulse"></span> Earned
+                    </p>
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 dark:bg-gray-900 rounded-t">
-                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">Messages</CardTitle>
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full ring-1 ring-gray-200 dark:ring-gray-700">
-                      <MessageSquare className="h-4 w-4 text-orange-500 dark:text-orange-300" />
+                {/* Card 4: Messages - Indigo Neon Contrast */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-indigo-100 to-indigo-50 dark:from-indigo-900 dark:to-indigo-950">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/40 dark:bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
+                    <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-100 uppercase tracking-wider">Messages</CardTitle>
+                    <div className="p-3 bg-white/60 dark:bg-indigo-500/20 backdrop-blur-md rounded-2xl shadow-sm group-hover:-rotate-12 transition-transform duration-300">
+                      <MessageSquare className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-orange-600">
+                  <CardContent className="relative z-10">
+                    <div className="text-4xl font-black text-indigo-950 dark:text-indigo-50 tracking-tighter drop-shadow-sm">
                       {statsLoading ? '...' : stats?.contact_messages_count || 0}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Contact inquiries</p>
+                    <p className="text-xs font-bold text-indigo-700/80 dark:text-indigo-300/80 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span> Inquiries
+                    </p>
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-shadow duration-200">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 dark:bg-gray-900 rounded-t">
-                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">Users</CardTitle>
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full ring-1 ring-gray-200 dark:ring-gray-700">
-                      <Users className="h-4 w-4 text-indigo-500 dark:text-indigo-300" />
+                {/* Card 5: Users - Indigo Neon Bold */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-indigo-200 to-indigo-300 dark:from-indigo-800 dark:to-indigo-900">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/40 dark:bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
+                    <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-50 uppercase tracking-wider">Users</CardTitle>
+                    <div className="p-3 bg-white/60 dark:bg-indigo-500/20 backdrop-blur-md rounded-2xl shadow-sm group-hover:rotate-12 transition-transform duration-300">
+                      <Users className="h-5 w-5 text-indigo-600 dark:text-indigo-100" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-indigo-600">
+                  <CardContent className="relative z-10">
+                    <div className="text-4xl font-black text-indigo-950 dark:text-indigo-50 tracking-tighter drop-shadow-sm">
                       {statsLoading ? '...' : stats?.users_count || 0}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Registered users</p>
+                    <p className="text-xs font-bold text-indigo-800/80 dark:text-indigo-200/80 mt-2 flex items-center gap-1.5 uppercase tracking-wide">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span> Registered
+                    </p>
                   </CardContent>
                 </Card>
               </div>
             </TabsContent>
 
-            <TabsContent value="users" className="space-y-4 sm:space-y-6 px-1 sm:px-0">
-              <Card className="shadow-lg dark:shadow-none">
-                <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                      <Users className="h-5 w-5 text-indigo-500 dark:text-indigo-300" />
+            <TabsContent value="users" className="space-y-6 sm:space-y-8 px-1 sm:px-0">
+              <Card className="relative overflow-hidden rounded-[2.5rem] border-0 bg-indigo-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-indigo-200/30 dark:border-indigo-500/10">
+                <CardHeader className="bg-transparent border-b border-indigo-200/50 dark:border-indigo-500/10 p-6 sm:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4">
+                    <CardTitle className="flex items-center gap-3 text-2xl font-black text-indigo-900 dark:text-indigo-50">
+                      <div className="p-3 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl shadow-inner">
+                        <Users className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
+                      </div>
                       Registered Users ({usersData?.total || 0})
                     </CardTitle>
-                    <div className="mt-2 sm:mt-0 flex justify-end">
-                      <input
-                        type="text"
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder="Search users..."
-                        className="w-full sm:w-64 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-                      />
+                    <div className="flex justify-end">
+                      <div className="relative w-full sm:w-72 group">
+                        <input
+                          type="text"
+                          value={search}
+                          onChange={e => setSearch(e.target.value)}
+                          placeholder="Search users..."
+                          className="w-full pl-10 pr-4 py-3 rounded-2xl border border-indigo-200/50 dark:border-indigo-500/20 bg-white/50 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-indigo-900 dark:text-indigo-100 placeholder:text-indigo-400/50"
+                        />
+                        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-indigo-500/50">
+                          <Users className="w-4 h-4" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <CardDescription className="text-muted-foreground dark:text-gray-300">
-                    View and manage user roles and permissions
+                  <CardDescription className="text-indigo-700/70 dark:text-indigo-300/70 font-medium mt-1">
+                    Manage the residents of your futuristic digital realm
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -437,46 +452,45 @@ export default function AdminDashboard() {
                   ) : (
                     <>
                       {/* All users in a scrollable container */}
-                      <div className="space-y-4 overflow-y-auto" style={{ maxHeight: '50vh' }}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {usersData?.users?.length === 0 ? (
-                          <div className="text-center py-8 text-muted-foreground dark:text-gray-300">No users found.</div>
+                          <div className="col-span-full text-center py-12 text-indigo-700/50 dark:text-indigo-300/50 font-bold">No digital beings found.</div>
                         ) : (
                           usersData?.users?.map((user: User) => (
                             <div
                               key={user.id}
-                              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg hover:shadow-md transition-shadow bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 space-y-3 sm:space-y-0"
+                              className="group relative overflow-hidden flex flex-col p-5 rounded-[2rem] border border-indigo-200/40 dark:border-indigo-500/10 bg-gradient-to-br from-white/60 to-white/30 dark:from-white/10 dark:to-transparent backdrop-blur-md hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-500"
                             >
-                              <div className="flex items-center space-x-4">
-                                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-700 dark:to-purple-800 rounded-full flex items-center justify-center flex-shrink-0">
-                                  <User className="h-5 w-5 text-white" />
+                              <div className="flex items-center space-x-4 mb-4">
+                                <div className="w-14 h-14 bg-gradient-to-tr from-indigo-400 to-indigo-600 dark:from-indigo-600 dark:to-indigo-400 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg transform group-hover:rotate-6 transition-transform">
+                                  <User className="h-7 w-7 text-white" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{user.username}</h3>
-                                  <p className="text-sm text-muted-foreground dark:text-gray-300 truncate">{user.email}</p>
-                                  <p className="text-xs text-muted-foreground dark:text-gray-400">
-                                    Joined: {new Date(user.created_at).toLocaleDateString()}
-                                  </p>
+                                  <h3 className="text-lg font-black text-indigo-900 dark:text-indigo-50 truncate">{user.username}</h3>
+                                  <p className="text-sm font-bold text-indigo-700/60 dark:text-indigo-300/60 truncate">{user.email}</p>
+                                  <div className="mt-1 flex items-center gap-2">
+                                    <Badge className={user.is_admin 
+                                      ? "bg-indigo-500 text-white border-0 rounded-full text-[10px] font-black uppercase tracking-wider shadow-[0_0_10px_rgba(99,102,241,0.5)]" 
+                                      : "bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-0 rounded-full text-[10px] font-black uppercase tracking-wider"}>
+                                      {user.is_admin ? "Grand Master" : "Apprentice"}
+                                    </Badge>
+                                    <span className="text-[10px] font-bold text-indigo-500/40 dark:text-indigo-400/40 uppercase tracking-widest">
+                                      Since {new Date(user.created_at).getFullYear()}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex items-center justify-between sm:justify-end space-x-3">
-                                <Badge
-                                  className={user.is_admin
-                                    ? "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800"
-                                    : "dark:bg-gray-700 dark:text-gray-200"}
-                                >
-                                  {user.is_admin ? "Admin" : "User"}
-                                </Badge>
+                              <div className="mt-auto pt-4 border-t border-indigo-200/30 dark:border-indigo-500/10 flex items-center justify-end">
                                 <Button
                                   onClick={() => toggleAdminMutation.mutate(user.id)}
                                   disabled={toggleAdminMutation.isPending}
                                   className={
                                     user.is_admin
-                                      ? "bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/50 hover:border-red-300 dark:hover:border-red-700 text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md"
-                                      : "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 hover:border-indigo-300 dark:hover:border-indigo-700 text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md"
+                                      ? "bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white rounded-full font-black text-xs px-6 transition-all duration-300"
+                                      : "bg-indigo-500 text-white hover:bg-indigo-600 rounded-full font-black text-xs px-6 transition-all duration-300 shadow-md hover:shadow-lg shadow-indigo-500/20"
                                   }
                                 >
-                                  <span className="hidden sm:inline">{user.is_admin ? "🔒 Remove Admin" : "👑 Make Admin"}</span>
-                                  <span className="sm:hidden">{user.is_admin ? "🔒" : "👑"}</span>
+                                  {user.is_admin ? "🔒 Remove Master" : "👑 Grant Mastery"}
                                 </Button>
                               </div>
                             </div>
@@ -524,116 +538,66 @@ export default function AdminDashboard() {
 
             </TabsContent>
 
-            <TabsContent value="messages" className="space-y-4 sm:space-y-6 px-1 sm:px-0">
-              <Card className="shadow-lg dark:shadow-none">
-                <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                      <MessageSquare className="h-5 w-5 text-orange-500 dark:text-orange-300" />
+            <TabsContent value="messages" className="space-y-6 sm:space-y-8 px-1 sm:px-0">
+              <Card className="relative overflow-hidden rounded-[2.5rem] border-0 bg-indigo-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-indigo-200/30 dark:border-indigo-500/10">
+                <CardHeader className="bg-transparent border-b border-indigo-200/50 dark:border-indigo-500/10 p-6 sm:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4">
+                    <CardTitle className="flex items-center gap-3 text-2xl font-black text-indigo-900 dark:text-indigo-50">
+                      <div className="p-3 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl shadow-inner">
+                        <MessageSquare className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
+                      </div>
                       Messages ({typedMessagesData?.total || 0})
                     </CardTitle>
-                    <div className="mt-2 sm:mt-0 flex flex-col sm:flex-row gap-2">
+                    <div className="mt-2 sm:mt-0 flex flex-wrap items-center gap-3">
+                      <div className="flex items-center gap-2 bg-indigo-500/5 dark:bg-indigo-500/10 p-1 rounded-2xl border border-indigo-500/10 dark:border-indigo-500/20">
+                        {['all', 'unread', 'read'].map((filter) => (
+                          <button
+                            key={filter}
+                            onClick={() => {
+                              setMessagesStatusFilter(filter);
+                              setMessagesPage(1);
+                            }}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                              messagesStatusFilter === filter
+                                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/30'
+                                : 'text-indigo-900/40 dark:text-indigo-50/40 hover:text-indigo-600 dark:hover:text-indigo-300'
+                            }`}
+                          >
+                            {filter}
+                            {filter !== 'all' && typedMessagesData?.counts && (
+                              <span className="ml-1.5 opacity-50">
+                                ({typedMessagesData.counts[filter as keyof typeof typedMessagesData.counts]})
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+
                       {typedMessagesData?.counts?.unread > 0 && (
                         <Button
                           onClick={() => markAllReadMutation.mutate()}
                           disabled={markAllReadMutation.isPending}
-                          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 shadow-md hover:shadow-lg font-medium transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                          className="bg-indigo-500 text-white hover:bg-indigo-600 rounded-full font-black text-xs px-6 h-10 shadow-md shadow-indigo-500/20 transition-all duration-300"
                         >
-                          ✓ Mark All Read ({typedMessagesData.counts.unread})
+                          ✓ Mark All Read
                         </Button>
                       )}
-                      <input
-                        type="text"
-                        value={messagesSearch}
-                        onChange={e => setMessagesSearch(e.target.value)}
-                        placeholder="Search messages..."
-                        className="w-full sm:w-64 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-                      />
-                      
-                      {/* Message Status Filter */}
-                      <div className="flex gap-2 flex-wrap">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setMessagesStatusFilter('all');
-                            setMessagesPage(1);
-                          }}
-                          className={`${
-                            messagesStatusFilter === 'all'
-                              ? 'bg-slate-700 hover:bg-slate-800 text-white hover:text-white border-slate-700 dark:bg-slate-200 dark:hover:bg-slate-300 dark:text-slate-900 dark:hover:text-slate-900 dark:border-slate-200'
-                              : 'bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 border-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:border-gray-600'
-                          } font-medium transition-colors duration-200`}
-                        >
-                          All
-                          {typedMessagesData?.counts?.all && (
-                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                              messagesStatusFilter === 'all'
-                                ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-900'
-                                : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
-                            }`}>
-                              {typedMessagesData.counts.all}
-                            </span>
-                          )}
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setMessagesStatusFilter('unread');
-                            setMessagesPage(1);
-                          }}
-                          className={`${
-                            messagesStatusFilter === 'unread'
-                              ? 'bg-slate-700 hover:bg-slate-800 text-white hover:text-white border-slate-700 dark:bg-slate-200 dark:hover:bg-slate-300 dark:text-slate-900 dark:hover:text-slate-900 dark:border-slate-200'
-                              : 'bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 border-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:border-gray-600'
-                          } font-medium transition-colors duration-200`}
-                        >
-                          Unread
-                          {typedMessagesData?.counts?.unread > 0 && (
-                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                              messagesStatusFilter === 'unread'
-                                ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-900'
-                                : 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300'
-                            }`}>
-                              {typedMessagesData.counts.unread}
-                            </span>
-                          )}
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setMessagesStatusFilter('read');
-                            setMessagesPage(1);
-                          }}
-                          className={`${
-                            messagesStatusFilter === 'read'
-                              ? 'bg-slate-700 hover:bg-slate-800 text-white hover:text-white border-slate-700 dark:bg-slate-200 dark:hover:bg-slate-300 dark:text-slate-900 dark:hover:text-slate-900 dark:border-slate-200'
-                              : 'bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 border-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:border-gray-600'
-                          } font-medium transition-colors duration-200`}
-                        >
-                          Read
-                          {typedMessagesData?.counts?.read > 0 && (
-                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                              messagesStatusFilter === 'read'
-                                ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-900'
-                                : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
-                            }`}>
-                              {typedMessagesData.counts.read}
-                            </span>
-                          )}
-                        </Button>
+                      <div className="relative group">
+                        <input
+                          type="text"
+                          value={messagesSearch}
+                          onChange={e => setMessagesSearch(e.target.value)}
+                          placeholder="Search scrolls..."
+                          className="w-full sm:w-64 pl-10 pr-4 py-3 h-10 rounded-2xl border border-indigo-200/50 dark:border-indigo-500/20 bg-white/50 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-indigo-900 dark:text-indigo-100 placeholder:text-indigo-400/50 text-xs font-bold"
+                        />
+                        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-indigo-500/50">
+                          <MessageSquare className="w-3.5 h-3.5" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <CardDescription className="text-muted-foreground dark:text-gray-300">
-                    Review and respond to contact inquiries
-                    {messagesStatusFilter !== 'all' && (
-                      <span className="ml-2 text-sm">
-                        • Showing {messagesStatusFilter} messages ({typedMessagesData?.total || 0})
-                      </span>
-                    )}
+                  <CardDescription className="text-indigo-700/70 dark:text-indigo-300/70 font-medium mt-1">
+                    Whispers and messages from far across the digital neon winds
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -645,14 +609,17 @@ export default function AdminDashboard() {
                   ) : (
                     <>
                       {/* Two-column layout */}
-                      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4" style={{ minHeight: '60vh' }}>
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" style={{ minHeight: '60vh' }}>
                         {/* Left panel: Message list - Hidden on mobile when message is selected */}
-                        <div className={`lg:col-span-2 flex flex-col lg:border-r border-gray-200 dark:border-gray-700 lg:pr-4 ${
+                        <div className={`lg:col-span-4 flex flex-col lg:border-r border-indigo-100/50 dark:border-indigo-500/10 lg:pr-8 ${
                           selectedMessage ? 'hidden lg:flex' : 'flex'
                         }`}>
-                          <div className="flex-1 overflow-y-auto space-y-2" style={{ maxHeight: '60vh' }}>
+                          <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar" style={{ maxHeight: '65vh' }}>
                             {!typedMessagesData?.messages || typedMessagesData?.messages?.length === 0 ? (
-                              <div className="text-center py-8 text-muted-foreground dark:text-gray-300">No messages found.</div>
+                              <div className="text-center py-12">
+                                <div className="text-indigo-300 dark:text-indigo-700 mb-2 font-black text-xl">EMPTY_VOID</div>
+                                <p className="text-xs text-indigo-900/40 dark:text-indigo-50/40 uppercase font-bold tracking-widest">No signals detected in this frequency</p>
+                              </div>
                             ) : (
                               typedMessagesData.messages.map((message: ContactMessage) => (
                                 <div
@@ -663,37 +630,26 @@ export default function AdminDashboard() {
                                       toggleMessageReadMutation.mutate(message.id);
                                     }
                                   }}
-                                  className={`p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
+                                  className={`p-4 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                                     selectedMessage?.id === message.id
-                                      ? 'bg-orange-50 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700 shadow-md'
-                                      : !message.is_read 
-                                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30' 
-                                      : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                      ? 'bg-indigo-500/10 border-indigo-500 dark:bg-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.2)] scale-[1.02]'
+                                      : 'bg-white/30 dark:bg-black/20 border-transparent hover:border-indigo-200 dark:hover:border-indigo-500/30'
                                   }`}
                                 >
-                                  <div className="flex items-start gap-2">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs font-black text-indigo-500 uppercase tracking-widest">
+                                      {new Date(message.created_at).toLocaleDateString()}
+                                    </span>
                                     {!message.is_read && (
-                                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-1" title="Unread" />
+                                      <Badge className="bg-indigo-500 text-white border-0 text-[8px] px-1.5 h-3.5 animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.6)]">NEW</Badge>
                                     )}
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center justify-between mb-1">
-                                        <h4 className={`text-sm font-semibold truncate ${
-                                          !message.is_read 
-                                            ? 'text-gray-900 dark:text-gray-100' 
-                                            : 'text-gray-700 dark:text-gray-300'
-                                        }`}>{message.name}</h4>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">
-                                          {new Date(message.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                        </span>
-                                      </div>
-                                      <p className="text-xs font-medium text-gray-600 dark:text-gray-400 truncate mb-1">
-                                        {message.subject}
-                                      </p>
-                                      <p className="text-xs text-gray-500 dark:text-gray-500 line-clamp-2">
-                                        {message.message}
-                                      </p>
-                                    </div>
                                   </div>
+                                  <h4 className={`text-sm font-black truncate ${message.is_read ? 'text-indigo-900/60 dark:text-indigo-100/60' : 'text-indigo-900 dark:text-indigo-50'}`}>
+                                    {message.name}
+                                  </h4>
+                                  <p className={`text-xs font-bold truncate mt-1 ${message.is_read ? 'text-indigo-700/40 dark:text-indigo-300/40' : 'text-indigo-700/70 dark:text-indigo-300/70'}`}>
+                                    {message.subject}
+                                  </p>
                                 </div>
                               ))
                             )}
@@ -701,20 +657,20 @@ export default function AdminDashboard() {
                           
                           {/* Pagination at the bottom of the list */}
                           {typedMessagesData?.total_pages > 1 && (
-                            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div className="mt-4 pt-4 border-t border-indigo-200 dark:border-indigo-700">
                               <nav aria-label="Pagination" className="flex items-center justify-center gap-1">
                                 <button
-                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                                   onClick={() => setMessagesPage(typedMessagesData.page - 1)}
                                   disabled={typedMessagesData.page === 1}
                                 >
                                   ←
                                 </button>
-                                <span className="px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
+                                <span className="px-3 py-1.5 text-sm text-indigo-700 dark:text-indigo-300">
                                   {typedMessagesData.page} / {typedMessagesData.total_pages}
                                 </span>
                                 <button
-                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                                   onClick={() => setMessagesPage(typedMessagesData.page + 1)}
                                   disabled={typedMessagesData.page === typedMessagesData.total_pages}
                                 >
@@ -726,7 +682,7 @@ export default function AdminDashboard() {
                         </div>
 
                         {/* Right panel: Message details - Shows on mobile only when message selected */}
-                        <div className={`lg:col-span-3 flex flex-col ${
+                        <div className={`lg:col-span-8 flex flex-col ${
                           selectedMessage ? 'flex' : 'hidden lg:flex'
                         }`}>
                           {selectedMessage ? (
@@ -735,127 +691,79 @@ export default function AdminDashboard() {
                                 {/* Back button for mobile */}
                                 <button
                                   onClick={() => setSelectedMessage(null)}
-                                  className="lg:hidden flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 mb-4 transition-colors"
+                                  className="lg:hidden flex items-center gap-2 text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 mb-4 transition-colors"
                                 >
                                   <ArrowLeft className="h-5 w-5" />
                                   <span className="font-medium">Back to messages</span>
                                 </button>
                                 
                                 {/* Message header */}
-                                <div className="flex items-start justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
-                                  <div className="flex items-start gap-3">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 dark:from-orange-700 dark:to-red-800 rounded-full flex items-center justify-center flex-shrink-0">
-                                      <MessageSquare className="h-5 w-5 text-white" />
-                                    </div>
-                                    <div>
-                                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                                        {selectedMessage.subject}
-                                      </h3>
-                                      <div className="flex items-center gap-2 mt-1">
-                                        {!selectedMessage.is_read && (
-                                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">
-                                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                                            Unread
-                                          </span>
-                                        )}
-                                        {selectedMessage.is_read && (
-                                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
-                                            ✓ Read
-                                          </span>
-                                        )}
+                                <div className="flex items-start justify-between border-b border-indigo-200/20 dark:border-indigo-500/5 pb-6">
+                                    <div className="flex-1 min-w-0">
+                                      <h2 className="text-xl font-black text-indigo-900 dark:text-indigo-50 truncate">{selectedMessage.name}</h2>
+                                      <div className="flex flex-wrap items-center gap-3 mt-1.5">
+                                        <div className="flex items-center text-xs font-bold text-indigo-600/70 dark:text-indigo-300/60">
+                                          <Mail className="h-3 w-3 mr-1.5" />
+                                          {selectedMessage.email}
+                                        </div>
+                                        <div className="flex items-center text-xs font-bold text-indigo-600/70 dark:text-indigo-300/60">
+                                          <Clock className="h-3 w-3 mr-1.5" />
+                                          {new Date(selectedMessage.created_at).toLocaleString()}
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <TooltipProvider>
-                                    <div className="flex gap-2">
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <Button
-                                            onClick={() => {
-                                              toggleMessageReadMutation.mutate(selectedMessage.id);
-                                              // Optimistically update the local state for immediate UI feedback
-                                              setSelectedMessage({
-                                                ...selectedMessage,
-                                                is_read: !selectedMessage.is_read,
-                                                read_at: !selectedMessage.is_read ? new Date().toISOString() : null
-                                              });
-                                            }}
-                                            disabled={toggleMessageReadMutation.isPending}
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-9 w-9 text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
-                                          >
-                                            {selectedMessage.is_read ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                                          </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          <p>{selectedMessage.is_read ? 'Mark as unread' : 'Mark as read'}</p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <Button
-                                            onClick={() => {
-                                              deleteConfirmation.openConfirmDialog(selectedMessage);
-                                              setSelectedMessage(null);
-                                            }}
-                                            disabled={deleteMessageMutation.isPending}
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-9 w-9 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          <p>Delete message</p>
-                                        </TooltipContent>
-                                      </Tooltip>
+                                    <div className="flex items-center gap-3">
+                                      <Button
+                                        onClick={() => toggleMessageReadMutation.mutate(selectedMessage.id)}
+                                        disabled={toggleMessageReadMutation.isPending}
+                                        className={`px-6 py-1.5 h-auto rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 border-0 ${
+                                          selectedMessage.is_read 
+                                            ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' 
+                                            : 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-600'
+                                        }`}
+                                      >
+                                        {selectedMessage.is_read ? (
+                                          <span className="flex items-center gap-2">
+                                            <EyeOff className="h-3 w-3" /> Mark as Unread
+                                          </span>
+                                        ) : (
+                                          <span className="flex items-center gap-2">
+                                            <Eye className="h-3 w-3" /> Mark as Read
+                                          </span>
+                                        )}
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => {
+                                          deleteConfirmation.openConfirmDialog(selectedMessage);
+                                          setSelectedMessage(null);
+                                        }}
+                                        className="h-9 w-9 rounded-full text-red-500 hover:bg-red-500/10 transition-colors"
+                                      >
+                                        <Trash2 className="h-4.5 w-4.5" />
+                                      </Button>
                                     </div>
-                                  </TooltipProvider>
                                 </div>
-
-                                {/* Sender information */}
-                                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-2">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">From:</span>
-                                    <span className="text-sm text-gray-900 dark:text-gray-100 font-medium">{selectedMessage.name}</span>
+                                <div className="p-6 sm:p-8 space-y-6">
+                                  <div className="space-y-2">
+                                    <span className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Subject of Inquiry</span>
+                                    <h3 className="text-lg font-black text-indigo-900 dark:text-indigo-50 leading-tight">
+                                      {selectedMessage.subject}
+                                    </h3>
                                   </div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Email:</span>
-                                    <a href={`mailto:${selectedMessage.email}`} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                                      {selectedMessage.email}
-                                    </a>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Received:</span>
-                                    <span className="text-sm text-gray-700 dark:text-gray-300">
-                                      {new Date(selectedMessage.created_at).toLocaleDateString()} at {new Date(selectedMessage.created_at).toLocaleTimeString()}
-                                    </span>
-                                  </div>
-                                  {selectedMessage.is_read && selectedMessage.read_at && (
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Read:</span>
-                                      <span className="text-sm text-green-600 dark:text-green-400">
-                                        {new Date(selectedMessage.read_at).toLocaleDateString()} at {new Date(selectedMessage.read_at).toLocaleTimeString()}
-                                      </span>
+                                  <div className="relative group">
+                                    <div className="absolute -left-4 top-0 bottom-0 w-1 bg-indigo-500/30 rounded-full group-hover:bg-indigo-500 transition-colors duration-500"></div>
+                                    <div className="text-sm sm:text-base leading-relaxed text-indigo-800/80 dark:text-indigo-100/80 font-medium whitespace-pre-wrap pl-4">
+                                      {selectedMessage.message}
                                     </div>
-                                  )}
-                                </div>
-
-                                {/* Message content */}
-                                <div className="bg-white dark:bg-gray-800 rounded-lg border-l-4 border-orange-500 p-4">
-                                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message:</h4>
-                                  <p className="text-gray-900 dark:text-gray-100 leading-relaxed whitespace-pre-wrap">
-                                    {selectedMessage.message}
-                                  </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           ) : (
                             <div className="flex-1 flex items-center justify-center">
                               <div className="text-center space-y-3">
-                                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto">
                                   <MessageSquare className="h-8 w-8 text-gray-400 dark:text-gray-600" />
                                 </div>
                                 <div>
@@ -867,149 +775,146 @@ export default function AdminDashboard() {
                                   </p>
                                 </div>
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
-                      </div>
                     </>
                   )}
                 </CardContent>
-              </Card>
-            </TabsContent>
+                </Card>
+              </TabsContent>
 
-            <TabsContent value="content" className="space-y-4 sm:space-y-6 px-1 sm:px-0">
-              <div className="text-center space-y-2">
-                <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Content Management</h2>
-                <p className="text-sm sm:text-base text-muted-foreground">Manage all aspects of your portfolio content</p>
-              </div>
-
-              <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2 sm:px-0">
-                {/* Projects Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <FolderOpen className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500 dark:text-blue-300" />
+              <TabsContent value="content" className="space-y-8 sm:space-y-12 px-1 sm:px-0 pt-4">
+                <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {/* Projects Card - Primary Indigo Neon */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950/80 dark:to-indigo-900/80">
+                  <CardHeader className="bg-transparent border-b border-indigo-200/50 dark:border-indigo-500/10 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-indigo-500/20 rounded-2xl shadow-sm">
+                        <FolderOpen className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
+                      </div>
                       Projects
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Manage your portfolio projects</CardDescription>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Manage your creative endeavors</CardDescription>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
+                  <CardContent className="p-8">
                     <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-blue-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-indigo-500/20 transition-all duration-300"
                       onClick={() => setLocation('/admin/projects')}
                     >
-                      🚀 Manage Projects
+                      🚀 Open Atelier
                     </Button>
                   </CardContent>
                 </Card>
 
-                {/* Blog Posts Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 dark:text-green-300" />
+                {/* Blog Posts Card - Indigo Variation */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-100/50 to-indigo-200/50 dark:from-indigo-900/40 dark:to-indigo-950/60">
+                  <CardHeader className="bg-transparent border-b border-indigo-200/50 dark:border-indigo-500/10 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-indigo-500/20 rounded-2xl shadow-sm">
+                        <FileText className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
+                      </div>
                       Blog Posts
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Create and edit blog articles</CardDescription>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Share your thoughts with the realm</CardDescription>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
+                  <CardContent className="p-8">
                     <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 dark:from-green-600 dark:to-green-700 dark:hover:from-green-700 dark:hover:to-green-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-green-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-indigo-500/20 transition-all duration-300"
                       onClick={() => setLocation('/admin/blogs')}
                     >
-                      ✍️ Manage Blog Posts
+                      ✍️ Start Writing
                     </Button>
                   </CardContent>
                 </Card>
 
-                {/* Certifications Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900 dark:to-violet-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <Award className="h-4 w-4 sm:h-5 sm:w-5 text-purple-500 dark:text-purple-300" />
-                      Certifications
+                {/* About Management Card - Indigo Contrast */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-50/80 to-indigo-100/80 dark:from-indigo-950/60 dark:to-indigo-900/40">
+                  <CardHeader className="bg-transparent border-b border-indigo-200/50 dark:border-indigo-500/10 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-indigo-500/20 rounded-2xl shadow-sm">
+                        <User className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
+                      </div>
+                      About Me
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Add and update certifications</CardDescription>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Personalize your digital identity</CardDescription>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
+                  <CardContent className="p-8">
                     <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 dark:from-purple-600 dark:to-purple-700 dark:hover:from-purple-700 dark:hover:to-purple-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-purple-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
-                      onClick={() => setLocation('/admin/certifications')}
-                    >
-                      🏆 Manage Certifications
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* About Section Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900 dark:to-red-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <User className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500 dark:text-orange-300" />
-                      About Section
-                    </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Update your personal information</CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
-                    <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 dark:from-orange-600 dark:to-orange-700 dark:hover:from-orange-700 dark:hover:to-orange-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-orange-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-indigo-500/20 transition-all duration-300"
                       onClick={() => setLocation('/admin/about')}
                     >
-                      👤 Manage About
+                      👤 Update Persona
                     </Button>
                   </CardContent>
                 </Card>
 
-                {/* Experience Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <Briefcase className="h-4 w-4 sm:h-5 sm:w-5 text-teal-500 dark:text-teal-300" />
+                {/* Certifications Card - Secondary Indigo */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900">
+                  <CardHeader className="bg-transparent border-b border-white/20 dark:border-white/5 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-black/30 rounded-2xl shadow-sm">
+                        <Award className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                      </div>
+                      Certifications
+                    </CardTitle>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Display your magical scrolls</CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-8">
+                    <Button
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
+                      onClick={() => setLocation('/admin/certifications')}
+                    >
+                      📜 Showcase Awards
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Experience Card - Secondary Indigo Variation */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-100/50 to-indigo-200/50 dark:from-indigo-900/40 dark:to-indigo-950/60">
+                  <CardHeader className="bg-transparent border-b border-white/20 dark:border-white/5 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-black/30 rounded-2xl shadow-sm">
+                        <Briefcase className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                      </div>
                       Experience
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Manage work experience entries</CardDescription>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Nurture your career history</CardDescription>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
+                  <CardContent className="p-8">
                     <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 dark:from-teal-600 dark:to-teal-700 dark:hover:from-teal-700 dark:hover:to-teal-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-teal-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
                       onClick={() => setLocation('/admin/experience')}
                     >
-                      💼 Manage Experience
+                      💼 Update Timeline
                     </Button>
                   </CardContent>
                 </Card>
 
-                {/* Technical Skills Card */}
-                <Card className="hover:shadow-lg transition-shadow duration-200 bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900">
-                  <CardHeader className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t p-4 sm:p-6">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100 text-sm sm:text-base">
-                      <Code className="h-4 w-4 sm:h-5 sm:w-5 text-pink-500 dark:text-pink-300" />
+                {/* Technical Skills Card - Secondary Indigo Contrast */}
+                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-indigo-50/80 to-indigo-100/80 dark:from-indigo-950/60 dark:to-indigo-900/40">
+                  <CardHeader className="bg-transparent border-b border-white/20 dark:border-white/5 p-8">
+                    <CardTitle className="flex items-center gap-3 text-xl font-black text-indigo-950 dark:text-indigo-50">
+                      <div className="p-3 bg-white/60 dark:bg-black/30 rounded-2xl shadow-sm">
+                        <Code className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                      </div>
                       Technical Skills
                     </CardTitle>
-                    <CardDescription className="text-xs sm:text-sm text-muted-foreground dark:text-gray-300">Update your technical skills</CardDescription>
+                    <CardDescription className="text-indigo-800/60 dark:text-indigo-300/60 font-bold mt-2">Refine your technical mastery</CardDescription>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
+                  <CardContent className="p-8">
                     <Button
-                      className="w-full px-4 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 dark:from-pink-600 dark:to-pink-700 dark:hover:from-pink-700 dark:hover:to-pink-800 text-white shadow-lg hover:shadow-xl focus-visible:ring-2 focus-visible:ring-pink-400 transition-all duration-300 transform hover:-translate-y-1 font-medium text-sm sm:text-base"
+                      className="w-full py-6 rounded-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
                       onClick={() => setLocation('/admin/technical-skills')}
                     >
-                      💻 Manage Skills
+                      💻 Polish Skills
                     </Button>
                   </CardContent>
                 </Card>
               </div>
-
             </TabsContent>
           </Tabs>
         </div>
-
-      </main>
-
-      {/* Profile Modal */}
-      <ProfileModal 
-        isOpen={profileModalOpen} 
-        onClose={() => setProfileModalOpen(false)} 
-      />
 
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog
@@ -1023,6 +928,6 @@ export default function AdminDashboard() {
         onConfirm={deleteConfirmation.confirmDelete}
         isLoading={deleteMessageMutation.isPending}
       />
-    </div>
+    </AdminLayout>
   );
 }
