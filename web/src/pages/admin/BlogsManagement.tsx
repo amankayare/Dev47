@@ -1124,6 +1124,7 @@ export default function BlogsManagement() {
                     >
                       ← Prev
                     </button>
+                    {Array.from({ length: typedBlogsData.total_pages }, (_, i) => i + 1).map((p) => (
                       <button
                         key={p}
                         className={`px-4 py-2 rounded-full font-black text-xs transition-all duration-300 uppercase tracking-widest ${
@@ -1136,6 +1137,7 @@ export default function BlogsManagement() {
                       >
                         {p}
                       </button>
+                    ))}
                     <button
                       className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
                       onClick={() => setPage(typedBlogsData.page + 1)}
