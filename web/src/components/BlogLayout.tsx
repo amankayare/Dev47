@@ -327,19 +327,18 @@ export default function BlogLayout({
       />
       {/* Fixed Header */}
       <header className="border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 shadow-lg">
-        <div className="container max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between gap-2">
-            {/* Logo Section */}
-            <div className="flex items-center cursor-pointer" onClick={() => setLocation('/blogs')}>
-              <img 
-                src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
-                alt="Blog Logo" 
-                className="h-8 sm:h-10 w-auto transition-opacity duration-300"
-              />
-            </div>
+        <div className="container mx-auto px-2 sm:px-4 flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2">
+          {/* Logo Section */}
+          <div className="flex items-center cursor-pointer" onClick={() => setLocation('/blogs')}>
+            <img 
+              src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
+              alt="Blog Logo" 
+              className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto transition-opacity duration-300"
+            />
+          </div>
             
             {/* Right section */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1 sm:gap-3 lg:gap-6">
               {/* Desktop Authentication Section - Hidden on mobile */}
               {!isMobile && (
                 <div className="flex items-center gap-3">
@@ -508,8 +507,7 @@ export default function BlogLayout({
               )}
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
       {/* Main Content with Sidebars */}
       <main className="container py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -747,9 +745,19 @@ function BlogHero({ title, excerpt, featured, author, date, readingTime, tags, c
         </div>
 
         {onShare && (
-          <Button variant="default" size="sm" onClick={onShare} className="rounded-full gap-2 shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all duration-300">
-            <Share2 className="w-4 h-4" />
-            Share Article
+          <Button 
+            variant="default" 
+            size="lg" 
+            onClick={onShare} 
+            className="group relative flex items-center gap-3 px-8 py-6 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto] hover:bg-[100%_0] text-white font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-500 transform hover:scale-105 border-0 overflow-hidden"
+          >
+            {/* Animated Glow Effect */}
+            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            
+            <div className="relative flex items-center gap-3">
+              <Share2 className="w-4 h-4 text-white animate-pulse" />
+              <span>Share Article</span>
+            </div>
           </Button>
         )}
       </div>
