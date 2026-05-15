@@ -108,95 +108,160 @@
 }
 
 :root {
-  /* Visual Studio Light Theme Colors */
-  --background: hsl(0, 0%, 98%);
-  --foreground: hsl(0, 0%, 13.3%);
-  --muted: hsl(0, 0%, 96.1%);
-  --muted-foreground: hsl(0, 0%, 45.1%);
+  /* Cyberpunk Indigo Theme Colors */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(239, 84%, 10%);
+  --muted: hsl(239, 84%, 98%);
+  --muted-foreground: hsl(239, 20%, 45.1%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(0, 0%, 13.3%);
+  --popover-foreground: hsl(239, 84%, 10%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(0, 0%, 13.3%);
-  --border: hsl(0, 0%, 89.8%);
-  --input: hsl(0, 0%, 94%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(0, 0%, 96.1%);
-  --secondary-foreground: hsl(0, 0%, 9%);
-  --accent: hsl(0, 0%, 96.1%);
-  --accent-foreground: hsl(0, 0%, 9%);
+  --card-foreground: hsl(239, 84%, 10%);
+  --border: hsl(239, 30%, 90%);
+  --input: hsl(239, 30%, 95%);
+  --primary: hsl(239, 84%, 60%);
+  --primary-foreground: hsl(239, 100%, 99%);
+  --secondary: hsl(239, 84%, 96.1%);
+  --secondary-foreground: hsl(239, 84%, 10%);
+  --accent: hsl(239, 84%, 96.1%);
+  --accent-foreground: hsl(239, 84%, 10%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(207, 90%, 54%);
-  --radius: 0.5rem;
+  --ring: hsl(239, 84%, 60%);
+  --radius: 0.75rem;
 
-  /* Visual Studio specific colors */
-  --vs-blue: hsl(207, 90%, 54%);
-  --vs-blue-dark: hsl(207, 73%, 37%);
-  --vs-purple: hsl(282, 44%, 31%);
-  --vs-purple-light: hsl(282, 35%, 55%);
-  --vs-orange: hsl(30, 100%, 50%);
-  --vs-gray-50: hsl(0, 0%, 97.3%);
-  --vs-gray-100: hsl(0, 0%, 95.3%);
-  --vs-gray-200: hsl(0, 0%, 93.7%);
-  --vs-gray-300: hsl(0, 0%, 90.2%);
-  --vs-gray-400: hsl(0, 0%, 70%);
-  --vs-gray-500: hsl(0, 0%, 50%);
-  --vs-gray-600: hsl(0, 0%, 30%);
+  /* Cyberpunk Indigo specific colors */
+  --vs-blue: hsl(239, 84%, 60%);
+  --vs-blue-dark: hsl(239, 84%, 40%);
+  --vs-purple: hsl(239, 84%, 30%);
+  --vs-purple-light: hsl(239, 84%, 70%);
+  --vs-orange: hsl(239, 84%, 50%);
+  --vs-gray-50: hsl(239, 20%, 97.3%);
+  --vs-gray-100: hsl(239, 20%, 95.3%);
+  --vs-gray-200: hsl(239, 20%, 93.7%);
+  --vs-gray-300: hsl(239, 20%, 90.2%);
+  --vs-gray-400: hsl(239, 20%, 70%);
+  --vs-gray-500: hsl(239, 20%, 50%);
+  --vs-gray-600: hsl(239, 20%, 30%);
 
-  /* Light theme sidebar colors */
-  --vs-sidebar-bg: hsl(0, 0%, 95%);
-  --vs-sidebar-hover: hsl(207, 90%, 95%);
-  --vs-sidebar-text: hsl(0, 0%, 20%);
-  --vs-tab-bg: hsl(0, 0%, 92%);
-  --vs-tab-active: hsl(0, 0%, 100%);
-  --vs-header-bg: hsl(0, 0%, 96%);
+  /* Theme sidebar colors */
+  --vs-sidebar-bg: hsl(239, 84%, 98%);
+  --vs-sidebar-hover: hsl(239, 84%, 95%);
+  --vs-sidebar-text: hsl(239, 84%, 20%);
+  --vs-tab-bg: hsl(239, 84%, 92%);
+  --vs-tab-active: hsl(239, 84%, 100%);
+  --vs-header-bg: hsl(239, 84%, 96%);
 
-  /* Button hover colors for light theme */
-  --button-hover-light: hsl(207, 90%, 94%);
-  --button-outline-hover-light: hsl(207, 90%, 96%);
+  /* Button hover colors */
+  --button-hover-light: hsl(239, 84%, 94%);
+  --button-outline-hover-light: hsl(239, 84%, 96%);
 }
 
 
 .dark {
-  /* Visual Studio Dark Theme Colors */
-  --background: hsl(0, 0%, 11.8%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(0, 0%, 17.6%);
-  --muted-foreground: hsl(0, 0%, 63.9%);
-  --popover: hsl(0, 0%, 11.8%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(0, 0%, 15%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(0, 0%, 24%);
-  --input: hsl(0, 0%, 20%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(0, 0%, 17.6%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(0, 0%, 17.6%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  /* Cyberpunk Indigo Dark Theme */
+  --background: hsl(239, 84%, 4%);
+  --foreground: hsl(239, 84%, 98%);
+  --muted: hsl(239, 84%, 8%);
+  --muted-foreground: hsl(239, 20%, 63.9%);
+  --popover: hsl(239, 84%, 4%);
+  --popover-foreground: hsl(239, 84%, 98%);
+  --card: hsl(239, 84%, 6%);
+  --card-foreground: hsl(239, 84%, 98%);
+  --border: hsl(239, 40%, 15%);
+  --input: hsl(239, 40%, 12%);
+  --primary: hsl(239, 84%, 60%);
+  --primary-foreground: hsl(239, 100%, 99%);
+  --secondary: hsl(239, 84%, 10%);
+  --secondary-foreground: hsl(239, 84%, 98%);
+  --accent: hsl(239, 84%, 12%);
+  --accent-foreground: hsl(239, 84%, 98%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(207, 90%, 54%);
+  --ring: hsl(239, 84%, 60%);
 
-  /* Visual Studio Dark specific colors */
-  --vs-dark-100: hsl(0, 0%, 11.8%);
-  --vs-dark-200: hsl(0, 0%, 17.6%);
-  --vs-dark-300: hsl(0, 0%, 24.7%);
-  --vs-dark-400: hsl(0, 0%, 32.2%);
+  /* Dark theme specific colors */
+  --vs-dark-100: hsl(239, 84%, 4%);
+  --vs-dark-200: hsl(239, 84%, 8%);
+  --vs-dark-300: hsl(239, 84%, 12%);
+  --vs-dark-400: hsl(239, 84%, 16%);
 
   /* Dark theme sidebar colors */
-  --vs-sidebar-bg: hsl(0, 0%, 13%);
-  --vs-sidebar-hover: hsl(207, 90%, 25%);
-  --vs-sidebar-text: hsl(0, 0%, 85%);
-  --vs-tab-bg: hsl(0, 0%, 15%);
-  --vs-tab-active: hsl(0, 0%, 18%);
-  --vs-header-bg: hsl(0, 0%, 12%);
+  --vs-sidebar-bg: hsl(239, 84%, 5%);
+  --vs-sidebar-hover: hsl(239, 84%, 15%);
+  --vs-sidebar-text: hsl(239, 84%, 85%);
+  --vs-tab-bg: hsl(239, 84%, 7%);
+  --vs-tab-active: hsl(239, 84%, 10%);
+  --vs-header-bg: hsl(239, 84%, 4%);
 
-  /* Button hover colors for dark theme */
-  --button-hover-dark: hsl(207, 90%, 15%);
-  --button-outline-hover-dark: hsl(207, 90%, 20%);
+  /* Button hover colors */
+  --button-hover-dark: hsl(239, 84%, 12%);
+  --button-outline-hover-dark: hsl(239, 84%, 15%);
+}
+
+/* Admin Specific Theme Scoping - light is default (html has no .dark or has .light) */
+.admin-theme-scope,
+html.light .admin-theme-scope {
+  /* Admin Light Theme - Cornflower Blue Base */
+  --background: hsl(219, 79%, 98%);
+  --foreground: hsl(219, 79%, 10%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(219, 79%, 10%);
+  --primary: hsl(219, 85%, 68%); /* brighter cornflowerblue */
+  --primary-foreground: hsl(219, 100%, 99%);
+  --border: hsl(219, 30%, 90%);
+
+  /* Cornflower Blue Palette (Light) */
+  --cornflower-50: hsl(219, 85%, 96%);
+  --cornflower-100: hsl(219, 85%, 92%);
+  --cornflower-200: hsl(219, 85%, 88%);
+  --cornflower-300: hsl(219, 85%, 82%);
+  --cornflower-400: hsl(219, 85%, 75%);
+  --cornflower-500: hsl(219, 85%, 68%);
+  --cornflower-600: hsl(219, 85%, 58%);
+  --cornflower-700: hsl(219, 85%, 48%);
+  --cornflower-800: hsl(219, 85%, 38%);
+  --cornflower-900: hsl(219, 85%, 28%);
+  --cornflower-950: hsl(219, 85%, 18%);
+}
+
+html.dark .admin-theme-scope {
+  /* Admin Dark Theme — Professional, inspired by GitHub Dark / Linear */
+  --background: hsl(219, 30%, 13%);       /* was 8% — much less cave-like */
+  --foreground: hsl(219, 15%, 95%);       /* near-white text */
+  --card: hsl(219, 28%, 17%);             /* was 10% — visible card surfaces */
+  --card-foreground: hsl(219, 15%, 95%);
+  --popover: hsl(219, 28%, 14%);
+  --popover-foreground: hsl(219, 15%, 95%);
+  --primary: hsl(219, 85%, 68%);
+  --primary-foreground: hsl(219, 100%, 99%);
+  --secondary: hsl(219, 28%, 22%);
+  --secondary-foreground: hsl(219, 15%, 92%);
+  --muted: hsl(219, 25%, 20%);
+  --muted-foreground: hsl(219, 20%, 70%);  /* readable secondary text */
+  --accent: hsl(219, 28%, 24%);
+  --accent-foreground: hsl(219, 15%, 95%);
+  --destructive: hsl(0, 75%, 55%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(219, 25%, 24%);            /* visible borders */
+  --input: hsl(219, 25%, 20%);
+  --ring: hsl(219, 85%, 68%);
+  --vs-sidebar-bg: hsl(219, 30%, 10%);
+
+  /* Cornflower Blue Palette — STANDARD scale: 50=lightest, 950=darkest
+     Components use dark:text-cornflower-50 expecting near-white.
+     Do NOT invert this scale. */
+  --cornflower-50: hsl(219, 85%, 95%);    /* near-white — for dark:text-cornflower-50 */
+  --cornflower-100: hsl(219, 75%, 88%);
+  --cornflower-200: hsl(219, 70%, 78%);
+  --cornflower-300: hsl(219, 70%, 70%);
+  --cornflower-400: hsl(219, 75%, 68%);
+  --cornflower-500: hsl(219, 85%, 68%);   /* the main cornflower blue accent */
+  --cornflower-600: hsl(219, 75%, 58%);
+  --cornflower-700: hsl(219, 65%, 48%);
+  --cornflower-800: hsl(219, 55%, 35%);
+  --cornflower-900: hsl(219, 48%, 25%);
+  --cornflower-950: hsl(219, 42%, 18%);   /* dark — for dark:from-cornflower-950 backgrounds */
 }
 
 @layer base {
@@ -207,6 +272,26 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
     font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* Global Website Border Shadow / Vignette Effect */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease-in-out;
+  }
+
+  .dark body::after {
+    border-color: var(--cornflower-500, rgba(100, 149, 237, 0.25));
+    box-shadow: inset 0 0 75px var(--cornflower-700, rgba(100, 149, 237, 0.35));
   }
 
   .font-vs {
@@ -514,3 +599,41 @@
     @apply grid-cols-1;
   }
 }
+
+/* AI Magic Effect Animations */
+@keyframes magic-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.magic-border-container {
+  position: relative;
+  border-radius: 0.75rem;
+  padding: 2px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.magic-border-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 45deg,
+    #fbbf24 90deg,
+    #f59e0b 180deg,
+    #fbbf24 270deg,
+    transparent 315deg 360deg
+  );
+  animation: magic-rotate 2s linear infinite;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.magic-border-active .magic-border-glow {
+  opacity: 1;
+}

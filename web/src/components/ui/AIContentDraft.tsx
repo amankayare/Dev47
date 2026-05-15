@@ -19,6 +19,12 @@ interface AIContentDraftProps {
    */
   onConvert: (rawText: string, customPrompt?: string) => void;
 
+  // --- Lifted draft state ---
+  /** Current value of the raw draft content. */
+  draft: string;
+  /** Called when the user edits the draft. */
+  onDraftChange: (text: string) => void;
+
   // --- Controlled prompt state (lifted to parent so it survives unmount) ---
   /** Current value of the system prompt textarea (controlled). */
   customPrompt: string;
@@ -52,13 +58,14 @@ interface AIContentDraftProps {
 export function AIContentDraft({
   isConverting,
   onConvert,
+  draft,
+  onDraftChange,
   customPrompt,
   onCustomPromptChange,
   promptLoaded,
   onPromptLoaded,
 }: AIContentDraftProps) {
-  // --- Draft state (local — intentionally reset between sessions) ---
-  const [draft, setDraft] = useState('');
+  // --- Local UI state ---
   const [fileName, setFileName] = useState<string | null>(null);
 
   // --- Prompt editor UI state (local — only controls visibility & loading) ---
@@ -107,7 +114,7 @@ export function AIContentDraft({
 
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setDraft(ev.target?.result as string ?? '');
+      onDraftChange(ev.target?.result as string ?? '');
       setFileName(file.name);
     };
     reader.readAsText(file);
@@ -117,7 +124,7 @@ export function AIContentDraft({
   };
 
   const handleClear = () => {
-    setDraft('');
+    onDraftChange('');
     setFileName(null);
   };
 
@@ -191,23 +198,28 @@ export function AIContentDraft({
         </div>
       )}
 
-      {/* Draft textarea */}
-      <Textarea
-        value={draft}
-        onChange={(e) => setDraft(e.target.value)}
-        rows={10}
-        disabled={isConverting}
-        placeholder={
-          `Paste your notes or markdown here…\n\n` +
-          `# My Blog Title\n\n` +
-          `Introduction paragraph...\n\n` +
-          `## Section 1\n\n` +
-          `- Point one\n` +
-          `- Point two\n\n` +
-          `\`\`\`python\nprint("Hello, World!")\n\`\`\``
-        }
-        className="font-mono text-sm border-2 border-gray-200 dark:border-gray-700 rounded-xl resize-y bg-gray-50 dark:bg-gray-800 focus:border-purple-400 dark:focus:border-purple-500 transition-colors"
-      />
+      {/* Draft textarea with Magic Effect */}
+      <div className={`magic-border-container ${isConverting ? 'magic-border-active' : ''}`}>
+        <div className="magic-border-glow" />
+        <div className="relative z-10 bg-white dark:bg-gray-900 rounded-[0.7rem] overflow-hidden">
+          <Textarea
+            value={draft}
+            onChange={(e) => onDraftChange(e.target.value)}
+            rows={10}
+            disabled={isConverting}
+            placeholder={
+              `Paste your notes or markdown here…\n\n` +
+              `# My Blog Title\n\n` +
+              `Introduction paragraph...\n\n` +
+              `## Section 1\n\n` +
+              `- Point one\n` +
+              `- Point two\n\n` +
+              `\`\`\`python\nprint("Hello, World!")\n\`\`\``
+            }
+            className="font-mono text-sm border-0 rounded-none resize-y bg-gray-50/50 dark:bg-gray-800/50 focus:ring-0 focus-visible:ring-0 transition-colors"
+          />
+        </div>
+      </div>
 
       {/* Character counter */}
       <div className="flex justify-between text-xs">
@@ -308,8 +320,8 @@ export function AIContentDraft({
           </>
         ) : (
           <>
-            <Sparkles className="w-4 h-4 mr-2" />
-            ✨ Convert to HTML
+            <Sparkles className="w-4 h-4 mr-2 text-amber-400 fill-amber-400/30" />
+            Convert to HTML
           </>
         )}
       </Button>

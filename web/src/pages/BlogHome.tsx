@@ -21,7 +21,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Search, ExternalLink, Calendar, User, Clock, Eye, BookOpen, X, LogIn, UserPlus, LogOut, Settings, ChevronDown, Menu, Filter, ChevronRight, ChevronLeft, MoreVertical } from 'lucide-react';
+import { Search, ExternalLink, Calendar, User, Clock, Eye, BookOpen, X, LogIn, UserPlus, LogOut, Settings, ChevronDown, Menu, Filter, ChevronRight, ChevronLeft, MoreVertical, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/hooks/use-theme';
 import { useToast } from '@/hooks/use-toast';
 import { useBlogs } from '@/hooks/useBlogs';
@@ -266,58 +266,70 @@ export default function BlogHome() {
             {!isMobile && currentUser ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="flex items-center gap-2 px-3 py-2 h-auto rounded-lg hover:bg-accent transition-colors border"
+                  <Button 
+                    variant="ghost" 
+                    className="flex items-center gap-2.5 px-2 py-1.5 h-10 rounded-full border border-white/10 bg-background/50 backdrop-blur-md shadow-sm hover:shadow-md hover:bg-white/5 transition-all duration-300"
                   >
-                    <div className="p-1 rounded-full bg-gradient-to-r from-green-500 to-teal-500">
-                      <User className="w-3 h-3 text-white" />
+                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-inner">
+                      <User className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-sm font-medium text-foreground">
-                      {currentUser.username}
+                    <span className="text-sm font-semibold tracking-wide text-foreground pr-1">
+                      {currentUser.username || currentUser.name}
                     </span>
-                    <div className="p-1 rounded-full bg-gradient-to-r from-gray-500 to-gray-600 ml-2">
-                      <ChevronDown className="w-3 h-3 text-white" />
+                    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-white/5 border border-white/10">
+                      <ChevronDown className="w-3 h-3 text-muted-foreground" />
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" side="bottom" className="w-48 min-w-[12rem] bg-popover border shadow-md">
-                  <DropdownMenuItem
-                    onClick={() => setLocation('/profile')}
-                    className="cursor-pointer hover:bg-accent"
+                <DropdownMenuContent align="end" sideOffset={8} className="w-56 bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-2">
+                  <DropdownMenuItem 
+                    onClick={() => setLocation('/profile')} 
+                    className="cursor-pointer rounded-xl hover:bg-white/5 transition-colors p-2 focus:bg-primary/10"
                   >
-                    <div className="p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mr-2">
-                      <Settings className="w-3 h-3 text-white" />
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary mr-3 shadow-inner">
+                      <Settings className="w-4 h-4" />
                     </div>
-                    Profile
+                    <span className="font-medium">Profile Settings</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="cursor-pointer text-destructive hover:bg-destructive/10 focus:text-destructive"
+                  
+                  <DropdownMenuItem 
+                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} 
+                    className="cursor-pointer rounded-xl hover:bg-white/5 transition-colors p-2 focus:bg-primary/10"
                   >
-                    <div className="p-1 rounded-full bg-gradient-to-r from-red-500 to-pink-500 mr-2">
-                      <LogOut className="w-3 h-3 text-white" />
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 dark:bg-blue-500/10 dark:text-blue-400 mr-3 shadow-inner">
+                      {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                     </div>
-                    Logout
+                    <span className="font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="bg-white/10 my-2" />
+                  
+                  <DropdownMenuItem 
+                    onClick={handleLogout} 
+                    className="cursor-pointer rounded-xl hover:bg-destructive/10 text-destructive focus:text-destructive focus:bg-destructive/10 transition-colors p-2"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-destructive/10 mr-3 shadow-inner">
+                      <LogOut className="w-4 h-4" />
+                    </div>
+                    <span className="font-medium">Sign Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : !isMobile && (
               <div className="flex items-center gap-3">
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   onClick={() => setLocation('/login')}
-                  className="gap-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 text-foreground border-border"
+                  className="gap-2 px-4 py-2 h-9 rounded-full border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 font-semibold text-gray-800 dark:text-gray-200"
                 >
-                  <LogIn className="w-4 h-4" />
+                  <LogIn className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   Login
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => setLocation('/register')}
-                  className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="gap-2 px-5 py-2 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-300 border-0 font-semibold"
                 >
                   <UserPlus className="w-4 h-4" />
                   Sign Up
@@ -325,16 +337,18 @@ export default function BlogHome() {
               </div>
             )}
 
-            {/* Theme Toggle Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="h-10 w-10 p-0 rounded-full shadow hover:bg-primary/10"
-            >
-              {theme === 'dark' ? '🌞' : '🌙'}
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+            {/* Theme Toggle Button (Standalone if logged out or mobile) */}
+            {!(!isMobile && currentUser) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="h-10 w-10 p-0 rounded-full shadow hover:bg-primary/10"
+              >
+                {theme === 'dark' ? '🌞' : '🌙'}
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            )}
 
             {/* Mobile Dropdown Menu - Positioned after theme toggle */}
             {isMobile && (
@@ -406,22 +420,25 @@ export default function BlogHome() {
                       </DropdownMenuItem>
                     </>
                   ) : (
-                    <>
-                      <DropdownMenuItem
+                    <div className="flex flex-col gap-2 p-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => setLocation('/login')}
-                        className="cursor-pointer hover:bg-accent"
+                        className="w-full gap-2 px-4 py-2 h-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 font-semibold text-gray-800 dark:text-gray-200 justify-start"
                       >
-                        <LogIn className="w-4 h-4 mr-2" />
+                        <LogIn className="w-4 h-4 text-gray-500 dark:text-gray-400 mr-2" />
                         Sign In
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
+                      </Button>
+                      <Button
+                        size="sm"
                         onClick={() => setLocation('/register')}
-                        className="cursor-pointer hover:bg-accent"
+                        className="w-full gap-2 px-5 py-2 h-10 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md transition-all duration-300 border-0 font-semibold justify-start"
                       >
                         <UserPlus className="w-4 h-4 mr-2" />
                         Sign Up
-                      </DropdownMenuItem>
-                    </>
+                      </Button>
+                    </div>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>

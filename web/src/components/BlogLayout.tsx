@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -112,9 +113,9 @@ const PopularTagsSection = () => {
   }
 
   return (
-    <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+    <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+      <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+        <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
           <Tag className="w-4 h-4 text-primary" />
           Popular Tags
         </CardTitle>
@@ -125,7 +126,7 @@ const PopularTagsSection = () => {
             <Badge
               key={tag.id}
               variant="secondary"
-              className="text-xs px-2 py-1 cursor-pointer bg-muted/60 text-foreground border border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200 hover:scale-105 relative group font-medium"
+              className="text-xs px-2 py-1 cursor-pointer bg-muted/60 dark:bg-white/10 text-foreground dark:text-white border border-border/50 dark:border-white/10 hover:bg-primary hover:text-white transition-all duration-200 hover:scale-105 relative group font-medium"
               onClick={() => handleTagClick(tag.name)}
               title={`${tag.count} posts (${tag.percentage}%)`}
             >
@@ -137,7 +138,7 @@ const PopularTagsSection = () => {
           ))}
         </div>
         {tagsData.total_blogs > 0 && (
-          <div className="mt-2 text-xs text-muted-foreground">
+          <div className="mt-2 text-xs text-muted-foreground dark:text-slate-400">
             Based on {tagsData.total_blogs} blog posts
           </div>
         )}
@@ -233,6 +234,21 @@ export default function BlogLayout({
   const { toast } = useToast();
   const isMobile = useIsMobile();
 
+  // Reading Progress State
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (windowHeight > 0) {
+        setScrollProgress((totalScroll / windowHeight) * 100);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
@@ -304,21 +320,25 @@ export default function BlogLayout({
 
   return (
     <div className="min-h-screen hero-squares">
+      {/* Reading Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 z-[100] transition-all duration-150 ease-out shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+        style={{ width: `${scrollProgress}%` }}
+      />
       {/* Fixed Header */}
       <header className="border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 shadow-lg">
-        <div className="container max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2">
-            {/* Logo Section */}
-            <div className="flex items-center cursor-pointer" onClick={() => setLocation('/blogs')}>
-              <img 
-                src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
-                alt="Blog Logo" 
-                className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto transition-opacity duration-300"
-              />
-            </div>
+        <div className="container mx-auto px-2 sm:px-4 flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2">
+          {/* Logo Section */}
+          <div className="flex items-center cursor-pointer" onClick={() => setLocation('/blogs')}>
+            <img 
+              src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
+              alt="Blog Logo" 
+              className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto transition-opacity duration-300"
+            />
+          </div>
             
             {/* Right section */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1 sm:gap-3 lg:gap-6">
               {/* Desktop Authentication Section - Hidden on mobile */}
               {!isMobile && (
                 <div className="flex items-center gap-3">
@@ -326,57 +346,69 @@ export default function BlogLayout({
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button 
-                          variant="outline" 
-                          className="flex items-center gap-2 px-3 py-2 h-auto rounded-lg hover:bg-accent transition-colors border"
+                          variant="ghost" 
+                          className="flex items-center gap-2.5 px-2 py-1.5 h-10 rounded-full border border-white/10 bg-background/50 backdrop-blur-md shadow-sm hover:shadow-md hover:bg-white/5 transition-all duration-300"
                         >
-                          <div className="p-1 rounded-full bg-gradient-to-r from-green-500 to-teal-500">
-                            <User className="w-3 h-3 text-white" />
+                          <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-inner">
+                            <User className="w-4 h-4 text-white" />
                           </div>
-                          <span className="text-sm font-medium text-foreground">
+                          <span className="text-sm font-semibold tracking-wide text-foreground pr-1">
                             {currentUser.username || currentUser.name}
                           </span>
-                          <div className="p-1 rounded-full bg-gradient-to-r from-gray-500 to-gray-600 ml-2">
-                            <ChevronDown className="w-3 h-3 text-white" />
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-white/5 border border-white/10">
+                            <ChevronDown className="w-3 h-3 text-muted-foreground" />
                           </div>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" side="bottom" className="w-48 min-w-[12rem] bg-popover border shadow-md">
+                      <DropdownMenuContent align="end" sideOffset={8} className="w-56 bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-xl p-2">
                         <DropdownMenuItem 
                           onClick={() => setLocation('/profile')} 
-                          className="cursor-pointer hover:bg-accent"
+                          className="cursor-pointer rounded-xl hover:bg-white/5 transition-colors p-2 focus:bg-primary/10"
                         >
-                          <div className="p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mr-2">
-                            <Settings className="w-3 h-3 text-white" />
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary mr-3 shadow-inner">
+                            <Settings className="w-4 h-4" />
                           </div>
-                          Profile
+                          <span className="font-medium">Profile Settings</span>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        
+                        <DropdownMenuItem 
+                          onClick={toggleTheme} 
+                          className="cursor-pointer rounded-xl hover:bg-white/5 transition-colors p-2 focus:bg-primary/10"
+                        >
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 dark:bg-blue-500/10 dark:text-blue-400 mr-3 shadow-inner">
+                            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                          </div>
+                          <span className="font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuSeparator className="bg-white/10 my-2" />
+                        
                         <DropdownMenuItem 
                           onClick={handleLogout} 
-                          className="cursor-pointer text-destructive hover:bg-destructive/10 focus:text-destructive"
+                          className="cursor-pointer rounded-xl hover:bg-destructive/10 text-destructive focus:text-destructive focus:bg-destructive/10 transition-colors p-2"
                         >
-                          <div className="p-1 rounded-full bg-gradient-to-r from-red-500 to-pink-500 mr-2">
-                            <LogOut className="w-3 h-3 text-white" />
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-destructive/10 mr-3 shadow-inner">
+                            <LogOut className="w-4 h-4" />
                           </div>
-                          Logout
+                          <span className="font-medium">Sign Out</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
                     <div className="flex items-center gap-3">
                       <Button
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
                         onClick={() => setLocation('/login')}
-                        className="gap-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 text-foreground border-border"
+                        className="gap-2 px-4 py-2 h-9 rounded-full border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 font-semibold text-gray-800 dark:text-gray-200"
                       >
-                        <LogIn className="w-4 h-4" />
+                        <LogIn className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                         Login
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => setLocation('/register')}
-                        className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+                        className="gap-2 px-5 py-2 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-300 border-0 font-semibold"
                       >
                         <UserPlus className="w-4 h-4" />
                         Sign Up
@@ -386,16 +418,18 @@ export default function BlogLayout({
                 </div>
               )}
               
-              {/* Theme Toggle */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleTheme}
-                className="h-10 w-10 p-0 rounded-full shadow hover:bg-primary/10"
-              >
-                {theme === 'dark' ? '🌞' : '🌙'}
-                <span className="sr-only">Toggle theme</span>
-              </Button>
+              {/* Theme Toggle (Standalone if logged out or mobile) */}
+              {!(!isMobile && currentUser) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleTheme}
+                  className="h-10 w-10 p-0 rounded-full shadow hover:bg-primary/10"
+                >
+                  {theme === 'dark' ? '🌞' : '🌙'}
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              )}
 
               {/* Mobile Dropdown Menu - Positioned after theme toggle */}
               {isMobile && (
@@ -448,123 +482,51 @@ export default function BlogLayout({
                         </DropdownMenuItem>
                       </>
                     ) : (
-                      <>
-                        <DropdownMenuItem
+                      <div className="flex flex-col gap-2 p-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => setLocation('/login')}
-                          className="cursor-pointer hover:bg-accent"
+                          className="w-full gap-2 px-4 py-2 h-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 font-semibold text-gray-800 dark:text-gray-200 justify-start"
                         >
-                          <LogIn className="w-4 h-4 mr-2" />
+                          <LogIn className="w-4 h-4 text-gray-500 dark:text-gray-400 mr-2" />
                           Sign In
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
+                        </Button>
+                        <Button
+                          size="sm"
                           onClick={() => setLocation('/register')}
-                          className="cursor-pointer hover:bg-accent"
+                          className="w-full gap-2 px-5 py-2 h-10 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md transition-all duration-300 border-0 font-semibold justify-start"
                         >
                           <UserPlus className="w-4 h-4 mr-2" />
                           Sign Up
-                        </DropdownMenuItem>
-                      </>
+                        </Button>
+                      </div>
                     )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
       {/* Main Content with Sidebars */}
-      <main className="container py-8 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-16">
-          {/* Left Sidebar (Quick Links + Top 10 Featured Blogs) */}
-          <aside className="lg:col-span-2 order-3 lg:order-1">
-            <div className="sticky top-24 space-y-6">
-              {/* Quick Links Block */}
-              <Card className="shadow-xl border border-border">
-                <CardHeader>
-                  <CardTitle className="text-base font-bold text-muted-foreground px-1 py-0.5">
-                    Quick Links
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="divide-y divide-border">
-                    {quickLinks && quickLinks.length > 0 ? (
-                      quickLinks.map((link, index) => (
-                        <li key={index} className="py-2 first:pt-0 last:pb-0">
-                          <a
-                            href={link.url}
-                            className="block text-black dark:text-white font-medium text-sm leading-tight hover:text-blue-700 hover:underline"
-                          >
-                            {link.title}
-                          </a>
-                        </li>
-                      ))
-                    ) : (
-                      // Fallback to hardcoded links if no dynamic links available
-                      <>
-                        <li className="py-2 first:pt-0 last:pb-0">
-                          <a
-                            href="#getting-started-react"
-                            className="block text-black dark:text-white font-medium text-sm leading-tight hover:text-blue-700 hover:underline"
-                          >
-                            Getting Started with React
-                          </a>
-                        </li>
-                        <li className="py-2 first:pt-0 last:pb-0">
-                          <a
-                            href="#typescript-best-practices"
-                            className="block text-black dark:text-white font-medium text-sm leading-tight hover:text-blue-700 hover:underline"
-                          >
-                            TypeScript Best Practices
-                          </a>
-                        </li>
-                        <li className="py-2 first:pt-0 last:pb-0">
-                          <a
-                            href="#building-modern-web-apps"
-                            className="block text-black dark:text-white font-medium text-sm leading-tight hover:text-blue-700 hover:underline"
-                          >
-                            Building Modern Web Apps
-                          </a>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </CardContent>
-              </Card>
-              {/* Top Featured Blogs Block */}
-              <Card className="shadow-xl border border-border">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-bold text-muted-foreground px-1 py-0.5">
-                    <BookOpen className="w-5 h-5 text-primary" />
-                    Top Featured Blogs
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="divide-y divide-border">
-                    {top10FeaturedBlogs.map((post, idx) => (
-                      <li key={post.id} className="py-2 first:pt-0 last:pb-0">
-                        <a
-                          href={`/blog/${post.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block text-black dark:text-white font-medium text-sm leading-tight hover:text-primary hover:underline"
-                        >
-                          {post.title}
-                        </a>
-                        {post.reading_time && (
-                          <span className="block text-xs text-muted-foreground mt-1">{post.reading_time} min read</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </aside>
-
+      <main className="container py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Main Blog Content */}
-          <article className="lg:col-span-8 order-1 lg:order-2">
-            <div className="space-y-6 bg-background/50 backdrop-blur-sm border border-border/50 rounded-2xl p-5 lg:p-6 shadow-xl max-w-5xl mx-auto">
+          <motion.article 
+            className="lg:col-span-9 order-1"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <div className="space-y-8 bg-background/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 lg:p-10 shadow-2xl">
+              {/* Cover Image - Moved to Top */}
+              {coverImage && (
+                <div className="w-full overflow-hidden rounded-xl shadow-xl border border-white/5">
+                  <BlogCoverImage src={coverImage} alt={title} />
+                </div>
+              )}
+
               {/* Hero Section */}
               <BlogHero
                 title={title}
@@ -578,47 +540,139 @@ export default function BlogLayout({
                 onShare={showShareButton ? handleShare : undefined}
               />
 
-              <Separator className="bg-gradient-to-r from-transparent via-border to-transparent" />
-
-              {/* Cover Image */}
-              {coverImage && (
-                <BlogCoverImage src={coverImage} alt={title} />
-              )}
+              <Separator className="bg-gradient-to-r from-transparent via-border to-transparent my-8" />
 
               {/* Dynamic Content Area */}
-              <div className="blog-content prose prose-base prose-gray dark:prose-invert max-w-none px-2">
+              <div className="blog-content prose prose-lg prose-gray dark:prose-invert max-w-none px-2 leading-relaxed">
                 {children}
               </div>
             </div>
-          </article>
+          </motion.article>
 
-          {/* Right Sidebar */}
-          <aside className="lg:col-span-2 order-2 lg:order-3">
-            <div className="sticky top-24 space-y-6">
+          {/* Consolidated Right Sidebar */}
+          <motion.aside 
+            className="lg:col-span-3 order-2 relative pr-3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            {/* Broad Vertical Boundary Line */}
+            <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-indigo-500/0 via-indigo-500/15 to-indigo-500/0 rounded-full hidden lg:block" />
+            
+            <div className="sticky top-24 flex flex-col gap-4">
+              {/* Quick Links Block */}
+              <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-border/10 dark:border-white/10 overflow-hidden text-foreground dark:text-white">
+                <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                  <CardTitle className="text-base font-bold text-foreground dark:text-white flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-primary" />
+                    Quick Links
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <ul className="space-y-3">
+                    {quickLinks && quickLinks.length > 0 ? (
+                      quickLinks.map((link, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="text-primary mt-1">▹</span>
+                          <a
+                            href={link.url}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // Extract ID safely and handle potential full URLs
+                              const urlParts = link.url.split('#');
+                              const id = urlParts.length > 1 ? urlParts[1] : urlParts[0];
+                              const element = document.getElementById(id);
+                              
+                              if (element) {
+                                const offset = 120; // Increased offset for sticky header
+                                const elementPosition = element.getBoundingClientRect().top;
+                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                
+                                window.scrollTo({
+                                  top: offsetPosition,
+                                  behavior: 'smooth'
+                                });
+                              }
+                            }}
+                            className="text-sm font-medium text-muted-foreground dark:text-slate-300 hover:text-primary transition-colors duration-200"
+                          >
+                            {link.title}
+                          </a>
+                        </li>
+                      ))
+                    ) : (
+                      <>
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-1">▹</span>
+                          <a href="#getting-started-react" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200">Getting Started with React</a>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-1">▹</span>
+                          <a href="#typescript-best-practices" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200">TypeScript Best Practices</a>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Top Featured Blogs Block */}
+              <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-border/10 dark:border-white/10 overflow-hidden text-foreground dark:text-white">
+                <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                  <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
+                    <TrendingUp className="w-4 h-4 text-purple-500" />
+                    Top Featured
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <ul className="space-y-4">
+                    {top10FeaturedBlogs.slice(0, 5).map((post, idx) => (
+                      <li key={post.id} className="group">
+                        <a
+                          href={`/blog/${post.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug line-clamp-2"
+                        >
+                          {post.title}
+                        </a>
+                        {post.reading_time && (
+                          <span className="block text-xs text-muted-foreground dark:text-slate-400 mt-1.5 flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {post.reading_time} min read
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+
               {/* Advertisement Block */}
               {showAds && (
-                <Card className="shadow-lg bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border border-dashed border-yellow-400 dark:border-yellow-600 animate-pulse">
-                  <CardHeader>
-                    <CardTitle className="text-base font-bold text-yellow-700 dark:text-yellow-300">Advertisement</CardTitle>
+                <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-dashed border-yellow-500/30 relative overflow-hidden text-foreground dark:text-white">
+                  <div className="absolute inset-0 bg-white/5 dark:bg-black/20 backdrop-blur-sm -z-10" />
+                  <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                    <CardTitle className="text-sm font-bold text-yellow-700 dark:text-yellow-400 uppercase tracking-wider">Advertisement</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-4">
-                      <span className="text-sm text-yellow-800 dark:text-yellow-200 font-semibold mb-2">Your Ad Here</span>
-                      <div className="w-40 h-20 bg-yellow-200 dark:bg-yellow-900 rounded-lg flex items-center justify-center text-yellow-600 dark:text-yellow-300 text-xs font-medium border border-yellow-300 dark:border-yellow-700">
-                        300 x 100
+                      <div className="w-full h-24 bg-yellow-500/10 dark:bg-yellow-500/5 rounded-lg flex items-center justify-center text-yellow-700/70 dark:text-yellow-400/70 text-xs font-bold border border-yellow-500/20">
+                        300 x 250
                       </div>
-                      <span className="mt-2 text-xs text-muted-foreground">Contact us to advertise</span>
+                      <span className="mt-3 text-xs text-muted-foreground opacity-80">Support our work</span>
                     </div>
                   </CardContent>
                 </Card>
               )}
+
+              {/* Existing Sidebar Components (Related Posts, Tags) */}
               <BlogSidebar 
                 side="right" 
                 relatedPosts={relatedPosts}
                 showAds={false}
               />
             </div>
-          </aside>
+          </motion.aside>
         </div>
 
         {/* Footer Navigation */}
@@ -645,82 +699,95 @@ interface BlogHeroProps {
 
 function BlogHero({ title, excerpt, featured, author, date, readingTime, tags, category, onShare }: BlogHeroProps) {
   return (
-    <header className="space-y-6">
-      {/* Featured Badge */}
-      {featured && (
-        <Badge variant="secondary" className="mb-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white dark:text-white border-yellow-400 font-semibold shadow-md">
-          ⭐ Featured Post
-        </Badge>
-      )}
-      {/* Category Badge */}
-      {category && (
-        <Badge variant="default" className="mb-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:text-white border-blue-500 font-semibold shadow-md">
-          {category.name}
-        </Badge>
-      )}
+    <header className="space-y-6 pt-2">
+      {/* Top Badges */}
+      <div className="flex flex-wrap items-center gap-3">
+        {category && (
+          <Badge className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0 shadow-[0_0_15px_rgba(168,85,247,0.4)] font-bold uppercase tracking-widest text-xs">
+            {category.name}
+          </Badge>
+        )}
+        {featured && (
+          <Badge variant="secondary" className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 font-bold uppercase tracking-widest text-xs shadow-[0_0_15px_rgba(245,158,11,0.4)]">
+            ⭐ Featured
+          </Badge>
+        )}
+      </div>
       
-      {/* Title and Actions */}
+      {/* Title */}
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight flex-1">
-            {title}
-          </h1>
-          
-          {onShare && (
-            <Button variant="outline" size="sm" onClick={onShare} className="self-start hover:bg-primary hover:text-primary-foreground transition-all duration-200 hover:scale-105">
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-          )}
-        </div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+          {title}
+        </h1>
         
         {/* Excerpt */}
         {excerpt && (
-          <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium mt-1">
             {excerpt}
           </p>
         )}
       </div>
 
-      {/* Meta Information */}
-      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-        {author && (
+      {/* Meta Information & Share */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-4 border-y border-white/5">
+        <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground font-medium">
+          {author && (
+            <div className="flex items-center gap-2.5 bg-background/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+              {author.avatar ? (
+                <img 
+                  src={author.avatar} 
+                  alt={author.name}
+                  className="w-7 h-7 rounded-full ring-2 ring-primary/20 object-cover"
+                />
+              ) : (
+                <div className="p-1.5 rounded-full bg-primary/10">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+              )}
+              <span className="text-foreground">{author.name}</span>
+            </div>
+          )}
+          
           <div className="flex items-center gap-2">
-            {author.avatar ? (
-              <img 
-                src={author.avatar} 
-                alt={author.name}
-                className="w-6 h-6 rounded-full"
-              />
-            ) : (
-              <User className="w-4 h-4" />
-            )}
-            <span className="font-medium">{author.name}</span>
+            <Calendar className="w-4 h-4 text-primary/70" />
+            <span>{new Date(date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}</span>
           </div>
-        )}
-        
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" />
-          <span>{new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}</span>
+          
+          {readingTime && (
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary/70" />
+              <span>{readingTime} min read</span>
+            </div>
+          )}
         </div>
-        
-        {readingTime && (
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            <span>{readingTime} min read</span>
-          </div>
+
+        {onShare && (
+          <Button 
+            variant="default" 
+            size="lg" 
+            onClick={onShare} 
+            className="group relative flex items-center gap-3 px-8 py-6 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto] hover:bg-[100%_0] text-white font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-500 transform hover:scale-105 border-0 overflow-hidden"
+          >
+            {/* Animated Glow Effect */}
+            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            
+            <div className="relative flex items-center gap-3">
+              <Share2 className="w-4 h-4 text-white animate-pulse" />
+              <span>Share Article</span>
+            </div>
+          </Button>
         )}
       </div>
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-3 mt-4">
+        <div className="flex flex-wrap gap-2 pt-2">
           {tags.map((tag) => (
-            <Badge key={tag.id} variant="outline" className="px-3 py-1 bg-primary/10 text-primary border-primary/30 hover:bg-primary hover:text-primary-foreground transition-all duration-200 cursor-pointer hover:scale-105 font-medium">
+            <Badge key={tag.id} variant="outline" className="px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 hover:bg-primary/20 backdrop-blur-sm text-primary transition-all duration-300 cursor-pointer hover:-translate-y-0.5 shadow-sm hover:shadow-primary/20 font-medium">
               #{tag.name}
             </Badge>
           ))}
@@ -738,11 +805,11 @@ interface BlogCoverImageProps {
 
 function BlogCoverImage({ src, alt }: BlogCoverImageProps) {
   return (
-    <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+    <div className="relative aspect-video overflow-hidden bg-muted">
       <img 
         src={src} 
         alt={alt}
-        className="object-cover w-full h-full transition-transform hover:scale-105"
+        className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
         loading="lazy"
       />
     </div>
@@ -872,12 +939,12 @@ function BlogSidebar({
   const [, setLocation] = useLocation();
   if (side === 'left') {
     return (
-      <div className="space-y-6">
+      <div className="space-y-3">
         {/* Table of Contents */}
         {tableOfContents && tableOfContents.length > 0 && (
-          <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+          <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+            <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
                 <BookOpen className="w-4 h-4 text-primary" />
                 Contents
               </CardTitle>
@@ -901,9 +968,9 @@ function BlogSidebar({
         )}
 
         {/* Quick Links */}
-        <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+        <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
               <ExternalLink className="w-4 h-4 text-primary" />
               Quick Links
             </CardTitle>
@@ -937,7 +1004,7 @@ function BlogSidebar({
 
   // Right sidebar
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* Related Posts */}
       {loadingRelated ? (
         <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -954,9 +1021,9 @@ function BlogSidebar({
           </CardContent>
         </Card>
       ) : relatedPosts && relatedPosts.length > 0 && (
-        <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+        <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
               <TrendingUp className="w-4 h-4 text-primary" />
               Related Posts
             </CardTitle>
@@ -966,7 +1033,7 @@ function BlogSidebar({
               {relatedPosts.slice(0, 3).map((post, index) => (
                 <div key={post.id}>
                   <div
-                    className="group cursor-pointer p-2 rounded-md hover:bg-muted/50 transition-colors"
+                    className="group cursor-pointer p-2 rounded-md hover:bg-muted/50 dark:hover:bg-white/5 transition-colors"
                     onClick={() => setLocation(`/blog/${post.id}`)}
                     role="button"
                     tabIndex={0}
@@ -974,11 +1041,11 @@ function BlogSidebar({
                       if (e.key === 'Enter' || e.key === ' ') setLocation(`/blog/${post.id}`);
                     }}
                   >
-                    <h4 className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
+                    <h4 className="text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors line-clamp-2">
                       {post.title}
                     </h4>
                     {post.readingTime && (
-                      <p className="text-xs text-muted-foreground mt-1">{post.readingTime} min read</p>
+                      <p className="text-xs text-slate-400 mt-1">{post.readingTime} min read</p>
                     )}
                   </div>
                   {index < relatedPosts.slice(0, 3).length - 1 && <Separator className="bg-gradient-to-r from-transparent via-border to-transparent" />}
@@ -994,8 +1061,8 @@ function BlogSidebar({
 
       {/* Advertisement Block */}
       {showAds && (
-        <Card className="shadow-lg bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border border-dashed border-yellow-400 dark:border-yellow-600 animate-pulse">
-          <CardHeader>
+        <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-dashed border-yellow-400 dark:border-yellow-600 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
             <CardTitle className="text-base font-bold text-yellow-700 dark:text-yellow-300">Advertisement</CardTitle>
           </CardHeader>
           <CardContent>

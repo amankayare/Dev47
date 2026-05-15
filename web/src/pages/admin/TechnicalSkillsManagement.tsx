@@ -177,26 +177,26 @@ export default function TechnicalSkillsManagement() {
       <div className="min-h-screen bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           
-          {/* Enhanced Header Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-gray-900 dark:from-slate-800 dark:via-slate-900 dark:to-gray-950 mb-8 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"></div>
-            <div className="relative px-8 py-12">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/10 dark:bg-white/5 rounded-lg backdrop-blur-sm border border-white/10 dark:border-white/5">
-                    <Code2 className="h-8 w-8 text-white" />
+          {/* Enhanced Header Section - Cyberpunk cornflower */}
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 border border-cornflower-200/50 dark:border-cornflower-500/10 mb-10 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-r from-cornflower-500/5 to-transparent"></div>
+            <div className="relative px-8 py-10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex items-center space-x-5">
+                  <div className="p-4 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-2xl backdrop-blur-md border border-cornflower-200/50 dark:border-cornflower-500/10 shadow-inner">
+                    <Code2 className="h-10 w-10 text-cornflower-600 dark:text-cornflower-400" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold text-white mb-2">Technical Skills Management</h1>
-                    <p className="text-gray-300 dark:text-gray-200 text-lg">Manage your technical skills and expertise areas</p>
+                    <h1 className="text-4xl font-black text-cornflower-950 dark:text-cornflower-50 mb-1 tracking-tight uppercase">Tech Matrix</h1>
+                    <p className="text-cornflower-700/60 dark:text-cornflower-300/60 font-bold text-lg">Optimizing the digital skill hierarchy</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-white">{technicalSkills?.length || 0}</div>
-                  <div className="text-gray-300 dark:text-gray-200 text-sm">Total Skill Categories</div>
-                  <div className="text-gray-400 dark:text-gray-300 text-sm mt-1">
-                    {technicalSkills?.filter(s => s.is_visible).length || 0} visible, {" "}
-                    {technicalSkills?.filter(s => !s.is_visible).length || 0} hidden
+                <div className="flex flex-col items-end">
+                  <div className="text-5xl font-black text-cornflower-600 dark:text-cornflower-400 drop-shadow-[0_0_15px_rgba(100, 149, 237,0.3)]">{technicalSkills?.length || 0}</div>
+                  <div className="text-cornflower-900/40 dark:text-cornflower-50/40 text-xs font-black uppercase tracking-widest mt-1">Core Skill Modules</div>
+                  <div className="flex gap-4 text-xs font-bold mt-2">
+                    <span className="text-cornflower-500">{technicalSkills?.filter(s => s.is_visible).length || 0} ACTIVE</span>
+                    <span className="text-cornflower-900/30 dark:text-cornflower-50/30">{technicalSkills?.filter(s => !s.is_visible).length || 0} DORMANT</span>
                   </div>
                 </div>
               </div>
@@ -208,11 +208,11 @@ export default function TechnicalSkillsManagement() {
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
                 <Button 
-                  className="bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900 dark:from-slate-600 dark:to-gray-700 dark:hover:from-slate-700 dark:hover:to-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 text-lg font-semibold rounded-xl border-0 transform hover:scale-105" 
+                  className="bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white shadow-xl shadow-cornflower-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
                   onClick={() => { resetForm(); setEditingSkill(null); }}
                 >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Skill Category
+                  <Plus className="w-5 h-5 mr-3" />
+                  Initialize Skill Module
                 </Button>
               </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -311,65 +311,80 @@ export default function TechnicalSkillsManagement() {
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="text-slate-600 dark:text-slate-300">Loading technical skills...</div>
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-cornflower-600 dark:border-cornflower-500 border-r-transparent border-b-cornflower-200 dark:border-b-cornflower-900 border-l-transparent mx-auto mb-6"></div>
+              <p className="text-cornflower-900/60 dark:text-cornflower-50/60 font-black uppercase tracking-widest text-sm">Syncing matrix...</p>
+            </div>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
             {technicalSkills?.map((skill) => (
-              <Card key={skill.id} className="shadow-lg border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                <CardHeader className="bg-gradient-to-r from-gray-50 via-slate-50 to-gray-100 dark:from-gray-700 dark:via-slate-700 dark:to-gray-600 border-b border-gray-200 dark:border-gray-600">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <CardTitle className="flex items-center gap-2 text-slate-800 dark:text-slate-100 mb-2">
-                        <div className="bg-slate-200 dark:bg-slate-600 p-1.5 rounded-lg">
-                          <Code2 className="w-4 h-4 text-slate-600 dark:text-slate-200" />
+              <Card key={skill.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-card/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden shadow-xl transform hover:-translate-y-2">
+                <CardHeader className="p-5 sm:p-8 border-b border-cornflower-100/50 dark:border-cornflower-500/10">
+                  <div className="flex flex-wrap justify-between items-start gap-4">
+                    <div className="flex-1 min-w-[200px]">
+                      <CardTitle className="flex items-center gap-4 text-cornflower-950 dark:text-cornflower-50 mb-3 font-black uppercase tracking-tight text-xl sm:text-2xl">
+                        <div className="bg-cornflower-500/10 dark:bg-cornflower-500/20 p-2 sm:p-2.5 rounded-2xl shadow-inner shrink-0">
+                          <Code2 className="w-5 h-5 text-cornflower-600 dark:text-cornflower-400" />
                         </div>
-                        {skill.title}
+                        <span className="break-words">{skill.title}</span>
                       </CardTitle>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant={skill.is_visible ? "default" : "secondary"} className="text-xs">
-                          {skill.is_visible ? "Visible" : "Hidden"}
+                      <div className="flex flex-wrap items-center gap-3 mb-3">
+                        <Badge 
+                          variant={skill.is_visible ? "default" : "secondary"} 
+                          className={`${
+                            skill.is_visible 
+                              ? "bg-cornflower-500/10 text-cornflower-600 dark:bg-cornflower-500/20 dark:text-cornflower-300" 
+                              : "bg-cornflower-900 dark:bg-black text-white"
+                          } font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0`}
+                        >
+                          {skill.is_visible ? (
+                            <>
+                              <Eye className="w-3 h-3 mr-1.5" />
+                              Public
+                            </>
+                          ) : (
+                            <>
+                              <EyeOff className="w-3 h-3 mr-1.5" />
+                              Private
+                            </>
+                          )}
                         </Badge>
-                        <span className="text-xs text-slate-500 dark:text-slate-400">Order: {skill.order}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-cornflower-500/40">NODE_ORDER: {skill.order}</span>
                       </div>
-                      <CardDescription className="text-slate-600 dark:text-slate-300 text-sm">
-                        {skill.icon && `Icon: ${skill.icon} • `}
-                        {skill.skills?.length || 0} skills
-                        {skill.color && ` • ${skill.color}`}
-                      </CardDescription>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex shrink-0 gap-2.5">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleEdit(skill)}
-                        className="h-8 w-8 p-0 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+                        className="w-10 h-10 p-0 rounded-full border-2 border-cornflower-200 text-cornflower-600 hover:bg-cornflower-50 dark:border-cornflower-500/20 dark:text-cornflower-400 dark:hover:bg-cornflower-500/10 transition-all duration-300"
                       >
-                        <Edit className="w-3 h-3" />
+                        <Edit className="w-4 h-4" />
                       </Button>
                       <Button 
                         variant="destructive" 
                         size="sm" 
                         onClick={() => deleteConfirmation.openConfirmDialog(skill)}
                         disabled={deleteMutation.isPending}
-                        className="h-8 w-8 p-0 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
+                        className="w-10 h-10 p-0 rounded-full bg-cornflower-950 text-white hover:bg-black transition-all duration-300"
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="p-6 bg-white/80 dark:bg-gray-800/80">
+                <CardContent className="p-8">
                   {skill.skills && skill.skills.length > 0 && (
-                    <div className="mb-4">
-                      <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2 block">Skills & Technologies:</span>
+                    <div className="mb-6">
+                      <span className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] mb-4 block">Sub-Routine Tags:</span>
                       <div className="flex flex-wrap gap-2">
                         {skill.skills.map((skillName, index) => (
                           <Badge 
                             key={index} 
                             variant="outline" 
-                            className="text-xs bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                            className="text-[10px] font-bold uppercase tracking-wider bg-cornflower-500/5 dark:bg-cornflower-500/10 text-cornflower-600 dark:text-cornflower-300 border-cornflower-200/50 dark:border-cornflower-500/20 px-3 py-1 rounded-full transition-all duration-300 hover:bg-cornflower-500/10"
                           >
                             {skillName}
                           </Badge>
@@ -377,11 +392,11 @@ export default function TechnicalSkillsManagement() {
                       </div>
                     </div>
                   )}
-
-                  <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 pt-3 border-t border-slate-200 dark:border-slate-600">
-                    <span>Created: {new Date(skill.created_at).toLocaleDateString()}</span>
+ 
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-cornflower-500/40 pt-6 border-t border-cornflower-100/30 dark:border-cornflower-500/10">
+                    <span className="flex items-center gap-1.5"><div className="w-1 h-1 bg-cornflower-400 rounded-full"></div> INITIALIZED: {new Date(skill.created_at).toLocaleDateString()}</span>
                     {skill.updated_at && skill.updated_at !== skill.created_at && (
-                      <span>Updated: {new Date(skill.updated_at).toLocaleDateString()}</span>
+                      <span className="flex items-center gap-1.5"><div className="w-1 h-1 bg-cornflower-400 rounded-full"></div> UPDATED: {new Date(skill.updated_at).toLocaleDateString()}</span>
                     )}
                   </div>
                 </CardContent>

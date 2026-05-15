@@ -167,29 +167,29 @@ export default function CertificationsManagement() {
 
   return (
     <AdminLayout title="Manage Certifications">
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-gray-100 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           
-          {/* Enhanced Header Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-gray-900 dark:from-gray-800 dark:via-gray-900 dark:to-black mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"></div>
-            <div className="relative px-8 py-12">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
-                    <Award className="h-8 w-8 text-white" />
+          {/* Enhanced Header Section - Cyberpunk cornflower */}
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 border border-cornflower-200/50 dark:border-cornflower-500/10 mb-10 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-r from-cornflower-500/5 to-transparent"></div>
+            <div className="relative px-8 py-10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex items-center space-x-5">
+                  <div className="p-4 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-2xl backdrop-blur-md border border-cornflower-200/50 dark:border-cornflower-500/10 shadow-inner">
+                    <Award className="h-10 w-10 text-cornflower-600 dark:text-cornflower-400" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold text-white mb-2">Certifications Management</h1>
-                    <p className="text-gray-300 text-lg">Manage your professional certifications and achievements</p>
+                    <h1 className="text-4xl font-black text-cornflower-950 dark:text-cornflower-50 mb-1 tracking-tight uppercase">Credential Matrix</h1>
+                    <p className="text-cornflower-700/60 dark:text-cornflower-300/60 font-bold text-lg">Validating professional expertise modules</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-white">{certifications?.length || 0}</div>
-                  <div className="text-gray-300 text-sm">Total Certifications</div>
-                  <div className="text-gray-400 text-sm mt-1">
-                    {certifications?.filter(c => c.is_visible).length || 0} visible, {" "}
-                    {certifications?.filter(c => !c.is_visible).length || 0} hidden
+                <div className="flex flex-col items-end">
+                  <div className="text-5xl font-black text-cornflower-600 dark:text-cornflower-400 drop-shadow-[0_0_15px_rgba(100, 149, 237,0.3)]">{certifications?.length || 0}</div>
+                  <div className="text-cornflower-900/40 dark:text-cornflower-50/40 text-xs font-black uppercase tracking-widest mt-1">Verified Credentials</div>
+                  <div className="flex gap-4 text-xs font-bold mt-2">
+                    <span className="text-cornflower-500">{certifications?.filter(c => c.is_visible).length || 0} ACTIVE</span>
+                    <span className="text-cornflower-900/30 dark:text-cornflower-50/30">{certifications?.filter(c => !c.is_visible).length || 0} DORMANT</span>
                   </div>
                 </div>
               </div>
@@ -201,11 +201,11 @@ export default function CertificationsManagement() {
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
                 <Button 
-                  className="bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 text-lg font-semibold rounded-xl border-0 transform hover:scale-105" 
+                  className="bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white shadow-xl shadow-cornflower-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
                   onClick={() => { resetForm(); setEditingCert(null); }}
                 >
-                  <Plus className="w-5 h-5 mr-2" />
-                  Add New Certification
+                  <Plus className="w-5 h-5 mr-3" />
+                  Initialize Credential
                 </Button>
               </DialogTrigger>
             <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-0 shadow-2xl">
@@ -329,64 +329,72 @@ export default function CertificationsManagement() {
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center py-16">
+          <div className="flex justify-center items-center py-20">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-600 mx-auto mb-4"></div>
-              <p className="text-gray-600 dark:text-gray-400">Loading certifications...</p>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-cornflower-600 dark:border-cornflower-500 border-r-transparent border-b-cornflower-200 dark:border-b-cornflower-900 border-l-transparent mx-auto mb-6"></div>
+              <p className="text-cornflower-900/60 dark:text-cornflower-50/60 font-black uppercase tracking-widest text-sm">Syncing matrix...</p>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
             {certifications?.map((cert) => (
-              <Card key={cert.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800 transform hover:-translate-y-1">
-                <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+              <Card key={cert.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-card/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden shadow-xl transform hover:-translate-y-2">
+                <div className="p-5 sm:p-8 border-b border-cornflower-100/50 dark:border-cornflower-500/10">
+                  <div className="flex flex-wrap justify-between items-start gap-4">
+                    <div className="flex-1 min-w-[200px]">
+                      <div className="flex items-center gap-4 mb-3">
+                        <h3 className="text-xl sm:text-2xl font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-tight break-words">
                           {cert.name}
                         </h3>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
                           <Badge 
                             variant={cert.is_visible ? "default" : "secondary"}
                             className={`${
                               cert.is_visible 
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" 
-                                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
-                            } font-medium`}
+                                ? "bg-cornflower-500/10 text-cornflower-600 dark:bg-cornflower-500/20 dark:text-cornflower-300" 
+                                : "bg-cornflower-900 dark:bg-black text-white"
+                            } font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0`}
                           >
                             {cert.is_visible ? (
                               <>
-                                <Eye className="w-3 h-3 mr-1" />
-                                Visible
+                                <Eye className="w-3 h-3 mr-1.5" />
+                                Public
                               </>
                             ) : (
                               <>
-                                <EyeOff className="w-3 h-3 mr-1" />
-                                Hidden
+                                <EyeOff className="w-3 h-3 mr-1.5" />
+                                Private
                               </>
                             )}
                           </Badge>
                         </div>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 mr-2">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-cornflower-500/60 dark:text-cornflower-400/60 mb-1 flex flex-wrap gap-y-2">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-cornflower-500/10 text-cornflower-600 dark:bg-cornflower-500/20 dark:text-cornflower-300 mr-3">
                           {cert.issuer}
                         </span>
-                        {cert.date && (
-                          <span className="text-gray-500 text-xs">Issued: {cert.date}</span>
-                        )}
-                        {cert.certificate_id && (
-                          <span className="text-gray-500 text-xs ml-2">• ID: {cert.certificate_id}</span>
-                        )}
+                        <div className="flex items-center gap-3">
+                          {cert.date && (
+                            <span className="flex items-center gap-1.5 inline-flex">
+                              <div className="w-1 h-1 bg-cornflower-400 rounded-full"></div>
+                              ISSUED: {cert.date}
+                            </span>
+                          )}
+                          {cert.certificate_id && (
+                            <span className="flex items-center gap-1.5 inline-flex">
+                              <div className="w-1 h-1 bg-cornflower-400 rounded-full"></div>
+                              MODULE_ID: {cert.certificate_id}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="flex gap-2 ml-4">
+                    <div className="flex shrink-0 gap-2.5">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleEdit(cert)}
-                        className="hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/50 transition-all duration-200"
+                        className="w-10 h-10 p-0 rounded-full border-2 border-cornflower-200 text-cornflower-600 hover:bg-cornflower-50 dark:border-cornflower-500/20 dark:text-cornflower-400 dark:hover:bg-cornflower-500/10 transition-all duration-300"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -395,36 +403,35 @@ export default function CertificationsManagement() {
                         size="sm" 
                         onClick={() => deleteConfirmation.openConfirmDialog(cert)}
                         disabled={deleteMutation.isPending}
-                        className="hover:bg-red-600 transition-all duration-200"
+                        className="w-10 h-10 p-0 rounded-full bg-cornflower-950 text-white hover:bg-black transition-all duration-300"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
                 </div>
-                
-                <div className="p-6 space-y-4">
+                               <div className="p-8 space-y-8">
                   {cert.description && (
-                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{cert.description}</p>
+                    <p className="text-cornflower-700/70 dark:text-cornflower-300/70 text-sm font-medium leading-relaxed">{cert.description}</p>
                   )}
                   
                   {cert.skills && cert.skills.length > 0 && (
                     <div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">Skills:</span>
+                      <h4 className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] mb-4">Skill Matrix Tags:</h4>
                       <div className="flex flex-wrap gap-2">
                         {cert.skills.map((skill, index) => (
-                          <Badge key={index} variant="outline" className="text-xs bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                          <Badge key={index} variant="outline" className="text-[10px] font-bold uppercase tracking-wider bg-cornflower-500/5 dark:bg-cornflower-500/10 text-cornflower-600 dark:text-cornflower-300 border-cornflower-200/50 dark:border-cornflower-500/20 px-3 py-1 rounded-full transition-all duration-300 hover:bg-cornflower-500/10">
                             {skill}
                           </Badge>
                         ))}
                       </div>
                     </div>
                   )}
-
-                  <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <div className="flex gap-4">
+ 
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-cornflower-500/40 pt-6 border-t border-cornflower-100/30 dark:border-cornflower-500/10">
+                    <div className="flex gap-6">
                       {cert.expiration_date && (
-                        <span>Expires: {new Date(cert.expiration_date).toLocaleDateString()}</span>
+                        <span className="flex items-center gap-1.5"><div className="w-1 h-1 bg-cornflower-400 rounded-full"></div> EXPIRES: {new Date(cert.expiration_date).toLocaleDateString()}</span>
                       )}
                     </div>
                     {cert.credential_url && (
@@ -432,10 +439,10 @@ export default function CertificationsManagement() {
                         href={cert.credential_url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline"
+                        className="flex items-center gap-2 text-cornflower-600 dark:text-cornflower-400 hover:text-cornflower-800 dark:hover:text-cornflower-200 transition-colors"
                       >
-                        <ExternalLink className="w-3 h-3" />
-                        View Credential
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        VERIFY_NODE
                       </a>
                     )}
                   </div>

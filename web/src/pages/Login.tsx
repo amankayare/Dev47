@@ -112,23 +112,25 @@ export default function Login() {
       </div>
       
       {/* Header */}
-      <div className="relative z-10 flex items-center justify-between p-4 bg-background/80 backdrop-blur-xl border-b border-border/40">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-3 cursor-pointer transition-transform hover:scale-105" onClick={() => setLocation("/blogs")}>
-            <img 
-              src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
-              alt="DEV47 Logo" 
-              className="h-10 sm:h-12 md:h-14 w-auto"
+      <div className="relative z-10 w-full bg-background/80 backdrop-blur-xl border-b border-border/40">
+        <div className="max-w-7xl mx-auto px-4 py-2 sm:p-4 flex items-center justify-between w-full">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 cursor-pointer transition-transform hover:scale-105" onClick={() => setLocation("/blogs")}>
+              <img 
+                src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} 
+                alt="DEV47 Logo" 
+                className="h-10 sm:h-12 md:h-14 w-auto"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <ThemeToggle 
+              variant="ghost"
+              className="hover:bg-accent/50 rounded-lg transition-all duration-200 backdrop-blur-sm"
+              showTooltip={true}
             />
           </div>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <ThemeToggle 
-            variant="ghost"
-            className="hover:bg-accent/50 rounded-lg transition-all duration-200 backdrop-blur-sm"
-            showTooltip={true}
-          />
         </div>
       </div>
 
