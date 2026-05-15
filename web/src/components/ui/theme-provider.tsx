@@ -6,6 +6,8 @@ type ThemeProviderProps = {
   children: React.ReactNode
   defaultTheme?: Theme
   storageKey?: string
+  /** If true, saves/restores the previous documentElement classes on unmount */
+  scoped?: boolean
 }
 
 type ThemeProviderState = {
@@ -24,6 +26,7 @@ export function ThemeProvider({
   children,
   defaultTheme = "system",
   storageKey = "vite-ui-theme",
+  scoped = false,
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
@@ -33,26 +36,36 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement
 
-    root.classList.remove("light", "dark")
+    // Resolve the actual theme (handle 'system')
+    const resolvedTheme = theme === "system"
+      ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      : theme
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
+    if (scoped) {
+      // Admin mode: save the current portfolio theme class so we can restore it on unmount
+      const prevLight = root.classList.contains("light")
+      const prevDark = root.classList.contains("dark")
 
-      root.classList.add(systemTheme)
-      return
+      root.classList.remove("light", "dark")
+      root.classList.add(resolvedTheme)
+
+      return () => {
+        // Restore portfolio theme on admin unmount
+        root.classList.remove("light", "dark")
+        if (prevDark) root.classList.add("dark")
+        else if (prevLight) root.classList.add("light")
+      }
+    } else {
+      root.classList.remove("light", "dark")
+      root.classList.add(resolvedTheme)
     }
-
-    root.classList.add(theme)
-  }, [theme])
+  }, [theme, scoped])
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+    setTheme: (newTheme: Theme) => {
+      localStorage.setItem(storageKey, newTheme)
+      setTheme(newTheme)
     },
   }
 

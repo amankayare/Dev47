@@ -82,7 +82,7 @@ function ResponsibilitiesEditor({ responsibilities, onChange }: Responsibilities
           type="button"
           variant="outline"
           onClick={addResponsibility}
-          className="w-full h-10 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
+          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Responsibility
@@ -151,7 +151,7 @@ function AchievementsEditor({ achievements, onChange }: AchievementsEditorProps)
           type="button"
           variant="outline"
           onClick={addAchievement}
-          className="w-full h-10 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
+          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Achievement
@@ -393,26 +393,26 @@ export default function ExperienceManagement() {
       <div className="min-h-screen bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           
-          {/* Enhanced Header Section - Cyberpunk Indigo */}
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 border border-indigo-200/50 dark:border-indigo-500/10 mb-10 shadow-sm">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent"></div>
+          {/* Enhanced Header Section - Cyberpunk cornflower */}
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 border border-cornflower-200/50 dark:border-cornflower-500/10 mb-10 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-r from-cornflower-500/5 to-transparent"></div>
             <div className="relative px-8 py-10">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center space-x-5">
-                  <div className="p-4 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl backdrop-blur-md border border-indigo-200/50 dark:border-indigo-500/10 shadow-inner">
-                    <Briefcase className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
+                  <div className="p-4 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-2xl backdrop-blur-md border border-cornflower-200/50 dark:border-cornflower-500/10 shadow-inner">
+                    <Briefcase className="h-10 w-10 text-cornflower-600 dark:text-cornflower-400" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-black text-indigo-950 dark:text-indigo-50 mb-1 tracking-tight uppercase">Career Logs</h1>
-                    <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-lg">Managing the professional trajectory matrix</p>
+                    <h1 className="text-4xl font-black text-cornflower-950 dark:text-cornflower-50 mb-1 tracking-tight uppercase">Career Logs</h1>
+                    <p className="text-cornflower-700/60 dark:text-cornflower-300/60 font-bold text-lg">Managing the professional trajectory matrix</p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end">
-                  <div className="text-5xl font-black text-indigo-600 dark:text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.3)]">{experiences?.length || 0}</div>
-                  <div className="text-indigo-900/40 dark:text-indigo-50/40 text-xs font-black uppercase tracking-widest mt-1">Total Career Nodes</div>
+                  <div className="text-5xl font-black text-cornflower-600 dark:text-cornflower-400 drop-shadow-[0_0_15px_rgba(100, 149, 237,0.3)]">{experiences?.length || 0}</div>
+                  <div className="text-cornflower-900/40 dark:text-cornflower-50/40 text-xs font-black uppercase tracking-widest mt-1">Total Career Nodes</div>
                   <div className="flex gap-4 text-xs font-bold mt-2">
-                    <span className="text-indigo-500">{experiences?.filter(e => e.is_visible).length || 0} ACTIVE</span>
-                    <span className="text-indigo-900/30 dark:text-indigo-50/30">{experiences?.filter(e => !e.is_visible).length || 0} DORMANT</span>
+                    <span className="text-cornflower-500">{experiences?.filter(e => e.is_visible).length || 0} ACTIVE</span>
+                    <span className="text-cornflower-900/30 dark:text-cornflower-50/30">{experiences?.filter(e => !e.is_visible).length || 0} DORMANT</span>
                   </div>
                 </div>
               </div>
@@ -424,7 +424,7 @@ export default function ExperienceManagement() {
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
                 <Button 
-                  className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
+                  className="bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white shadow-xl shadow-cornflower-500/20 transition-all duration-300 px-10 py-7 text-xs font-black uppercase tracking-[0.2em] rounded-full border-0 transform hover:scale-105" 
                   onClick={() => { resetForm(); setEditingExperience(null); }}
                 >
                   <Plus className="w-5 h-5 mr-3" />
@@ -622,28 +622,28 @@ export default function ExperienceManagement() {
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600 dark:border-indigo-500 border-r-transparent border-b-indigo-200 dark:border-b-indigo-900 border-l-transparent mx-auto mb-6"></div>
-              <p className="text-indigo-900/60 dark:text-indigo-50/60 font-black uppercase tracking-widest text-sm">Syncing timeline...</p>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-cornflower-600 dark:border-cornflower-500 border-r-transparent border-b-cornflower-200 dark:border-b-cornflower-900 border-l-transparent mx-auto mb-6"></div>
+              <p className="text-cornflower-900/60 dark:text-cornflower-50/60 font-black uppercase tracking-widest text-sm">Syncing timeline...</p>
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
             {experiences?.map((experience) => (
-              <Card key={experience.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden shadow-xl transform hover:-translate-y-2">
-                <div className="p-8 border-b border-indigo-100/50 dark:border-indigo-500/10">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
+              <Card key={experience.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-card/70 dark:bg-black/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden shadow-xl transform hover:-translate-y-2">
+                <div className="p-5 sm:p-8 border-b border-cornflower-100/50 dark:border-cornflower-500/10">
+                  <div className="flex flex-wrap justify-between items-start gap-4">
+                    <div className="flex-1 min-w-[200px]">
                       <div className="flex items-center gap-4 mb-3">
-                        <h3 className="text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">
+                        <h3 className="text-xl sm:text-2xl font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-tight break-words">
                           {experience.title}
                         </h3>
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
                           <Badge 
                             variant={experience.is_visible ? "default" : "secondary"}
                             className={`${
                               experience.is_visible 
-                                ? "bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300" 
-                                : "bg-indigo-900 dark:bg-black text-white"
+                                ? "bg-cornflower-500/10 text-cornflower-600 dark:bg-cornflower-500/20 dark:text-cornflower-300" 
+                                : "bg-cornflower-900 dark:bg-black text-white"
                             } font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0`}
                           >
                             {experience.is_visible ? (
@@ -659,36 +659,38 @@ export default function ExperienceManagement() {
                             )}
                           </Badge>
                           {experience.is_current && (
-                            <Badge className="bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0 animate-pulse">
+                            <Badge className="bg-cornflower-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-3 py-1 border-0 animate-pulse">
                               Active Node
                             </Badge>
                           )}
                         </div>
                       </div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-indigo-500/60 dark:text-indigo-400/60 mb-1">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300 mr-3">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-cornflower-500/60 dark:text-cornflower-400/60 mb-1 flex flex-wrap gap-y-2">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-cornflower-500/10 text-cornflower-600 dark:bg-cornflower-500/20 dark:text-cornflower-300 mr-3">
                           {experience.company}
                         </span>
-                        {experience.location && (
-                          <span className="flex items-center gap-1.5 inline-flex">
-                            <div className="w-1 h-1 bg-indigo-400 rounded-full"></div>
-                            {experience.location}
-                          </span>
-                        )}
-                        {experience.duration && (
-                          <span className="flex items-center gap-1.5 inline-flex ml-4">
-                            <div className="w-1 h-1 bg-indigo-400 rounded-full"></div>
-                            {experience.duration}
-                          </span>
-                        )}
+                        <div className="flex items-center gap-3">
+                          {experience.location && (
+                            <span className="flex items-center gap-1.5 inline-flex">
+                              <div className="w-1 h-1 bg-cornflower-400 rounded-full"></div>
+                              {experience.location}
+                            </span>
+                          )}
+                          {experience.duration && (
+                            <span className="flex items-center gap-1.5 inline-flex">
+                              <div className="w-1 h-1 bg-cornflower-400 rounded-full"></div>
+                              {experience.duration}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="flex gap-2.5 ml-4">
+                    <div className="flex shrink-0 gap-2.5">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleEdit(experience)}
-                        className="w-10 h-10 p-0 rounded-full border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 dark:border-indigo-500/20 dark:text-indigo-400 dark:hover:bg-indigo-500/10 transition-all duration-300"
+                        className="w-10 h-10 p-0 rounded-full border-2 border-cornflower-200 text-cornflower-600 hover:bg-cornflower-50 dark:border-cornflower-500/20 dark:text-cornflower-400 dark:hover:bg-cornflower-500/10 transition-all duration-300"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -697,7 +699,7 @@ export default function ExperienceManagement() {
                         size="sm" 
                         onClick={() => deleteConfirmation.openConfirmDialog(experience)}
                         disabled={deleteMutation.isPending}
-                        className="w-10 h-10 p-0 rounded-full bg-indigo-950 text-white hover:bg-black transition-all duration-300"
+                        className="w-10 h-10 p-0 rounded-full bg-cornflower-950 text-white hover:bg-black transition-all duration-300"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -707,10 +709,10 @@ export default function ExperienceManagement() {
                                <div className="p-8 space-y-8">
                   {experience.responsibilities && experience.responsibilities.length > 0 && (
                     <div>
-                      <h4 className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] mb-4">Core Responsibilities:</h4>
+                      <h4 className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] mb-4">Core Responsibilities:</h4>
                       <ul className="space-y-3">
                         {experience.responsibilities.map((resp, index) => (
-                          <li key={index} className="text-sm text-indigo-700/70 dark:text-indigo-300/70 font-medium relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-indigo-400 before:rounded-full">
+                          <li key={index} className="text-sm text-cornflower-700/70 dark:text-cornflower-300/70 font-medium relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-cornflower-400 before:rounded-full">
                             {resp}
                           </li>
                         ))}
@@ -720,10 +722,10 @@ export default function ExperienceManagement() {
                   
                   {experience.achievements && experience.achievements.length > 0 && (
                     <div>
-                      <h4 className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] mb-4">Tactical Achievements:</h4>
+                      <h4 className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] mb-4">Tactical Achievements:</h4>
                       <ul className="space-y-3">
                         {experience.achievements.map((achievement, index) => (
-                          <li key={index} className="text-sm text-indigo-700/70 dark:text-indigo-300/70 font-medium relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-indigo-600 before:rounded-full">
+                          <li key={index} className="text-sm text-cornflower-700/70 dark:text-cornflower-300/70 font-medium relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-cornflower-600 before:rounded-full">
                             {achievement}
                           </li>
                         ))}
@@ -733,10 +735,10 @@ export default function ExperienceManagement() {
  
                   {experience.technologies && experience.technologies.length > 0 && (
                     <div>
-                      <h4 className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] mb-4">Technology Stack:</h4>
+                      <h4 className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] mb-4">Technology Stack:</h4>
                       <div className="flex flex-wrap gap-2">
                         {experience.technologies.map((tech, index) => (
-                          <Badge key={index} variant="outline" className="text-[10px] font-bold uppercase tracking-wider bg-indigo-500/5 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border-indigo-200/50 dark:border-indigo-500/20 px-3 py-1 rounded-full">
+                          <Badge key={index} variant="outline" className="text-[10px] font-bold uppercase tracking-wider bg-cornflower-500/5 dark:bg-cornflower-500/10 text-cornflower-600 dark:text-cornflower-300 border-cornflower-200/50 dark:border-cornflower-500/20 px-3 py-1 rounded-full">
                             {tech}
                           </Badge>
                         ))}
@@ -744,10 +746,10 @@ export default function ExperienceManagement() {
                     </div>
                   )}
  
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-indigo-500/40 pt-6 border-t border-indigo-100/30 dark:border-indigo-500/10">
-                    <span className="bg-indigo-500/5 dark:bg-indigo-500/10 px-3 py-1 rounded-full">ORDER_INDEX: {experience.order}</span>
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-cornflower-500/40 pt-6 border-t border-cornflower-100/30 dark:border-cornflower-500/10">
+                    <span className="bg-cornflower-500/5 dark:bg-cornflower-500/10 px-3 py-1 rounded-full">ORDER_INDEX: {experience.order}</span>
                     <span className="text-right flex items-center gap-1.5">
-                      <div className="w-1 h-1 bg-indigo-400 rounded-full"></div>
+                      <div className="w-1 h-1 bg-cornflower-400 rounded-full"></div>
                       SYNCED: {new Date(experience.created_at).toLocaleDateString()}
                     </span>
                   </div>

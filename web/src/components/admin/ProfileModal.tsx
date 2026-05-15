@@ -129,27 +129,27 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col rounded-[2.5rem] border-indigo-500/20 bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden">
-        {/* Modern Header - Cyberpunk Indigo */}
-        <DialogHeader className="relative bg-gradient-to-r from-indigo-50 via-indigo-50/50 to-white dark:from-indigo-950 dark:via-indigo-900/40 dark:to-black/20 border-b border-indigo-200/50 dark:border-indigo-500/10 p-8 flex-shrink-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent"></div>
+      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col rounded-[2.5rem] border-cornflower-500/20 bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+        {/* Modern Header - Cyberpunk cornflower */}
+        <DialogHeader className="relative bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 border-b border-cornflower-200/50 dark:border-cornflower-500/10 p-8 flex-shrink-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-cornflower-500/5 to-transparent"></div>
           <div className="relative">
-            <DialogTitle className="flex items-center gap-4 text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">
-              <div className="p-3 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-2xl shadow-inner">
-                <UserCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+            <DialogTitle className="flex items-center gap-4 text-2xl font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-tight">
+              <div className="p-3 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-2xl shadow-inner">
+                <UserCircle className="h-6 w-6 text-cornflower-600 dark:text-cornflower-400" />
               </div>
               Identity Matrix
             </DialogTitle>
-            <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold text-sm mt-1">Managing account kernels and security protocols</p>
+            <p className="text-cornflower-700/60 dark:text-cornflower-300/60 font-bold text-sm mt-1">Managing account kernels and security protocols</p>
           </div>
         </DialogHeader>
  
         <div className="p-8 flex-1 overflow-y-auto">
           <Tabs defaultValue="info" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 h-12 bg-indigo-500/5 dark:bg-indigo-500/10 p-1.5 rounded-2xl mb-8">
+            <TabsList className="grid w-full grid-cols-2 h-12 bg-cornflower-500/5 dark:bg-cornflower-500/10 p-1.5 rounded-2xl mb-8">
               <TabsTrigger 
                 value="info" 
-                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-500 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-cornflower-500 data-[state=active]:text-cornflower-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
               >
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">Profile_Kernel</span>
@@ -157,7 +157,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
               </TabsTrigger>
               <TabsTrigger 
                 value="password" 
-                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-500 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white dark:data-[state=active]:bg-cornflower-500 data-[state=active]:text-cornflower-600 dark:data-[state=active]:text-white rounded-xl transition-all duration-300"
               >
                 <KeyRound className="h-4 w-4" />
                 <span className="hidden sm:inline">Security_Protocol</span>
@@ -168,35 +168,35 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
             <TabsContent value="info" className="space-y-6">
               {profileLoading ? (
                 <div className="flex flex-col items-center justify-center py-12 gap-4">
-                  <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-600 dark:border-indigo-400 border-r-transparent"></div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500/60">Syncing identity...</span>
+                  <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-cornflower-600 dark:border-cornflower-400 border-r-transparent"></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-cornflower-500/60">Syncing identity...</span>
                 </div>
               ) : (
                 <div className="space-y-6">
                   {/* User Avatar & Basic Info */}
-                  <div className="p-8 rounded-[2rem] bg-indigo-500/5 dark:bg-indigo-500/10 border border-indigo-100/50 dark:border-indigo-500/10 relative overflow-hidden group">
+                  <div className="p-8 rounded-[2rem] bg-cornflower-500/5 dark:bg-cornflower-500/10 border border-cornflower-100/50 dark:border-cornflower-500/10 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <Shield className="w-24 h-24 text-indigo-600" />
+                      <Shield className="w-24 h-24 text-cornflower-600" />
                     </div>
                     <div className="relative flex flex-col sm:flex-row items-center gap-6">
                       <div className="relative">
-                        <div className="w-20 h-20 bg-indigo-600 dark:bg-indigo-500 rounded-[1.5rem] flex items-center justify-center text-white text-3xl font-black shadow-xl shadow-indigo-500/20">
+                        <div className="w-20 h-20 bg-cornflower-600 dark:bg-cornflower-500 rounded-[1.5rem] flex items-center justify-center text-white text-3xl font-black shadow-xl shadow-cornflower-500/20">
                           {profileData?.user?.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
                         {profileData?.user?.is_admin && (
-                          <div className="absolute -top-2 -right-2 bg-indigo-950 dark:bg-black rounded-full p-2 border-4 border-white dark:border-indigo-900 shadow-lg">
+                          <div className="absolute -top-2 -right-2 bg-cornflower-950 dark:bg-black rounded-full p-2 border-4 border-white dark:border-cornflower-900 shadow-lg">
                             <Shield className="h-4 w-4 text-white" />
                           </div>
                         )}
                       </div>
                       <div className="text-center sm:text-left flex-1">
-                        <h3 className="text-2xl font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-tight">
+                        <h3 className="text-2xl font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-tight">
                           {profileData?.user?.username || ""}
                         </h3>
-                        <p className="text-indigo-700/60 dark:text-indigo-300/60 font-bold mb-4">
+                        <p className="text-cornflower-700/60 dark:text-cornflower-300/60 font-bold mb-4">
                           {profileData?.user?.email || ""}
                         </p>
-                        <Badge className="bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-4 py-1.5 border-0">
+                        <Badge className="bg-cornflower-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full px-4 py-1.5 border-0">
                           <Shield className="h-3 w-3 mr-2" />
                           {profileData?.user?.is_admin ? "ADMIN_PRIVILEGES" : "STANDARD_ACCESS"}
                         </Badge>
@@ -206,7 +206,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
  
                   {/* Account Details */}
                   <div className="space-y-4">
-                    <h4 className="text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-[0.2em] px-2">Account Metadata:</h4>
+                    <h4 className="text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-[0.2em] px-2">Account Metadata:</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[
                         { label: 'USERNAME', value: profileData?.user?.username, icon: UserCircle },
@@ -215,7 +215,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         { label: 'NODE_CREATED', value: profileData?.user?.created_at ? new Date(profileData.user.created_at).toLocaleDateString() : "", icon: Calendar },
                       ].map((item, idx) => (
                         <div key={idx} className="space-y-2">
-                          <Label className="flex items-center gap-2 text-[10px] font-black text-indigo-500/60 uppercase tracking-widest">
+                          <Label className="flex items-center gap-2 text-[10px] font-black text-cornflower-500/60 uppercase tracking-widest">
                             <item.icon className="h-3 w-3" />
                             {item.label}
                           </Label>
@@ -223,9 +223,9 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                             <Input 
                               value={item.value || ""} 
                               readOnly 
-                              className="bg-white/50 dark:bg-black/20 border-indigo-100 dark:border-indigo-500/10 rounded-xl font-bold text-indigo-900 dark:text-indigo-100 h-11" 
+                              className="bg-white/50 dark:bg-black/20 border-cornflower-100 dark:border-cornflower-500/10 rounded-xl font-bold text-cornflower-900 dark:text-cornflower-100 h-11" 
                             />
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-indigo-500 rounded-full"></div>
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-cornflower-500 rounded-full"></div>
                           </div>
                         </div>
                       ))}
@@ -237,7 +237,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
  
             {/* Change Password Tab */}
             <TabsContent value="password" className="space-y-6">
-              <div className="p-8 rounded-[2rem] border-2 border-dashed border-indigo-100 dark:border-indigo-500/20 bg-indigo-500/5">
+              <div className="p-8 rounded-[2rem] border-2 border-dashed border-cornflower-100 dark:border-cornflower-500/20 bg-cornflower-500/5">
                 <form onSubmit={handlePasswordSubmit} className="space-y-6">
                   {[
                     { id: 'current_password', label: 'CURRENT_KEY', show: showPasswords.current, toggle: 'current' },
@@ -245,7 +245,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     { id: 'confirm_password', label: 'VERIFY_KEY', show: showPasswords.confirm, toggle: 'confirm' },
                   ].map((field) => (
                     <div key={field.id} className="space-y-2">
-                      <Label htmlFor={field.id} className="flex items-center gap-2 text-[10px] font-black text-indigo-950 dark:text-indigo-50 uppercase tracking-widest">
+                      <Label htmlFor={field.id} className="flex items-center gap-2 text-[10px] font-black text-cornflower-950 dark:text-cornflower-50 uppercase tracking-widest">
                         <Lock className="h-3 w-3" />
                         {field.label}
                       </Label>
@@ -257,8 +257,8 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                           onChange={(e) => handleInputChange(field.id as keyof ChangePasswordData, e.target.value)}
                           className={`pr-12 h-12 border-2 transition-all duration-300 rounded-xl font-bold bg-white dark:bg-black/20 ${
                             errors[field.id as keyof ChangePasswordData] 
-                              ? 'border-indigo-950 dark:border-white shadow-inner' 
-                              : 'border-indigo-100 dark:border-indigo-500/10 focus:border-indigo-600 dark:focus:border-indigo-400'
+                              ? 'border-cornflower-950 dark:border-white shadow-inner' 
+                              : 'border-cornflower-100 dark:border-cornflower-500/10 focus:border-cornflower-600 dark:focus:border-cornflower-400'
                           }`}
                           placeholder={`Enter ${field.label.toLowerCase()}...`}
                         />
@@ -266,19 +266,19 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-indigo-500/10 rounded-lg"
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 hover:bg-cornflower-500/10 rounded-lg"
                           onClick={() => togglePasswordVisibility(field.toggle as 'current' | 'new' | 'confirm')}
                         >
                           {field.show ? (
-                            <EyeOff className="h-4 w-4 text-indigo-500" />
+                            <EyeOff className="h-4 w-4 text-cornflower-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-indigo-500" />
+                            <Eye className="h-4 w-4 text-cornflower-500" />
                           )}
                         </Button>
                       </div>
                       {errors[field.id as keyof ChangePasswordData] && (
-                        <p className="text-[10px] font-black text-indigo-950 dark:text-white uppercase tracking-widest flex items-center gap-2 mt-1">
-                          <div className="w-1 h-1 bg-indigo-600 rounded-full"></div>
+                        <p className="text-[10px] font-black text-cornflower-950 dark:text-white uppercase tracking-widest flex items-center gap-2 mt-1">
+                          <div className="w-1 h-1 bg-cornflower-600 rounded-full"></div>
                           {errors[field.id as keyof ChangePasswordData]}
                         </p>
                       )}
@@ -286,7 +286,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                   ))}
  
                   {/* Password Requirements */}
-                  <div className="bg-indigo-600 text-white rounded-2xl p-6 shadow-xl shadow-indigo-600/20">
+                  <div className="bg-cornflower-600 text-white rounded-2xl p-6 shadow-xl shadow-cornflower-600/20">
                     <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
                       <Shield className="h-3 w-3" />
                       Protocol Requirements
@@ -303,19 +303,19 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </ul>
                   </div>
  
-                  <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-indigo-100/30 dark:border-indigo-500/10">
+                  <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-cornflower-100/30 dark:border-cornflower-500/10">
                     <Button 
                       type="button" 
                       variant="outline" 
                       onClick={onClose}
-                      className="rounded-full border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-[10px] h-12 px-8"
+                      className="rounded-full border-2 border-cornflower-100 dark:border-cornflower-500/20 text-cornflower-600 dark:text-cornflower-400 font-black uppercase tracking-widest text-[10px] h-12 px-8"
                     >
                       ABORT
                     </Button>
                     <Button 
                       type="submit" 
                       disabled={changePasswordMutation.isPending}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-600/20 rounded-full font-black uppercase tracking-widest text-[10px] h-12 px-8 transition-all duration-300 transform hover:scale-105"
+                      className="bg-cornflower-600 hover:bg-cornflower-700 text-white shadow-xl shadow-cornflower-600/20 rounded-full font-black uppercase tracking-widest text-[10px] h-12 px-8 transition-all duration-300 transform hover:scale-105"
                     >
                       {changePasswordMutation.isPending ? 'RECODING...' : 'UPDATE_KERNEL'}
                     </Button>

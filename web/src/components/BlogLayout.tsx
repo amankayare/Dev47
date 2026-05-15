@@ -113,9 +113,9 @@ const PopularTagsSection = () => {
   }
 
   return (
-    <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+    <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+      <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+        <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
           <Tag className="w-4 h-4 text-primary" />
           Popular Tags
         </CardTitle>
@@ -126,7 +126,7 @@ const PopularTagsSection = () => {
             <Badge
               key={tag.id}
               variant="secondary"
-              className="text-xs px-2 py-1 cursor-pointer bg-muted/60 text-foreground border border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200 hover:scale-105 relative group font-medium"
+              className="text-xs px-2 py-1 cursor-pointer bg-muted/60 dark:bg-white/10 text-foreground dark:text-white border border-border/50 dark:border-white/10 hover:bg-primary hover:text-white transition-all duration-200 hover:scale-105 relative group font-medium"
               onClick={() => handleTagClick(tag.name)}
               title={`${tag.count} posts (${tag.percentage}%)`}
             >
@@ -138,7 +138,7 @@ const PopularTagsSection = () => {
           ))}
         </div>
         {tagsData.total_blogs > 0 && (
-          <div className="mt-2 text-xs text-muted-foreground">
+          <div className="mt-2 text-xs text-muted-foreground dark:text-slate-400">
             Based on {tagsData.total_blogs} blog posts
           </div>
         )}
@@ -360,7 +360,7 @@ export default function BlogLayout({
                           </div>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" sideOffset={8} className="w-56 bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-2">
+                      <DropdownMenuContent align="end" sideOffset={8} className="w-56 bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-xl p-2">
                         <DropdownMenuItem 
                           onClick={() => setLocation('/profile')} 
                           className="cursor-pointer rounded-xl hover:bg-white/5 transition-colors p-2 focus:bg-primary/10"
@@ -519,10 +519,10 @@ export default function BlogLayout({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="space-y-8 bg-background/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 lg:p-10 shadow-2xl">
+            <div className="space-y-8 bg-background/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 lg:p-10 shadow-2xl">
               {/* Cover Image - Moved to Top */}
               {coverImage && (
-                <div className="w-full overflow-hidden rounded-2xl shadow-xl border border-white/5">
+                <div className="w-full overflow-hidden rounded-xl shadow-xl border border-white/5">
                   <BlogCoverImage src={coverImage} alt={title} />
                 </div>
               )}
@@ -551,16 +551,19 @@ export default function BlogLayout({
 
           {/* Consolidated Right Sidebar */}
           <motion.aside 
-            className="lg:col-span-3 order-2"
+            className="lg:col-span-3 order-2 relative pr-3"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
           >
-            <div className="sticky top-24 flex flex-col gap-8">
+            {/* Broad Vertical Boundary Line */}
+            <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-indigo-500/0 via-indigo-500/15 to-indigo-500/0 rounded-full hidden lg:block" />
+            
+            <div className="sticky top-24 flex flex-col gap-4">
               {/* Quick Links Block */}
-              <Card className="shadow-lg bg-background/60 backdrop-blur-md border border-white/10 overflow-hidden">
-                <CardHeader className="bg-muted/30 pb-4 border-b border-white/5">
-                  <CardTitle className="text-base font-bold text-foreground flex items-center gap-2">
+              <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-border/10 dark:border-white/10 overflow-hidden text-foreground dark:text-white">
+                <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                  <CardTitle className="text-base font-bold text-foreground dark:text-white flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-primary" />
                     Quick Links
                   </CardTitle>
@@ -573,7 +576,25 @@ export default function BlogLayout({
                           <span className="text-primary mt-1">▹</span>
                           <a
                             href={link.url}
-                            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // Extract ID safely and handle potential full URLs
+                              const urlParts = link.url.split('#');
+                              const id = urlParts.length > 1 ? urlParts[1] : urlParts[0];
+                              const element = document.getElementById(id);
+                              
+                              if (element) {
+                                const offset = 120; // Increased offset for sticky header
+                                const elementPosition = element.getBoundingClientRect().top;
+                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                
+                                window.scrollTo({
+                                  top: offsetPosition,
+                                  behavior: 'smooth'
+                                });
+                              }
+                            }}
+                            className="text-sm font-medium text-muted-foreground dark:text-slate-300 hover:text-primary transition-colors duration-200"
                           >
                             {link.title}
                           </a>
@@ -596,9 +617,9 @@ export default function BlogLayout({
               </Card>
 
               {/* Top Featured Blogs Block */}
-              <Card className="shadow-lg bg-background/60 backdrop-blur-md border border-white/10 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-primary/10 to-purple-500/10 pb-4 border-b border-white/5">
-                  <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground">
+              <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-border/10 dark:border-white/10 overflow-hidden text-foreground dark:text-white">
+                <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                  <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
                     <TrendingUp className="w-4 h-4 text-purple-500" />
                     Top Featured
                   </CardTitle>
@@ -616,7 +637,7 @@ export default function BlogLayout({
                           {post.title}
                         </a>
                         {post.reading_time && (
-                          <span className="block text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+                          <span className="block text-xs text-muted-foreground dark:text-slate-400 mt-1.5 flex items-center gap-1">
                             <Clock className="w-3 h-3" /> {post.reading_time} min read
                           </span>
                         )}
@@ -628,14 +649,14 @@ export default function BlogLayout({
 
               {/* Advertisement Block */}
               {showAds && (
-                <Card className="shadow-lg bg-gradient-to-br from-yellow-500/10 via-pink-500/10 to-purple-500/10 dark:from-yellow-500/5 dark:via-pink-500/5 dark:to-purple-500/5 border border-dashed border-yellow-500/30 animate-pulse relative overflow-hidden">
-                  <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-sm -z-10" />
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Advertisement</CardTitle>
+                <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-dashed border-yellow-500/30 relative overflow-hidden text-foreground dark:text-white">
+                  <div className="absolute inset-0 bg-white/5 dark:bg-black/20 backdrop-blur-sm -z-10" />
+                  <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+                    <CardTitle className="text-sm font-bold text-yellow-700 dark:text-yellow-400 uppercase tracking-wider">Advertisement</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-4">
-                      <div className="w-full h-24 bg-yellow-500/20 dark:bg-yellow-500/10 rounded-lg flex items-center justify-center text-yellow-600/70 dark:text-yellow-400/70 text-xs font-bold border border-yellow-500/20">
+                      <div className="w-full h-24 bg-yellow-500/10 dark:bg-yellow-500/5 rounded-lg flex items-center justify-center text-yellow-700/70 dark:text-yellow-400/70 text-xs font-bold border border-yellow-500/20">
                         300 x 250
                       </div>
                       <span className="mt-3 text-xs text-muted-foreground opacity-80">Support our work</span>
@@ -918,12 +939,12 @@ function BlogSidebar({
   const [, setLocation] = useLocation();
   if (side === 'left') {
     return (
-      <div className="space-y-6">
+      <div className="space-y-3">
         {/* Table of Contents */}
         {tableOfContents && tableOfContents.length > 0 && (
-          <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+          <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+            <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
                 <BookOpen className="w-4 h-4 text-primary" />
                 Contents
               </CardTitle>
@@ -947,9 +968,9 @@ function BlogSidebar({
         )}
 
         {/* Quick Links */}
-        <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+        <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
               <ExternalLink className="w-4 h-4 text-primary" />
               Quick Links
             </CardTitle>
@@ -983,7 +1004,7 @@ function BlogSidebar({
 
   // Right sidebar
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* Related Posts */}
       {loadingRelated ? (
         <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -1000,9 +1021,9 @@ function BlogSidebar({
           </CardContent>
         </Card>
       ) : relatedPosts && relatedPosts.length > 0 && (
-        <Card className="bg-background/60 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground/90">
+        <Card className="bg-card dark:bg-[#0f101b] border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-foreground dark:text-white">
               <TrendingUp className="w-4 h-4 text-primary" />
               Related Posts
             </CardTitle>
@@ -1012,7 +1033,7 @@ function BlogSidebar({
               {relatedPosts.slice(0, 3).map((post, index) => (
                 <div key={post.id}>
                   <div
-                    className="group cursor-pointer p-2 rounded-md hover:bg-muted/50 transition-colors"
+                    className="group cursor-pointer p-2 rounded-md hover:bg-muted/50 dark:hover:bg-white/5 transition-colors"
                     onClick={() => setLocation(`/blog/${post.id}`)}
                     role="button"
                     tabIndex={0}
@@ -1020,11 +1041,11 @@ function BlogSidebar({
                       if (e.key === 'Enter' || e.key === ' ') setLocation(`/blog/${post.id}`);
                     }}
                   >
-                    <h4 className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
+                    <h4 className="text-sm font-medium text-foreground dark:text-white group-hover:text-primary transition-colors line-clamp-2">
                       {post.title}
                     </h4>
                     {post.readingTime && (
-                      <p className="text-xs text-muted-foreground mt-1">{post.readingTime} min read</p>
+                      <p className="text-xs text-slate-400 mt-1">{post.readingTime} min read</p>
                     )}
                   </div>
                   {index < relatedPosts.slice(0, 3).length - 1 && <Separator className="bg-gradient-to-r from-transparent via-border to-transparent" />}
@@ -1040,8 +1061,8 @@ function BlogSidebar({
 
       {/* Advertisement Block */}
       {showAds && (
-        <Card className="shadow-lg bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border border-dashed border-yellow-400 dark:border-yellow-600 animate-pulse">
-          <CardHeader>
+        <Card className="shadow-lg bg-card dark:bg-[#0f101b] border border-dashed border-yellow-400 dark:border-yellow-600 text-foreground dark:text-white">
+          <CardHeader className="bg-muted/30 dark:bg-white/5 pb-2 border-b border-border/10 dark:border-white/5">
             <CardTitle className="text-base font-bold text-yellow-700 dark:text-yellow-300">Advertisement</CardTitle>
           </CardHeader>
           <CardContent>

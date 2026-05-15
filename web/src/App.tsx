@@ -1,6 +1,6 @@
 import { Route, Switch } from "wouter";
 import NotFound from "@/pages/not-found.tsx";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import Portfolio from "@/components/Portfolio";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register"; 
@@ -18,6 +18,7 @@ const CertificationsManagement = lazy(() => import("./pages/admin/Certifications
 const AboutManagement = lazy(() => import("./pages/admin/AboutManagement"));
 const ExperienceManagement = lazy(() => import("./pages/admin/ExperienceManagement"));
 const TechnicalSkillsManagement = lazy(() => import("./pages/admin/TechnicalSkillsManagement"));
+const BlogEditor = lazy(() => import("./pages/admin/BlogEditor"));
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -40,24 +41,28 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vs-portfolio-theme">
         <TooltipProvider>
           <Toaster />
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/forgot-password" component={ForgotPassword} />
-            <Route path="/reset-password/:token" component={ResetPassword} />
-            <Route path="/profile" component={UserProfile} />
-            <Route path="/admin" component={AdminDashboard} />
-            <Route path="/admin/projects">{() => <DelayedContent><ProjectsManagement /></DelayedContent>}</Route>
-            <Route path="/admin/blogs">{() => <DelayedContent><BlogsManagement /></DelayedContent>}</Route>
-            <Route path="/admin/certifications">{() => <DelayedContent><CertificationsManagement /></DelayedContent>}</Route>
-            <Route path="/admin/about">{() => <DelayedContent><AboutManagement /></DelayedContent>}</Route>
-            <Route path="/admin/experience">{() => <DelayedContent><ExperienceManagement /></DelayedContent>}</Route>
-            <Route path="/admin/technical-skills">{() => <DelayedContent><TechnicalSkillsManagement /></DelayedContent>}</Route>
-            <Route path="/blog/:id" component={BlogPost} />
-            <Route path="/blogs" component={BlogHome} />
-            <Route path="/" component={Portfolio} />
-            <Route component={NotFound} />
-          </Switch>
+          <Suspense fallback={<DelayedContent fullScreen><div /></DelayedContent>}>
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/reset-password/:token" component={ResetPassword} />
+              <Route path="/profile" component={UserProfile} />
+              <Route path="/admin" component={AdminDashboard} />
+              <Route path="/admin/projects">{() => <DelayedContent><ProjectsManagement /></DelayedContent>}</Route>
+              <Route path="/admin/blogs">{() => <DelayedContent><BlogsManagement /></DelayedContent>}</Route>
+              <Route path="/admin/blogs/new">{() => <DelayedContent><BlogEditor /></DelayedContent>}</Route>
+              <Route path="/admin/blogs/edit/:id">{() => <DelayedContent><BlogEditor /></DelayedContent>}</Route>
+              <Route path="/admin/certifications">{() => <DelayedContent><CertificationsManagement /></DelayedContent>}</Route>
+              <Route path="/admin/about">{() => <DelayedContent><AboutManagement /></DelayedContent>}</Route>
+              <Route path="/admin/experience">{() => <DelayedContent><ExperienceManagement /></DelayedContent>}</Route>
+              <Route path="/admin/technical-skills">{() => <DelayedContent><TechnicalSkillsManagement /></DelayedContent>}</Route>
+              <Route path="/blog/:id" component={BlogPost} />
+              <Route path="/blogs" component={BlogHome} />
+              <Route path="/" component={Portfolio} />
+              <Route component={NotFound} />
+            </Switch>
+          </Suspense>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

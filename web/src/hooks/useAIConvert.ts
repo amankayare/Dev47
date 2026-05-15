@@ -10,6 +10,8 @@ export interface AIConversionResult {
   suggested_title: string;
   suggested_excerpt: string;
   reading_time_minutes: number;
+  suggested_quick_links?: Array<{ title: string; url: string }>;
+  suggested_tags?: string[];
 }
 
 interface UseAIConvertReturn {

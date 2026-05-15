@@ -83,6 +83,18 @@ export default function UserProfile() {
         },
       });
       
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please login again.",
+          variant: "destructive",
+        });
+        setLocation('/login');
+        throw new Error('Session expired');
+      }
+      
       if (!response.ok) {
         throw new Error('Failed to fetch profile');
       }
@@ -113,6 +125,13 @@ export default function UserProfile() {
         },
         body: JSON.stringify(data),
       });
+      
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setLocation('/login');
+        throw new Error('Session expired. Please login again.');
+      }
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -155,6 +174,13 @@ export default function UserProfile() {
         },
         body: JSON.stringify(data),
       });
+      
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setLocation('/login');
+        throw new Error('Session expired. Please login again.');
+      }
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -265,7 +291,10 @@ export default function UserProfile() {
               <p className="text-muted-foreground mb-4">
                 Failed to load your profile information.
               </p>
-              <Button onClick={() => setLocation('/blogs')}>
+              <Button 
+                onClick={() => setLocation('/blogs')}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-bold shadow-lg shadow-indigo-500/20"
+              >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Blogs
               </Button>
@@ -293,7 +322,12 @@ export default function UserProfile() {
       <header className="border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => setLocation('/blogs')} className="hover:bg-muted/50">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setLocation('/blogs')} 
+              className="text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 dark:hover:bg-indigo-500/20 font-bold rounded-full px-4"
+            >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blogs
             </Button>

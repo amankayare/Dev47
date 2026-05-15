@@ -128,7 +128,7 @@
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
   --ring: hsl(239, 84%, 60%);
-  --radius: 2rem;
+  --radius: 0.75rem;
 
   /* Cyberpunk Indigo specific colors */
   --vs-blue: hsl(239, 84%, 60%);
@@ -199,6 +199,71 @@
   --button-outline-hover-dark: hsl(239, 84%, 15%);
 }
 
+/* Admin Specific Theme Scoping - light is default (html has no .dark or has .light) */
+.admin-theme-scope,
+html.light .admin-theme-scope {
+  /* Admin Light Theme - Cornflower Blue Base */
+  --background: hsl(219, 79%, 98%);
+  --foreground: hsl(219, 79%, 10%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(219, 79%, 10%);
+  --primary: hsl(219, 85%, 68%); /* brighter cornflowerblue */
+  --primary-foreground: hsl(219, 100%, 99%);
+  --border: hsl(219, 30%, 90%);
+
+  /* Cornflower Blue Palette (Light) */
+  --cornflower-50: hsl(219, 85%, 96%);
+  --cornflower-100: hsl(219, 85%, 92%);
+  --cornflower-200: hsl(219, 85%, 88%);
+  --cornflower-300: hsl(219, 85%, 82%);
+  --cornflower-400: hsl(219, 85%, 75%);
+  --cornflower-500: hsl(219, 85%, 68%);
+  --cornflower-600: hsl(219, 85%, 58%);
+  --cornflower-700: hsl(219, 85%, 48%);
+  --cornflower-800: hsl(219, 85%, 38%);
+  --cornflower-900: hsl(219, 85%, 28%);
+  --cornflower-950: hsl(219, 85%, 18%);
+}
+
+html.dark .admin-theme-scope {
+  /* Admin Dark Theme — Professional, inspired by GitHub Dark / Linear */
+  --background: hsl(219, 30%, 13%);       /* was 8% — much less cave-like */
+  --foreground: hsl(219, 15%, 95%);       /* near-white text */
+  --card: hsl(219, 28%, 17%);             /* was 10% — visible card surfaces */
+  --card-foreground: hsl(219, 15%, 95%);
+  --popover: hsl(219, 28%, 14%);
+  --popover-foreground: hsl(219, 15%, 95%);
+  --primary: hsl(219, 85%, 68%);
+  --primary-foreground: hsl(219, 100%, 99%);
+  --secondary: hsl(219, 28%, 22%);
+  --secondary-foreground: hsl(219, 15%, 92%);
+  --muted: hsl(219, 25%, 20%);
+  --muted-foreground: hsl(219, 20%, 70%);  /* readable secondary text */
+  --accent: hsl(219, 28%, 24%);
+  --accent-foreground: hsl(219, 15%, 95%);
+  --destructive: hsl(0, 75%, 55%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(219, 25%, 24%);            /* visible borders */
+  --input: hsl(219, 25%, 20%);
+  --ring: hsl(219, 85%, 68%);
+  --vs-sidebar-bg: hsl(219, 30%, 10%);
+
+  /* Cornflower Blue Palette — STANDARD scale: 50=lightest, 950=darkest
+     Components use dark:text-cornflower-50 expecting near-white.
+     Do NOT invert this scale. */
+  --cornflower-50: hsl(219, 85%, 95%);    /* near-white — for dark:text-cornflower-50 */
+  --cornflower-100: hsl(219, 75%, 88%);
+  --cornflower-200: hsl(219, 70%, 78%);
+  --cornflower-300: hsl(219, 70%, 70%);
+  --cornflower-400: hsl(219, 75%, 68%);
+  --cornflower-500: hsl(219, 85%, 68%);   /* the main cornflower blue accent */
+  --cornflower-600: hsl(219, 75%, 58%);
+  --cornflower-700: hsl(219, 65%, 48%);
+  --cornflower-800: hsl(219, 55%, 35%);
+  --cornflower-900: hsl(219, 48%, 25%);
+  --cornflower-950: hsl(219, 42%, 18%);   /* dark — for dark:from-cornflower-950 backgrounds */
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -225,8 +290,8 @@
   }
 
   .dark body::after {
-    border-color: rgba(99, 102, 241, 0.25);
-    box-shadow: inset 0 0 75px rgba(99, 102, 241, 0.35);
+    border-color: var(--cornflower-500, rgba(100, 149, 237, 0.25));
+    box-shadow: inset 0 0 75px var(--cornflower-700, rgba(100, 149, 237, 0.35));
   }
 
   .font-vs {
@@ -534,3 +599,41 @@
     @apply grid-cols-1;
   }
 }
+
+/* AI Magic Effect Animations */
+@keyframes magic-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.magic-border-container {
+  position: relative;
+  border-radius: 0.75rem;
+  padding: 2px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.magic-border-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 45deg,
+    #fbbf24 90deg,
+    #f59e0b 180deg,
+    #fbbf24 270deg,
+    transparent 315deg 360deg
+  );
+  animation: magic-rotate 2s linear infinite;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.magic-border-active .magic-border-glow {
+  opacity: 1;
+}
