@@ -38,7 +38,8 @@ web/
 server/
 ├── uploads/              # ✅ File uploads (moved here)
 ├── app.py               # Flask application
-├── requirements.txt     # Python dependencies
+├── pyproject.toml       # Python project and dependencies
+├── uv.lock              # Locked Python dependencies
 ├── routes/              # API endpoints
 └── ...other backend files
 ```

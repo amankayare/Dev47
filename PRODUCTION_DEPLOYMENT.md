@@ -22,7 +22,7 @@ Complete step-by-step guide for fresh production deployments and hotfix deployme
 
 Docker images clone directly from GitHub during build:
 - **Caddy image:** Clones repo → `npm ci` → `npm run build` → copies `dist/` to Caddy
-- **Backend image:** Clones repo → `pip install` → copies `server/` code + gunicorn config + entrypoint
+- **Backend image:** Clones the repo, runs `uv sync` from `server/pyproject.toml` and `server/uv.lock`, then copies the server code, Gunicorn config, and entrypoint.
 - **Local files used from `docker-prod/`:** `docker-compose.yml`, `Dockerfile.backend`, `Dockerfile.caddy`, `Caddyfile`, `gunicorn.conf.py`, `entrypoint.sh`, `.env`
 
 > **Important:** Code changes MUST be pushed to GitHub before building on VPS. The Docker build clones from GitHub, not local files.

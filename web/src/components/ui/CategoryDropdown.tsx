@@ -30,13 +30,13 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
   const selected = categories.find(cat => cat.id.toString() === selectedId.toString());
 
   return (
-    <div className="relative w-full min-w-[220px]">
+    <div className={cn('relative w-full min-w-[220px]', open && 'z-[60]')}>
       <button
         ref={triggerRef}
         type="button"
         className={cn(
-          'flex items-center justify-between w-full h-12 px-4 py-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-base font-medium shadow-sm transition-all',
-          open ? 'ring-2 ring-blue-400 dark:ring-blue-500' : '',
+          'flex items-center justify-between w-full h-12 px-4 py-2 rounded-xl border-2 border-border bg-background text-foreground text-base font-medium shadow-sm transition-all',
+          open ? 'ring-2 ring-primary' : '',
           disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
         )}
         onClick={() => setOpen(v => !v)}
@@ -44,24 +44,24 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className={cn('truncate', !selected && 'text-gray-400 dark:text-gray-500')}>{selected ? selected.name : placeholder}</span>
-        <ChevronDown className="ml-2 w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform" style={{ transform: open ? 'rotate(180deg)' : undefined }} />
+        <span className={cn('truncate', !selected && 'text-muted-foreground')}>{selected ? selected.name : placeholder}</span>
+        <ChevronDown className="ml-2 w-5 h-5 text-muted-foreground transition-transform" style={{ transform: open ? 'rotate(180deg)' : undefined }} />
       </button>
       {open && (
         <ul
-          className="absolute z-50 mt-2 w-full max-h-60 overflow-y-auto rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-xl animate-fade-in"
+          className="absolute z-[100] mt-2 w-full max-h-60 overflow-y-auto rounded-xl border-2 border-border bg-popover text-popover-foreground shadow-xl animate-fade-in"
           tabIndex={-1}
           role="listbox"
         >
           {categories.length === 0 && (
-            <li className="px-4 py-3 text-gray-400 dark:text-gray-500">No categories</li>
+            <li className="px-4 py-3 text-muted-foreground">No categories</li>
           )}
           {categories.map(cat => (
             <li
               key={cat.id}
               className={cn(
                 'flex items-center justify-between px-4 py-2 cursor-pointer group',
-                selectedId.toString() === cat.id.toString() ? 'bg-blue-50 dark:bg-blue-900 font-bold text-blue-600 dark:text-blue-300' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200'
+                selectedId.toString() === cat.id.toString() ? 'bg-accent font-bold text-accent-foreground' : 'text-popover-foreground hover:bg-accent hover:text-accent-foreground'
               )}
               onClick={() => {
                 onSelect(cat.id);

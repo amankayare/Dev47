@@ -318,7 +318,7 @@ export default function AdminDashboard() {
               {/* Ghibli-style Stats Cards */}
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
                 {/* Card 1: Projects */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-overview-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <div className="absolute -right-6 -top-6 w-32 h-32 bg-cornflower-300/20 dark:bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
                     <CardTitle className="text-sm font-bold text-cornflower-900 dark:text-cornflower-100 uppercase tracking-wider">Projects</CardTitle>
@@ -337,7 +337,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Card 2: Blog Posts */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-overview-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <div className="absolute -right-6 -top-6 w-32 h-32 bg-cornflower-300/20 dark:bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
                     <CardTitle className="text-sm font-bold text-cornflower-900 dark:text-cornflower-100 uppercase tracking-wider">Blog Posts</CardTitle>
@@ -356,7 +356,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Card 3: Certifications */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-overview-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <div className="absolute -right-6 -top-6 w-32 h-32 bg-cornflower-300/20 dark:bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
                     <CardTitle className="text-sm font-bold text-cornflower-900 dark:text-cornflower-100 uppercase tracking-wider">Certs</CardTitle>
@@ -375,7 +375,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Card 4: Messages */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-overview-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <div className="absolute -right-6 -top-6 w-32 h-32 bg-cornflower-300/20 dark:bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
                     <CardTitle className="text-sm font-bold text-cornflower-900 dark:text-cornflower-100 uppercase tracking-wider">Messages</CardTitle>
@@ -394,8 +394,8 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Card 5: Users */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
-                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/30 dark:bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                <Card className="admin-overview-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-3xl border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-cornflower-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-transparent z-10 relative">
                     <CardTitle className="text-sm font-bold text-cornflower-900 dark:text-cornflower-100 uppercase tracking-wider">Users</CardTitle>
                     <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 backdrop-blur-md rounded-2xl shadow-sm group-hover:rotate-12 transition-transform duration-300">
@@ -415,7 +415,7 @@ export default function AdminDashboard() {
             </TabsContent>
 
             <TabsContent value="users" className="space-y-6 sm:space-y-8 px-1 sm:px-0">
-              <Card className="relative overflow-hidden rounded-[2.5rem] border-0 bg-cornflower-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-cornflower-200/30 dark:border-cornflower-500/10">
+              <Card className="admin-overview-card relative overflow-hidden rounded-[2.5rem] border-0 bg-cornflower-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-cornflower-200/30 dark:border-cornflower-500/10">
                 <CardHeader className="bg-transparent border-b border-cornflower-200/50 dark:border-cornflower-500/10 p-6 sm:p-8">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4">
                     <CardTitle className="flex items-center gap-3 text-2xl font-black text-cornflower-900 dark:text-cornflower-50">
@@ -447,7 +447,7 @@ export default function AdminDashboard() {
                   {usersLoading ? (
                     <div className="flex items-center justify-center py-8">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cornflower-600 dark:border-cornflower-300"></div>
-                      <span className="ml-2 text-muted-foreground dark:text-gray-300">Loading users...</span>
+                      <span className="ml-2 text-muted-foreground">Loading users...</span>
                     </div>
                   ) : (
                     <>
@@ -487,7 +487,7 @@ export default function AdminDashboard() {
                                   className={
                                     user.is_admin
                                       ? "bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white rounded-full font-black text-xs px-6 transition-all duration-300"
-                                      : "bg-cornflower-500 text-white hover:bg-cornflower-600 rounded-full font-black text-xs px-6 transition-all duration-300 shadow-md hover:shadow-lg shadow-cornflower-500/20"
+                                      : "admin-grant-action rounded-full font-black text-xs px-6 transition-all duration-300 shadow-sm hover:shadow-md"
                                   }
                                 >
                                   {user.is_admin ? "🔒 Remove Master" : "👑 Grant Mastery"}
@@ -501,7 +501,7 @@ export default function AdminDashboard() {
                         {typedUsersData?.total_pages > 1 && (
                           <nav aria-label="Pagination" className="flex items-center gap-2">
                             <button
-                              className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
+                              className="px-4 py-2 rounded-lg bg-card border border-border text-foreground hover:bg-accent hover:border-primary/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
                               onClick={() => setPage(typedUsersData.page - 1)}
                               disabled={typedUsersData.page === 1}
                             >
@@ -513,7 +513,7 @@ export default function AdminDashboard() {
                                 className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
                                   p === typedUsersData.page
                                     ? "bg-cornflower-600 dark:bg-cornflower-700 text-white shadow-lg transform scale-105"
-                                    : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                                    : "bg-card border border-border text-foreground hover:bg-accent hover:border-primary/40"
                                 }`}
                                 onClick={() => setPage(p)}
                                 aria-current={p === typedUsersData.page ? "page" : undefined}
@@ -522,7 +522,7 @@ export default function AdminDashboard() {
                               </button>
                             ))}
                             <button
-                              className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
+                              className="px-4 py-2 rounded-lg bg-card border border-border text-foreground hover:bg-accent hover:border-primary/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium"
                               onClick={() => setPage(typedUsersData.page + 1)}
                               disabled={typedUsersData.page === typedUsersData.total_pages}
                             >
@@ -539,7 +539,7 @@ export default function AdminDashboard() {
             </TabsContent>
 
             <TabsContent value="messages" className="space-y-6 sm:space-y-8 px-1 sm:px-0">
-              <Card className="relative overflow-hidden rounded-[2.5rem] border-0 bg-cornflower-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-cornflower-200/30 dark:border-cornflower-500/10">
+              <Card className="admin-overview-card relative overflow-hidden rounded-[2.5rem] border-0 bg-cornflower-50/40 dark:bg-black/40 backdrop-blur-2xl shadow-lg border border-cornflower-200/30 dark:border-cornflower-500/10">
                 <CardHeader className="bg-transparent border-b border-cornflower-200/50 dark:border-cornflower-500/10 p-6 sm:p-8">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4">
                     <CardTitle className="flex items-center gap-3 text-2xl font-black text-cornflower-900 dark:text-cornflower-50">
@@ -603,8 +603,8 @@ export default function AdminDashboard() {
                 <CardContent className="p-6">
                   {messagesLoading ? (
                     <div className="flex items-center justify-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 dark:border-orange-300"></div>
-                      <span className="ml-2 text-muted-foreground dark:text-gray-300">Loading messages...</span>
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cornflower-600 dark:border-cornflower-300"></div>
+                      <span className="ml-2 text-muted-foreground">Loading messages...</span>
                     </div>
                   ) : (
                     <>
@@ -660,7 +660,7 @@ export default function AdminDashboard() {
                             <div className="mt-4 pt-4 border-t border-cornflower-200 dark:border-cornflower-700">
                               <nav aria-label="Pagination" className="flex items-center justify-center gap-1">
                                 <button
-                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-cornflower-200 dark:border-cornflower-700 text-cornflower-700 dark:text-cornflower-300 hover:bg-cornflower-50 dark:hover:bg-cornflower-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                                  className="px-3 py-1.5 text-sm rounded-lg bg-card border border-cornflower-200 dark:border-cornflower-700 text-cornflower-700 dark:text-cornflower-300 hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                                   onClick={() => setMessagesPage(typedMessagesData.page - 1)}
                                   disabled={typedMessagesData.page === 1}
                                 >
@@ -670,7 +670,7 @@ export default function AdminDashboard() {
                                   {typedMessagesData.page} / {typedMessagesData.total_pages}
                                 </span>
                                 <button
-                                  className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-gray-800 border border-cornflower-200 dark:border-cornflower-700 text-cornflower-700 dark:text-cornflower-300 hover:bg-cornflower-50 dark:hover:bg-cornflower-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                                  className="px-3 py-1.5 text-sm rounded-lg bg-card border border-cornflower-200 dark:border-cornflower-700 text-cornflower-700 dark:text-cornflower-300 hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                                   onClick={() => setMessagesPage(typedMessagesData.page + 1)}
                                   disabled={typedMessagesData.page === typedMessagesData.total_pages}
                                 >
@@ -764,13 +764,13 @@ export default function AdminDashboard() {
                           ) : (
                             <div className="flex-1 flex items-center justify-center">
                               <div className="text-center space-y-3">
-                                  <MessageSquare className="h-8 w-8 text-gray-400 dark:text-gray-600" />
+                                  <MessageSquare className="h-8 w-8 text-muted-foreground" />
                                 </div>
                                 <div>
-                                  <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                                  <h3 className="text-lg font-semibold text-foreground mb-1">
                                     No message selected
                                   </h3>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  <p className="text-sm text-muted-foreground">
                                     Select a message from the list to view its details
                                   </p>
                                 </div>
@@ -787,7 +787,7 @@ export default function AdminDashboard() {
               <TabsContent value="content" className="space-y-8 sm:space-y-12 px-1 sm:px-0 pt-4">
                 <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {/* Projects Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/90 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/90 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/50 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -799,7 +799,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-cornflower-500/20 transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/projects')}
                     >
                       🚀 Open Atelier
@@ -808,7 +808,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Blog Posts Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/50 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -820,7 +820,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-cornflower-500/20 transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/blogs')}
                     >
                       ✍️ Start Writing
@@ -829,7 +829,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* About Management Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/30 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/50 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -841,7 +841,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl shadow-cornflower-500/20 transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/about')}
                     >
                       👤 Update Persona
@@ -850,7 +850,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Certifications Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/90 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/90 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/30 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -862,7 +862,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/certifications')}
                     >
                       📜 Showcase Awards
@@ -871,7 +871,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Experience Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/30 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -883,7 +883,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/experience')}
                     >
                       💼 Update Timeline
@@ -892,7 +892,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 {/* Technical Skills Card */}
-                <Card className="relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
+                <Card className="admin-content-card relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl hover:shadow-cornflower-500/20 transition-all duration-500 rounded-[2.5rem] border-0 bg-gradient-to-br from-card to-card/95 dark:from-cornflower-950/80 dark:to-cornflower-900/60">
                   <CardHeader className="bg-transparent border-b border-cornflower-200/30 dark:border-cornflower-500/15 p-8">
                     <CardTitle className="flex items-center gap-3 text-xl font-black text-cornflower-950 dark:text-cornflower-50">
                       <div className="p-3 bg-cornflower-100 dark:bg-cornflower-500/30 rounded-2xl shadow-sm">
@@ -904,7 +904,7 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-8">
                     <Button
-                      className="w-full py-6 rounded-full bg-cornflower-600 hover:bg-cornflower-700 dark:bg-cornflower-500 dark:hover:bg-cornflower-600 text-white font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="admin-content-action w-full py-6 rounded-full font-black text-sm uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
                       onClick={() => setLocation('/admin/technical-skills')}
                     >
                       💻 Polish Skills

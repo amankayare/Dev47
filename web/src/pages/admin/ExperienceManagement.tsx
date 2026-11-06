@@ -51,7 +51,7 @@ function ResponsibilitiesEditor({ responsibilities, onChange }: Responsibilities
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+      <Label className="text-sm font-semibold text-foreground">
         Responsibilities
       </Label>
       
@@ -62,7 +62,7 @@ function ResponsibilitiesEditor({ responsibilities, onChange }: Responsibilities
               value={responsibility}
               onChange={(e) => updateResponsibility(index, e.target.value)}
               placeholder="e.g., Led development team of 5 engineers"
-              className="flex-1 h-10 text-base border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-slate-500 dark:focus:border-slate-400 transition-colors bg-slate-50 dark:bg-slate-800"
+              className="flex-1 h-10 text-base border-2 border-border rounded-xl focus:border-primary transition-colors bg-background"
             />
             {displayedResponsibilities.length > 1 && (
               <Button
@@ -82,7 +82,7 @@ function ResponsibilitiesEditor({ responsibilities, onChange }: Responsibilities
           type="button"
           variant="outline"
           onClick={addResponsibility}
-          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
+          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:border-primary/50 rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Responsibility
@@ -120,7 +120,7 @@ function AchievementsEditor({ achievements, onChange }: AchievementsEditorProps)
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+      <Label className="text-sm font-semibold text-foreground">
         Key Achievements
       </Label>
       
@@ -131,7 +131,7 @@ function AchievementsEditor({ achievements, onChange }: AchievementsEditorProps)
               value={achievement}
               onChange={(e) => updateAchievement(index, e.target.value)}
               placeholder="e.g., Delivered 15+ projects on time and under budget"
-              className="flex-1 h-10 text-base border-2 border-slate-200 dark:border-slate-700 rounded-xl focus:border-slate-500 dark:focus:border-slate-400 transition-colors bg-slate-50 dark:bg-slate-800"
+              className="flex-1 h-10 text-base border-2 border-border rounded-xl focus:border-primary transition-colors bg-background"
             />
             {displayedAchievements.length > 1 && (
               <Button
@@ -151,7 +151,7 @@ function AchievementsEditor({ achievements, onChange }: AchievementsEditorProps)
           type="button"
           variant="outline"
           onClick={addAchievement}
-          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 rounded-xl transition-colors"
+          className="w-full h-10 border-2 border-dashed border-cornflower-200/50 dark:border-cornflower-500/20 text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:border-primary/50 rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Achievement
@@ -431,24 +431,24 @@ export default function ExperienceManagement() {
                   Initialize Career Node
                 </Button>
               </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-0 shadow-2xl">
-              <DialogHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
-                <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-gray-800 bg-clip-text text-transparent">
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto border-border bg-popover text-popover-foreground shadow-2xl">
+              <DialogHeader className="border-b border-border pb-4">
+                <DialogTitle className="text-2xl font-bold text-foreground">
                   {editingExperience ? 'Edit Experience' : 'Create New Experience'}
                 </DialogTitle>
-                <DialogDescription className="text-gray-600 dark:text-gray-400">
+                <DialogDescription className="text-muted-foreground">
                   Fill out the form below to {editingExperience ? 'update' : 'create'} a work experience entry.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6 p-1">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Job Title *</Label>
+                    <Label htmlFor="title" className="text-sm font-semibold text-foreground">Job Title *</Label>
                     <Input
                       id="title"
                       value={formData.title}
                       onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                      className={`border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-lg ${formErrors.title ? 'border-red-500' : ''}`}
+                      className={`border-border focus:border-primary rounded-lg ${formErrors.title ? 'border-red-500' : ''}`}
                       required
                     />
                     {formErrors.title && <p className="text-sm text-red-500">{formErrors.title}</p>}
@@ -587,7 +587,7 @@ export default function ExperienceManagement() {
                     />
                     <Label htmlFor="is_current" className="text-sm font-medium">
                       Current position
-                      <span className="text-xs text-gray-500 block">
+                      <span className="text-xs text-muted-foreground block">
                         (Only one experience can be current at a time)
                       </span>
                     </Label>
@@ -913,7 +913,7 @@ export default function ExperienceManagement() {
                 />
                 <Label htmlFor="edit-is_current" className="text-sm font-medium">
                   Current position
-                  <span className="text-xs text-gray-500 block">
+                  <span className="text-xs text-muted-foreground block">
                     (Only one experience can be current at a time)
                   </span>
                 </Label>

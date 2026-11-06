@@ -47,7 +47,7 @@ npm run install:all      # Installs in respective directories
 
 ### **Backend Owns:**
 - `server/uploads/`
-- `server/requirements.txt` (with Flask, etc.)
+- `server/pyproject.toml` and `server/uv.lock` (backend dependencies)
 - `server/__pycache__/`
 
 ---

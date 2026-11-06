@@ -19,7 +19,8 @@ visual-portfolio/
 │   ├── app.py            # Main Flask application
 │   ├── routes/           # API endpoints
 │   ├── models.py         # Database models
-│   ├── requirements.txt   # Python dependencies
+│   ├── pyproject.toml     # Python project and dependencies
+│   └── uv.lock            # Locked Python dependencies
 │   └── .env.example       # Environment template
 │
 ├── docker/               # 🐳 Docker Configurations
@@ -101,7 +102,7 @@ npm run dev:server
 
 ### **Backend** 
 - **Cloud Platforms**: Heroku, AWS EC2, Google Cloud Run
-- **Commands**: `cd server && pip install -r requirements.txt && python app.py`
+- **Commands**: `cd server && uv sync && uv run python app.py`
 
 ### **Docker**
 - **Development**: `docker-compose -f docker/docker-compose.yml up`

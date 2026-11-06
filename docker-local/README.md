@@ -191,7 +191,7 @@ docker-compose up -d --build
               │
               ├── python:3.11-slim
               │     Create non-root user "app"
-              │     COPY server/requirements.txt → pip install + gunicorn
+              │     COPY server/pyproject.toml + uv.lock → uv sync + gunicorn
               │     COPY server/ → /app
               │     COPY gunicorn.conf.py → /app
               │     chown → USER app

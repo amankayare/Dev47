@@ -284,7 +284,7 @@ export default function ProjectsManagement() {
                   Initialize New Artifact
                 </Button>
               </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-white dark:bg-black/90 backdrop-blur-2xl border border-cornflower-200 dark:border-cornflower-500/10 shadow-2xl rounded-[2.5rem] p-0 admin-theme-scope">
+            <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-popover text-popover-foreground backdrop-blur-2xl border border-cornflower-200 dark:border-cornflower-500/10 shadow-2xl rounded-[2.5rem] p-0 admin-theme-scope">
               <DialogHeader className="p-8 sm:p-10 border-b border-cornflower-200 dark:border-cornflower-500/10">
                 <DialogTitle className="text-3xl font-black text-cornflower-950 dark:text-cornflower-50 flex items-center gap-4">
                   <div className="w-12 h-12 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-2xl flex items-center justify-center shadow-inner">
@@ -674,7 +674,7 @@ function ProjectLinksEditor({ projectLinks, onChange }: ProjectLinksEditorProps)
       </div>
       
       {projectLinks.length === 0 ? (
-        <div className="text-sm text-gray-500 dark:text-gray-400 text-center py-4 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
+        <div className="text-sm text-muted-foreground text-center py-4 border-2 border-dashed border-border rounded-lg">
           No project links added. Click "Add Link" to get started.
         </div>
       ) : (
@@ -686,7 +686,7 @@ function ProjectLinksEditor({ projectLinks, onChange }: ProjectLinksEditorProps)
                   placeholder="Link name (e.g., GitHub, Live Demo)"
                   value={link.name}
                   onChange={(e) => updateProjectLink(index, 'name', e.target.value)}
-                  className="h-10 text-sm border-gray-200 dark:border-gray-700 rounded-lg focus:border-blue-500 dark:focus:border-blue-400"
+                  className="h-10 text-sm border-border rounded-lg focus:border-primary"
                 />
               </div>
               <div className="flex-1">
@@ -694,7 +694,7 @@ function ProjectLinksEditor({ projectLinks, onChange }: ProjectLinksEditorProps)
                   placeholder="URL (e.g., https://github.com/...)"
                   value={link.url}
                   onChange={(e) => updateProjectLink(index, 'url', e.target.value)}
-                  className="h-10 text-sm border-gray-200 dark:border-gray-700 rounded-lg focus:border-blue-500 dark:focus:border-blue-400"
+                  className="h-10 text-sm border-border rounded-lg focus:border-primary"
                 />
               </div>
               <Button
@@ -710,7 +710,7 @@ function ProjectLinksEditor({ projectLinks, onChange }: ProjectLinksEditorProps)
           ))}
         </div>
       )}
-      <p className="text-xs text-gray-500 dark:text-gray-400">
+      <p className="text-xs text-muted-foreground">
         Add links to project resources like GitHub repository, live demo, documentation, etc.
       </p>
     </div>

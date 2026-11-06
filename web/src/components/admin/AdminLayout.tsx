@@ -82,7 +82,7 @@ function AdminLayoutContent({ children, title, backTo }: AdminLayoutProps) {
   if (!currentUser) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e8f0fe] via-[#f8fafc] to-[#dbeafe] dark:from-[#0a1128] dark:via-[#020617] dark:to-[#000000] transition-colors duration-700 admin-theme-scope">
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-secondary transition-colors duration-700 admin-theme-scope">
       <header className="sticky top-0 z-40 w-full bg-white/40 dark:bg-black/20 backdrop-blur-2xl border-b border-white/30 dark:border-white/5">
         <div className="p-3 sm:p-4 max-w-7xl mx-auto w-full">
           {/* Mobile Header - Stack vertically */}

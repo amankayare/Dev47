@@ -572,8 +572,8 @@ const Portfolio = () => {
     <svg viewBox="0 0 256 256" className="w-6 h-6">
       <defs>
         <linearGradient id="vsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#0065A9" />
-          <stop offset="100%" stopColor="#007ACC" />
+          <stop offset="0%" stopColor="#00AFC1" />
+          <stop offset="100%" stopColor="#38D6E5" />
         </linearGradient>
       </defs>
       <path
