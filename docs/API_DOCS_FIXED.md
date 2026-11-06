@@ -71,10 +71,10 @@ Based on your Flask app configuration:
 
 ## 🔍 **If Still Having Issues:**
 
-1. **Check flasgger installation:**
+1. **Sync backend dependencies:**
    ```bash
-   conda activate MPI-Applications
-   pip install flasgger
+   cd server
+   uv sync
    ```
 
 2. **Check server logs** for any import errors

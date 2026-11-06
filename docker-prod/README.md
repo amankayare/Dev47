@@ -284,7 +284,7 @@ docker compose build --no-cache
         │     │
         │     └── Stage 2: python:3.11-slim (production)
         │           Create non-root user "app"
-        │           COPY server/requirements.txt → pip install + gunicorn + psycopg2-binary
+        │           COPY server/pyproject.toml + uv.lock → uv sync
         │           COPY server/ → /app
         │           COPY gunicorn.conf.py → /app
         │           chown → USER app

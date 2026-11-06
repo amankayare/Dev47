@@ -161,9 +161,10 @@ export default function BlogsManagement() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-10">
           {/* Enhanced Header Section - Cyberpunk cornflower */}
-          <div className="bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 rounded-3xl p-8 border border-cornflower-200/50 dark:border-cornflower-500/10 shadow-sm relative overflow-hidden">
-            {/* Background Decorative Element */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-cornflower-500/5 rounded-full blur-3xl"></div>
+          <div className="bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 rounded-3xl p-8 border border-cornflower-200/50 dark:border-cornflower-500/10 shadow-sm relative z-20 overflow-visible">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+              <div className="absolute -top-24 -right-24 w-64 h-64 bg-cornflower-500/5 rounded-full blur-3xl"></div>
+            </div>
             
             <div className="relative z-10 space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -280,8 +281,8 @@ export default function BlogsManagement() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Error Loading Blogs</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+            <h3 className="text-xl font-semibold text-foreground mb-3">Error Loading Blogs</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               There was an issue loading your blog posts. Please check your connection and try again.
             </p>
             <pre className="text-xs text-red-600 dark:text-red-400 mb-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg max-w-md mx-auto overflow-auto">
@@ -295,8 +296,8 @@ export default function BlogsManagement() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Backend Update Required</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+            <h3 className="text-xl font-semibold text-foreground mb-3">Backend Update Required</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               The backend is returning the old format. Found {legacyBlogs.length} blog posts but search and pagination features are not available until the backend is updated.
             </p>
           </div>
@@ -321,19 +322,19 @@ export default function BlogsManagement() {
           </div>
         ) : typedBlogsData && typedBlogsData.total === 0 && search ? (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-              <svg className="w-10 h-10 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-20 h-20 bg-primary/10 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+              <svg className="w-10 h-10 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">No posts found</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+            <h3 className="text-xl font-semibold text-foreground mb-3">No posts found</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               No blog posts match your search for "{search}". Try a different search term or filter.
             </p>
             <Button 
               onClick={clearSearch}
               variant="outline"
-              className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="border-border hover:bg-accent hover:text-accent-foreground"
             >
               <X className="w-4 h-4 mr-2" />
               Clear Search
@@ -448,7 +449,7 @@ export default function BlogsManagement() {
                     <CardTitle className="text-xl font-black text-cornflower-950 dark:text-cornflower-50 line-clamp-2 group-hover:text-cornflower-600 dark:group-hover:text-cornflower-400 transition-colors leading-tight tracking-tight uppercase">
                       {blog.title}
                     </CardTitle>
-                    <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
                       <div className="flex items-center gap-2">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -473,7 +474,7 @@ export default function BlogsManagement() {
                 
                 <CardContent className="px-6 pb-6 space-y-5">
                   {blog.excerpt && (
-                    <p className="text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed text-base">
+                    <p className="text-muted-foreground line-clamp-2 leading-relaxed text-base">
                       {blog.excerpt}
                     </p>
                   )}
@@ -516,7 +517,7 @@ export default function BlogsManagement() {
             {/* Pagination */}
             {typedBlogsData && typedBlogsData.total > 0 && (
               <div className="flex flex-col items-center mt-8 space-y-4">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-muted-foreground">
                   Showing {((typedBlogsData.page - 1) * typedBlogsData.page_size) + 1} to{' '}
                   {Math.min(typedBlogsData.page * typedBlogsData.page_size, typedBlogsData.total)} of{' '}
                   {typedBlogsData.total} results
@@ -525,7 +526,7 @@ export default function BlogsManagement() {
                 {typedBlogsData.total_pages > 1 && (
                   <nav className="flex items-center gap-2">
                     <button
-                      className="px-4 py-2 rounded-lg bg-card dark:bg-gray-800 border border-gray-200 dark:border-gray-700 disabled:opacity-50"
+                      className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-accent disabled:opacity-50"
                       onClick={() => setPage(typedBlogsData.page - 1)}
                       disabled={typedBlogsData.page === 1}
                     >
@@ -545,7 +546,7 @@ export default function BlogsManagement() {
                       </button>
                     ))}
                     <button
-                      className="px-4 py-2 rounded-lg bg-card dark:bg-gray-800 border border-gray-200 dark:border-gray-700 disabled:opacity-50"
+                      className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-accent disabled:opacity-50"
                       onClick={() => setPage(typedBlogsData.page + 1)}
                       disabled={typedBlogsData.page === typedBlogsData.total_pages}
                     >

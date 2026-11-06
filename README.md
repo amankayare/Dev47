@@ -19,7 +19,8 @@ visual-portfolio/
 │   ├── routes/           # API endpoints
 │   ├── models.py         # Database models
 │   ├── uploads/          # File uploads
-│   └── requirements.txt   # Python dependencies
+│   ├── pyproject.toml     # Python project and dependencies
+│   └── uv.lock            # Locked Python dependencies
 ├── docker/               # Docker configurations
 ├── scripts/              # Utility scripts
 ├── docs/                 # Documentation
@@ -31,17 +32,17 @@ visual-portfolio/
 
 ### Prerequisites
 - Node.js 18+ 
-- Python 3.8+
-- pip
+- Python 3.9+
+- uv
 
 ### Installation
 
-1. **Install all dependencies:**
+1. **Install frontend and backend dependencies:**
    ```bash
    npm run install:all
    ```
 
-2. **Start development servers:**
+2. **Start development servers** (uv must be installed):
    ```bash
    npm run dev
    ```

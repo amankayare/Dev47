@@ -33,7 +33,14 @@ def main():
     
     # Check Python
     if not run_command("python --version"):
-        print("❌ Python not found. Please install Python 3.8+")
+        print("❌ Python not found. Please install Python 3.9+")
+        return False
+    if sys.version_info < (3, 9):
+        print("❌ Python 3.9 or newer is required")
+        return False
+
+    if not run_command("uv --version"):
+        print("❌ uv not found. Please install uv")
         return False
     
     print("✅ Prerequisites check passed")
@@ -57,21 +64,12 @@ def main():
     print("\n🐍 Setting up backend...")
     server_dir = os.path.join(project_root, "server")
     
-    # Check if conda environment exists
-    print("🔍 Checking conda environment portfolio-312...")
-    if not run_command("conda info --envs | findstr portfolio-312"):
-        print("❌ Conda environment 'portfolio-312' not found!")
-        print("Please create it with: conda create -n portfolio-312 python=3.9")
-        return False
-    
-    print("✅ Conda environment portfolio-312 found")
-    
-    if not run_command("conda run -n portfolio-312 pip install -r requirements.txt", cwd=server_dir):
+    if not run_command("uv sync", cwd=server_dir):
         print("❌ Backend setup failed")
         return False
     
     # Initialize database
-    if run_command("conda run -n portfolio-312 python init_db.py", cwd=server_dir):
+    if run_command("uv run python init_db.py", cwd=server_dir):
         print("✅ Database initialized")
     else:
         print("⚠️  Database initialization failed (may already exist)")

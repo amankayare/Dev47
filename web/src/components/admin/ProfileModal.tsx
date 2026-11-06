@@ -129,7 +129,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col rounded-[2.5rem] border-cornflower-500/20 bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+      <DialogContent className="sm:max-w-[640px] p-0 gap-0 max-h-[85vh] flex flex-col rounded-[2.5rem] border-cornflower-500/20 bg-popover text-popover-foreground shadow-2xl overflow-hidden">
         {/* Modern Header - Cyberpunk cornflower */}
         <DialogHeader className="relative bg-gradient-to-r from-cornflower-50 via-cornflower-50/50 to-white dark:from-cornflower-950 dark:via-cornflower-900/40 dark:to-black/20 border-b border-cornflower-200/50 dark:border-cornflower-500/10 p-8 flex-shrink-0">
           <div className="absolute inset-0 bg-gradient-to-r from-cornflower-500/5 to-transparent"></div>
@@ -223,7 +223,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                             <Input 
                               value={item.value || ""} 
                               readOnly 
-                              className="bg-white/50 dark:bg-black/20 border-cornflower-100 dark:border-cornflower-500/10 rounded-xl font-bold text-cornflower-900 dark:text-cornflower-100 h-11" 
+                              className="bg-background border-cornflower-100 dark:border-cornflower-500/10 rounded-xl font-bold text-cornflower-900 dark:text-cornflower-100 h-11"
                             />
                             <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-cornflower-500 rounded-full"></div>
                           </div>

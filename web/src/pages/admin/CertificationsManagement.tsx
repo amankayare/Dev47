@@ -208,29 +208,29 @@ export default function CertificationsManagement() {
                   Initialize Credential
                 </Button>
               </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-0 shadow-2xl">
-              <DialogHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
-                <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-gray-800 bg-clip-text text-transparent">
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto border-border bg-popover text-popover-foreground shadow-2xl">
+              <DialogHeader className="border-b border-border pb-4">
+                <DialogTitle className="text-2xl font-bold text-foreground">
                   {editingCert ? 'Edit Certification' : 'Create New Certification'}
                 </DialogTitle>
-                <DialogDescription className="text-gray-600 dark:text-gray-400">
+                <DialogDescription className="text-muted-foreground">
                   Fill out the form below to {editingCert ? 'update' : 'create'} a certification.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6 p-1">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Certification Name *</Label>
+                    <Label htmlFor="name" className="text-sm font-semibold text-foreground">Certification Name *</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                       required
-                      className="border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-lg"
+                      className="border-border focus:border-primary rounded-lg"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="issuer" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Issuer *</Label>
+                    <Label htmlFor="issuer" className="text-sm font-semibold text-foreground">Issuer *</Label>
                     <Input
                       id="issuer"
                       value={formData.issuer}
@@ -302,13 +302,13 @@ export default function CertificationsManagement() {
                   />
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="flex items-center space-x-3 p-4 bg-muted rounded-lg">
                   <Switch
                     id="is_visible"
                     checked={formData.is_visible}
                     onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_visible: checked }))}
                   />
-                  <Label htmlFor="is_visible" className="text-sm font-medium text-gray-700 dark:text-gray-300">Visible on portfolio</Label>
+                  <Label htmlFor="is_visible" className="text-sm font-medium text-foreground">Visible on portfolio</Label>
                 </div>
 
                 <DialogFooter>
@@ -551,13 +551,13 @@ export default function CertificationsManagement() {
               />
             </div>
 
-            <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="flex items-center space-x-3 p-4 bg-muted rounded-lg">
               <Switch
                 id="edit-is_visible"
                 checked={formData.is_visible}
                 onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_visible: checked }))}
               />
-              <Label htmlFor="edit-is_visible" className="text-sm font-medium text-gray-700 dark:text-gray-300">Visible on portfolio</Label>
+              <Label htmlFor="edit-is_visible" className="text-sm font-medium text-foreground">Visible on portfolio</Label>
             </div>
 
             <DialogFooter>

@@ -11,14 +11,12 @@
 ### **Step 1: Verify Environment & Dependencies**
 
 ```bash
-# 1. Activate correct environment
-conda activate MPI-Applications
+# 1. Install/sync project dependencies
+cd server
+uv sync
 
-# 2. Install missing dependencies
-pip install Flask Flask-CORS flasgger
-
-# 3. Check installation
-python -c "import flask, flask_cors, flasgger; print('All imports successful')"
+# 2. Check installation
+uv run python -c "import flask, flask_cors, flasgger; print('All imports successful')"
 ```
 
 ### **Step 2: Test Basic Server Functionality**

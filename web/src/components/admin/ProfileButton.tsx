@@ -12,7 +12,7 @@ export function ProfileButton({ onClick, className = "" }: ProfileButtonProps) {
       variant="outline"
       size="sm"
       onClick={onClick}
-      className={`h-8 w-8 sm:h-9 sm:w-auto sm:px-3 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 ${className}`}
+      className={`h-8 w-8 sm:h-9 sm:w-auto sm:px-3 border-border hover:bg-accent hover:text-accent-foreground ${className}`}
       aria-label="Open profile settings"
     >
       <User className="h-3 w-3 sm:h-4 sm:w-4" />

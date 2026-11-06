@@ -285,7 +285,7 @@ export default function BlogEditor() {
           </div>
         </div>
 
-        <Card className="shadow-2xl border-0 bg-card/70 dark:bg-black/40 backdrop-blur-md rounded-3xl overflow-hidden">
+        <Card className="shadow-2xl border-0 bg-card/70 dark:bg-background/60 backdrop-blur-md rounded-3xl overflow-hidden">
           <CardHeader className="p-8 sm:p-10 border-b border-cornflower-200/50 dark:border-cornflower-500/10">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-cornflower-500/10 dark:bg-cornflower-500/20 rounded-xl flex items-center justify-center shadow-inner">

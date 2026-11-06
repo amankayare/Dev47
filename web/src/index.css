@@ -11,6 +11,22 @@
   50% { opacity: 0.5; }
 }
 
+.blog-card-shake:hover {
+  animation: blog-card-shake 360ms ease-in-out;
+}
+
+@keyframes blog-card-shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-0.4deg); }
+  75% { transform: rotate(0.4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-card-shake:hover {
+    animation: none;
+  }
+}
+
 @keyframes ripple {
   0% {
     opacity: 0;
@@ -108,160 +124,217 @@
 }
 
 :root {
-  /* Cyberpunk Indigo Theme Colors */
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(239, 84%, 10%);
-  --muted: hsl(239, 84%, 98%);
-  --muted-foreground: hsl(239, 20%, 45.1%);
+  /* DEV47 cyan palette, sampled from the brand controls. */
+  --brand-50: 188 100% 97%;
+  --brand-100: 188 88% 93%;
+  --brand-200: 188 82% 84%;
+  --brand-300: 188 80% 73%;
+  --brand-400: 188 84% 61%;
+  --brand-500: 188 92% 48%;
+  --brand-600: 189 94% 40%;
+  --brand-700: 191 91% 32%;
+  --brand-800: 194 82% 25%;
+  --brand-900: 198 78% 18%;
+  --brand-950: 204 72% 11%;
+
+  --background: hsl(190, 45%, 99%);
+  --foreground: hsl(204, 48%, 12%);
+  --muted: hsl(188, 45%, 96%);
+  --muted-foreground: hsl(199, 18%, 42%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(239, 84%, 10%);
+  --popover-foreground: hsl(204, 48%, 12%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(239, 84%, 10%);
-  --border: hsl(239, 30%, 90%);
-  --input: hsl(239, 30%, 95%);
-  --primary: hsl(239, 84%, 60%);
-  --primary-foreground: hsl(239, 100%, 99%);
-  --secondary: hsl(239, 84%, 96.1%);
-  --secondary-foreground: hsl(239, 84%, 10%);
-  --accent: hsl(239, 84%, 96.1%);
-  --accent-foreground: hsl(239, 84%, 10%);
+  --card-foreground: hsl(204, 48%, 12%);
+  --border: hsl(188, 34%, 86%);
+  --input: hsl(188, 32%, 91%);
+  --primary: hsl(189, 94%, 34%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(188, 76%, 92%);
+  --secondary-foreground: hsl(198, 78%, 18%);
+  --accent: hsl(188, 78%, 92%);
+  --accent-foreground: hsl(198, 78%, 18%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(239, 84%, 60%);
+  --ring: hsl(188, 92%, 48%);
   --radius: 0.75rem;
 
-  /* Cyberpunk Indigo specific colors */
-  --vs-blue: hsl(239, 84%, 60%);
-  --vs-blue-dark: hsl(239, 84%, 40%);
-  --vs-purple: hsl(239, 84%, 30%);
-  --vs-purple-light: hsl(239, 84%, 70%);
-  --vs-orange: hsl(239, 84%, 50%);
-  --vs-gray-50: hsl(239, 20%, 97.3%);
-  --vs-gray-100: hsl(239, 20%, 95.3%);
-  --vs-gray-200: hsl(239, 20%, 93.7%);
-  --vs-gray-300: hsl(239, 20%, 90.2%);
-  --vs-gray-400: hsl(239, 20%, 70%);
-  --vs-gray-500: hsl(239, 20%, 50%);
-  --vs-gray-600: hsl(239, 20%, 30%);
+  --vs-blue: var(--brand-500);
+  --vs-blue-dark: var(--brand-700);
+  --vs-purple: var(--brand-800);
+  --vs-purple-light: var(--brand-300);
+  --vs-orange: var(--brand-600);
+  --vs-gray-50: 188, 40%, 98%;
+  --vs-gray-100: 188, 30%, 95%;
+  --vs-gray-200: 188, 24%, 90%;
+  --vs-gray-300: 188, 20%, 84%;
+  --vs-gray-400: 190, 18%, 65%;
+  --vs-gray-500: 194, 16%, 48%;
+  --vs-gray-600: 198, 20%, 32%;
 
-  /* Theme sidebar colors */
-  --vs-sidebar-bg: hsl(239, 84%, 98%);
-  --vs-sidebar-hover: hsl(239, 84%, 95%);
-  --vs-sidebar-text: hsl(239, 84%, 20%);
-  --vs-tab-bg: hsl(239, 84%, 92%);
-  --vs-tab-active: hsl(239, 84%, 100%);
-  --vs-header-bg: hsl(239, 84%, 96%);
+  --vs-sidebar-bg: hsl(188, 55%, 97%);
+  --vs-sidebar-hover: hsl(188, 70%, 92%);
+  --vs-sidebar-text: hsl(198, 78%, 18%);
+  --vs-tab-bg: hsl(188, 55%, 91%);
+  --vs-tab-active: hsl(0, 0%, 100%);
+  --vs-header-bg: hsl(188, 60%, 96%);
 
-  /* Button hover colors */
-  --button-hover-light: hsl(239, 84%, 94%);
-  --button-outline-hover-light: hsl(239, 84%, 96%);
+  --button-hover-light: hsl(188, 75%, 91%);
+  --button-outline-hover-light: hsl(188, 70%, 95%);
+
+  --cornflower-50: hsl(var(--brand-50));
+  --cornflower-100: hsl(var(--brand-100));
+  --cornflower-200: hsl(var(--brand-200));
+  --cornflower-300: hsl(var(--brand-300));
+  --cornflower-400: hsl(var(--brand-400));
+  --cornflower-500: hsl(var(--brand-500));
+  --cornflower-600: hsl(var(--brand-600));
+  --cornflower-700: hsl(var(--brand-700));
+  --cornflower-800: hsl(var(--brand-800));
+  --cornflower-900: hsl(var(--brand-900));
+  --cornflower-950: hsl(var(--brand-950));
+
+  --chart-1: hsl(var(--brand-500));
+  --chart-2: hsl(var(--brand-700));
+  --chart-3: hsl(196, 60%, 55%);
+  --chart-4: hsl(180, 52%, 48%);
+  --chart-5: hsl(205, 55%, 42%);
 }
 
 
 .dark {
-  /* Cyberpunk Indigo Dark Theme */
-  --background: hsl(239, 84%, 4%);
-  --foreground: hsl(239, 84%, 98%);
-  --muted: hsl(239, 84%, 8%);
-  --muted-foreground: hsl(239, 20%, 63.9%);
-  --popover: hsl(239, 84%, 4%);
-  --popover-foreground: hsl(239, 84%, 98%);
-  --card: hsl(239, 84%, 6%);
-  --card-foreground: hsl(239, 84%, 98%);
-  --border: hsl(239, 40%, 15%);
-  --input: hsl(239, 40%, 12%);
-  --primary: hsl(239, 84%, 60%);
-  --primary-foreground: hsl(239, 100%, 99%);
-  --secondary: hsl(239, 84%, 10%);
-  --secondary-foreground: hsl(239, 84%, 98%);
-  --accent: hsl(239, 84%, 12%);
-  --accent-foreground: hsl(239, 84%, 98%);
+  --background: hsl(202, 38%, 7%);
+  --foreground: hsl(188, 35%, 96%);
+  --muted: hsl(202, 32%, 12%);
+  --muted-foreground: hsl(195, 18%, 68%);
+  --popover: hsl(202, 38%, 9%);
+  --popover-foreground: hsl(188, 35%, 96%);
+  --card: hsl(202, 34%, 10%);
+  --card-foreground: hsl(188, 35%, 96%);
+  --border: hsl(198, 28%, 20%);
+  --input: hsl(198, 28%, 17%);
+  --primary: hsl(188, 88%, 58%);
+  --primary-foreground: hsl(204, 60%, 9%);
+  --secondary: hsl(198, 32%, 17%);
+  --secondary-foreground: hsl(188, 35%, 94%);
+  --accent: hsl(198, 32%, 19%);
+  --accent-foreground: hsl(188, 35%, 96%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(239, 84%, 60%);
+  --ring: hsl(188, 88%, 58%);
 
-  /* Dark theme specific colors */
-  --vs-dark-100: hsl(239, 84%, 4%);
-  --vs-dark-200: hsl(239, 84%, 8%);
-  --vs-dark-300: hsl(239, 84%, 12%);
-  --vs-dark-400: hsl(239, 84%, 16%);
+  --vs-dark-100: 202, 38%, 7%;
+  --vs-dark-200: 202, 32%, 12%;
+  --vs-dark-300: 202, 30%, 16%;
+  --vs-dark-400: 198, 28%, 22%;
 
-  /* Dark theme sidebar colors */
-  --vs-sidebar-bg: hsl(239, 84%, 5%);
-  --vs-sidebar-hover: hsl(239, 84%, 15%);
-  --vs-sidebar-text: hsl(239, 84%, 85%);
-  --vs-tab-bg: hsl(239, 84%, 7%);
-  --vs-tab-active: hsl(239, 84%, 10%);
-  --vs-header-bg: hsl(239, 84%, 4%);
+  --vs-sidebar-bg: hsl(202, 38%, 8%);
+  --vs-sidebar-hover: hsl(198, 34%, 17%);
+  --vs-sidebar-text: hsl(188, 35%, 88%);
+  --vs-tab-bg: hsl(202, 32%, 12%);
+  --vs-tab-active: hsl(202, 34%, 16%);
+  --vs-header-bg: hsl(202, 38%, 7%);
 
-  /* Button hover colors */
-  --button-hover-dark: hsl(239, 84%, 12%);
-  --button-outline-hover-dark: hsl(239, 84%, 15%);
+  --button-hover-dark: hsl(198, 34%, 20%);
+  --button-outline-hover-dark: hsl(198, 34%, 23%);
+
+  --chart-1: hsl(var(--brand-400));
+  --chart-2: hsl(var(--brand-300));
+  --chart-3: hsl(196, 65%, 65%);
+  --chart-4: hsl(180, 55%, 60%);
+  --chart-5: hsl(205, 60%, 62%);
 }
 
 /* Admin Specific Theme Scoping - light is default (html has no .dark or has .light) */
 .admin-theme-scope,
 html.light .admin-theme-scope {
-  /* Admin Light Theme - Cornflower Blue Base */
-  --background: hsl(219, 79%, 98%);
-  --foreground: hsl(219, 79%, 10%);
+  --background: hsl(190, 45%, 98%);
+  --foreground: hsl(204, 48%, 12%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(219, 79%, 10%);
-  --primary: hsl(219, 85%, 68%); /* brighter cornflowerblue */
-  --primary-foreground: hsl(219, 100%, 99%);
-  --border: hsl(219, 30%, 90%);
-
-  /* Cornflower Blue Palette (Light) */
-  --cornflower-50: hsl(219, 85%, 96%);
-  --cornflower-100: hsl(219, 85%, 92%);
-  --cornflower-200: hsl(219, 85%, 88%);
-  --cornflower-300: hsl(219, 85%, 82%);
-  --cornflower-400: hsl(219, 85%, 75%);
-  --cornflower-500: hsl(219, 85%, 68%);
-  --cornflower-600: hsl(219, 85%, 58%);
-  --cornflower-700: hsl(219, 85%, 48%);
-  --cornflower-800: hsl(219, 85%, 38%);
-  --cornflower-900: hsl(219, 85%, 28%);
-  --cornflower-950: hsl(219, 85%, 18%);
+  --card-foreground: hsl(204, 48%, 12%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(204, 48%, 12%);
+  --primary: hsl(189, 94%, 34%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(188, 76%, 92%);
+  --secondary-foreground: hsl(198, 78%, 18%);
+  --muted: hsl(188, 45%, 96%);
+  --muted-foreground: hsl(199, 18%, 42%);
+  --accent: hsl(188, 78%, 92%);
+  --accent-foreground: hsl(198, 78%, 18%);
+  --border: hsl(188, 34%, 86%);
+  --input: hsl(188, 32%, 91%);
+  --ring: hsl(188, 92%, 48%);
 }
 
 html.dark .admin-theme-scope {
-  /* Admin Dark Theme — Professional, inspired by GitHub Dark / Linear */
-  --background: hsl(219, 30%, 13%);       /* was 8% — much less cave-like */
-  --foreground: hsl(219, 15%, 95%);       /* near-white text */
-  --card: hsl(219, 28%, 17%);             /* was 10% — visible card surfaces */
-  --card-foreground: hsl(219, 15%, 95%);
-  --popover: hsl(219, 28%, 14%);
-  --popover-foreground: hsl(219, 15%, 95%);
-  --primary: hsl(219, 85%, 68%);
-  --primary-foreground: hsl(219, 100%, 99%);
-  --secondary: hsl(219, 28%, 22%);
-  --secondary-foreground: hsl(219, 15%, 92%);
-  --muted: hsl(219, 25%, 20%);
-  --muted-foreground: hsl(219, 20%, 70%);  /* readable secondary text */
-  --accent: hsl(219, 28%, 24%);
-  --accent-foreground: hsl(219, 15%, 95%);
+  --background: hsl(202, 38%, 9%);
+  --foreground: hsl(188, 35%, 96%);
+  --card: hsl(202, 34%, 12%);
+  --card-foreground: hsl(188, 35%, 96%);
+  --popover: hsl(202, 34%, 10%);
+  --popover-foreground: hsl(188, 35%, 96%);
+  --primary: hsl(188, 88%, 58%);
+  --primary-foreground: hsl(204, 60%, 9%);
+  --secondary: hsl(198, 32%, 17%);
+  --secondary-foreground: hsl(188, 35%, 94%);
+  --muted: hsl(202, 32%, 14%);
+  --muted-foreground: hsl(195, 18%, 68%);
+  --accent: hsl(198, 32%, 19%);
+  --accent-foreground: hsl(188, 35%, 96%);
   --destructive: hsl(0, 75%, 55%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --border: hsl(219, 25%, 24%);            /* visible borders */
-  --input: hsl(219, 25%, 20%);
-  --ring: hsl(219, 85%, 68%);
-  --vs-sidebar-bg: hsl(219, 30%, 10%);
+  --border: hsl(198, 28%, 23%);
+  --input: hsl(198, 28%, 17%);
+  --ring: hsl(188, 88%, 58%);
+  --vs-sidebar-bg: hsl(202, 38%, 8%);
+}
 
-  /* Cornflower Blue Palette — STANDARD scale: 50=lightest, 950=darkest
-     Components use dark:text-cornflower-50 expecting near-white.
-     Do NOT invert this scale. */
-  --cornflower-50: hsl(219, 85%, 95%);    /* near-white — for dark:text-cornflower-50 */
-  --cornflower-100: hsl(219, 75%, 88%);
-  --cornflower-200: hsl(219, 70%, 78%);
-  --cornflower-300: hsl(219, 70%, 70%);
-  --cornflower-400: hsl(219, 75%, 68%);
-  --cornflower-500: hsl(219, 85%, 68%);   /* the main cornflower blue accent */
-  --cornflower-600: hsl(219, 75%, 58%);
-  --cornflower-700: hsl(219, 65%, 48%);
-  --cornflower-800: hsl(219, 55%, 35%);
-  --cornflower-900: hsl(219, 48%, 25%);
-  --cornflower-950: hsl(219, 42%, 18%);   /* dark — for dark:from-cornflower-950 backgrounds */
+.admin-theme-scope [data-ui="card"] {
+  border: 1px solid hsl(204, 24%, 40%) !important;
+}
+
+html.dark .admin-theme-scope [data-ui="card"] {
+  border-color: hsl(188, 35%, 82%, 0.28) !important;
+}
+
+.admin-theme-scope .admin-content-action {
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+  border: 1px solid #475569 !important;
+}
+
+.admin-theme-scope .admin-content-action:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.admin-theme-scope .admin-grant-action {
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+  border: 1px solid #475569 !important;
+}
+
+.admin-theme-scope .admin-grant-action:hover {
+  background-color: #f1f5f9 !important;
+}
+
+html.dark .admin-theme-scope .admin-content-action {
+  color: #f8fafc !important;
+  background-color: hsl(202, 34%, 20%) !important;
+  border-color: hsl(188, 35%, 82%, 0.55) !important;
+}
+
+html.dark .admin-theme-scope .admin-grant-action {
+  color: #f8fafc !important;
+  background-color: hsl(202, 34%, 20%) !important;
+  border-color: hsl(188, 35%, 82%, 0.55) !important;
+}
+
+html.dark .admin-theme-scope .admin-content-action:hover {
+  background-color: hsl(202, 34%, 25%) !important;
+}
+
+html.dark .admin-theme-scope .admin-grant-action:hover {
+  background-color: hsl(202, 34%, 25%) !important;
 }
 
 @layer base {
@@ -290,8 +363,8 @@ html.dark .admin-theme-scope {
   }
 
   .dark body::after {
-    border-color: var(--cornflower-500, rgba(100, 149, 237, 0.25));
-    box-shadow: inset 0 0 75px var(--cornflower-700, rgba(100, 149, 237, 0.35));
+    border-color: hsl(var(--brand-500) / 0.3);
+    box-shadow: inset 0 0 60px hsl(var(--brand-700) / 0.2);
   }
 
   .font-vs {
@@ -432,26 +505,26 @@ html.dark .admin-theme-scope {
 
   .light .hero-squares::before {
     background-image: repeating-linear-gradient(0deg,
-        rgba(218, 197, 197, 0.1) 0px,
-        rgba(0, 0, 0, 0.1) 2px,
+        rgba(8, 177, 196, 0.035) 0px,
+        rgba(8, 177, 196, 0.08) 2px,
         transparent 2px,
         transparent 24px),
       repeating-linear-gradient(90deg,
-        rgba(218, 197, 197, 0.1) 0px,
-        rgba(0, 0, 0, 0.1) 2px,
+        rgba(8, 177, 196, 0.035) 0px,
+        rgba(8, 177, 196, 0.08) 2px,
         transparent 2px,
         transparent 24px);
   }
 
   .dark .hero-squares::before {
     background-image: repeating-linear-gradient(0deg,
-        rgba(39, 38, 38, 0.08) 0px,
-        rgba(255, 255, 255, 0.08) 2px,
+        rgba(20, 198, 218, 0.025) 0px,
+        rgba(20, 198, 218, 0.07) 2px,
         transparent 2px,
         transparent 24px),
       repeating-linear-gradient(90deg,
-        rgba(39, 38, 38, 0.0) 0px,
-        rgba(255, 255, 255, 0.08) 2px,
+        rgba(20, 198, 218, 0.025) 0px,
+        rgba(20, 198, 218, 0.07) 2px,
         transparent 2px,
         transparent 24px);
   }

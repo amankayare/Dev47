@@ -89,9 +89,6 @@ export default function Register() {
     <div className="h-screen flex flex-col bg-background text-foreground font-vs relative overflow-hidden">
       {/* Clean Background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Subtle Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-gray-950 dark:via-gray-900 dark:to-slate-950"></div>
-        
         {/* Subtle Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>

@@ -193,7 +193,7 @@ export default function AboutManagement() {
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50 w-full min-w-0"
+                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50 w-full min-w-0"
                         required
                       />
                     </div>
@@ -203,7 +203,7 @@ export default function AboutManagement() {
                         id="headline"
                         value={formData.headline}
                         onChange={(e) => setFormData(prev => ({ ...prev, headline: e.target.value }))}
-                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50 w-full min-w-0"
+                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50 w-full min-w-0"
                         placeholder="e.g., Full Stack Developer & Tech Enthusiast"
                       />
                     </div>
@@ -215,7 +215,7 @@ export default function AboutManagement() {
                       id="bio"
                       value={formData.bio}
                       onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                      className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50 min-h-[160px]"
+                      className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50 min-h-[160px]"
                       rows={6}
                       required
                       placeholder="Write a compelling bio that showcases your background, skills, and interests..."
@@ -258,7 +258,7 @@ export default function AboutManagement() {
                         id="location"
                         value={formData.location}
                         onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50"
+                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50"
                         placeholder="City, Country"
                       />
                     </div>
@@ -270,7 +270,7 @@ export default function AboutManagement() {
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50"
+                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50"
                       />
                     </div>
 
@@ -280,7 +280,7 @@ export default function AboutManagement() {
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 focus:ring-slate-500 dark:focus:ring-slate-400 bg-card dark:bg-black/30 text-cornflower-950 dark:text-cornflower-50"
+                        className="border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary focus:ring-primary bg-card text-cornflower-950 dark:text-cornflower-50"
                       />
                     </div>
                   </div>
@@ -371,7 +371,7 @@ export default function AboutManagement() {
                               href={ensureHttpsProtocol(url as string)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-xs bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-cornflower-900/60 dark:text-cornflower-100/60 px-3 py-2 rounded-lg transition-colors duration-200 capitalize font-medium"
+                              className="text-xs bg-muted hover:bg-accent text-muted-foreground px-3 py-2 rounded-lg transition-colors duration-200 capitalize font-medium"
                             >
                               {platform}
                             </a>
@@ -421,7 +421,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <Label className="text-cornflower-900/60 dark:text-cornflower-100/60 font-medium flex items-center gap-2">
-          <ExternalLink className="w-4 h-4 text-slate-500" />
+          <ExternalLink className="w-4 h-4 text-muted-foreground" />
           Social Links
         </Label>
         <Button
@@ -429,7 +429,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
           variant="outline"
           size="sm"
           onClick={addSocialLink}
-          className="h-8 px-3 text-xs border-cornflower-200/50 dark:border-cornflower-500/20 hover:bg-slate-50 dark:hover:bg-slate-700"
+          className="h-8 px-3 text-xs border-cornflower-200/50 dark:border-cornflower-500/20 hover:bg-accent"
         >
           <Plus className="w-3 h-3 mr-1" />
           Add Link
@@ -437,7 +437,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
       </div>
       
       {socialLinks.length === 0 ? (
-        <div className="text-sm text-slate-500 dark:text-slate-400 text-center py-4 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg">
+        <div className="text-sm text-muted-foreground text-center py-4 border-2 border-dashed border-border rounded-lg">
           No social links added. Click "Add Link" to get started.
         </div>
       ) : (
@@ -449,7 +449,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
                   placeholder="Platform (e.g., github, linkedin, twitter)"
                   value={link.platform}
                   onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
-                  className="h-10 text-sm border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 bg-card dark:bg-black/30"
+                  className="h-10 text-sm border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary bg-card"
                 />
               </div>
               <div className="flex-1">
@@ -457,7 +457,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
                   placeholder="URL (e.g., https://github.com/username)"
                   value={link.url}
                   onChange={(e) => updateSocialLink(index, 'url', e.target.value)}
-                  className="h-10 text-sm border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-slate-500 dark:focus:border-slate-400 bg-card dark:bg-black/30"
+                  className="h-10 text-sm border-cornflower-200/50 dark:border-cornflower-500/20 focus:border-primary bg-card"
                 />
               </div>
               <Button
@@ -473,7 +473,7 @@ function SocialLinksEditor({ socialLinks, onChange }: SocialLinksEditorProps) {
           ))}
         </div>
       )}
-      <p className="text-xs text-slate-500 dark:text-slate-400">
+      <p className="text-xs text-muted-foreground">
         Add your social media links. Platform names like "github", "linkedin", "twitter" will be used as identifiers. URLs will automatically include "https://" if missing.
       </p>
     </div>

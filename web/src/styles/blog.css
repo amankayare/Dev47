@@ -24,9 +24,9 @@
 .blog-content .prose h2 {
   @apply text-xl md:text-2xl font-bold;
   @apply text-gray-800 dark:text-gray-200;
-  @apply border-l-4 border-green-600 dark:border-green-500;
+  @apply border-l-4 border-cyan-600 dark:border-cyan-400;
   @apply pl-4 py-1 mb-3 mt-6;
-  @apply bg-green-50/50 dark:bg-green-950/20;
+  @apply bg-cyan-50/50 dark:bg-cyan-950/20;
 }
 
 .blog-content .prose h3 {
@@ -101,15 +101,15 @@
   @apply text-gray-500;
 }
 
-/* Links - Green accent like GeeksForGeeks */
+/* Links use the DEV47 cyan accent. */
 .blog-content .prose a {
-  @apply text-green-600 dark:text-green-500;
+  @apply text-cyan-700 dark:text-cyan-400;
   @apply no-underline font-medium;
   @apply transition-colors;
 }
 
 .blog-content .prose a:hover {
-  @apply text-green-700 dark:text-green-400;
+  @apply text-cyan-800 dark:text-cyan-300;
   @apply underline underline-offset-2;
 }
 

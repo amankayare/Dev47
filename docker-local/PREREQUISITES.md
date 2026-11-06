@@ -36,7 +36,7 @@ Test-Path server/instance/portfolio.db     # Should return True
 
 > **What does it do?**
 > - `npm install` + `npm run build` in `web/` — produces the static frontend bundle
-> - `pip install -r requirements.txt` in `server/` — installs Python dependencies
+> - `uv sync` in `server/` — installs the locked Python dependencies
 > - `python init_db.py` in `server/` — creates the SQLite database with sample data
 
 ---

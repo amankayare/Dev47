@@ -1,77 +1,40 @@
-# Conda Environment Setup ✅
+# Python Environment Setup
 
-## 🐍 **Using MPI-Applications Conda Environment**
+The backend uses `uv` to manage its Python environment and locked dependencies.
 
-Your Visual Portfolio project is now configured to use the `MPI-Applications` conda environment for the backend.
+## Prerequisites
 
-## 📋 **Prerequisites**
+- Python 3.9+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
-Make sure you have the conda environment activated:
+## Install Dependencies
+
+From the repository root:
+
 ```bash
-conda activate MPI-Applications
+npm run install:server
 ```
 
-## 🚀 **Updated Commands**
+Or directly:
 
-### **Root Level Scripts (Automatic Environment)**
 ```bash
-# These automatically use the correct conda environment
-npm run dev           # Start both frontend and backend
-npm run dev:server    # Backend only (uses conda run -n MPI-Applications)  
-npm run dev:web       # Frontend only
-npm run install:all   # Install all dependencies
-```
-
-### **Manual Backend Commands**
-```bash
-# Activate environment first
-conda activate MPI-Applications
-
-# Then run backend commands
 cd server
-python app.py
+uv sync
 ```
 
-## 🔧 **What Changed**
+## Run the Backend
 
-### **Updated package.json scripts:**
-```json
-{
-  "dev:server": "cd server && conda run -n MPI-Applications python app.py",
-  "install:server": "cd server && conda run -n MPI-Applications pip install -r requirements.txt",
-  "start:server": "conda run -n MPI-Applications python scripts/start.py"
-}
-```
-
-### **Updated setup script:**
-- ✅ Checks for MPI-Applications environment
-- ✅ Uses `conda run -n MPI-Applications` for all Python commands
-- ✅ Installs dependencies in correct environment
-
-### **Updated start script:**
-- ✅ Added warning about conda environment
-- ✅ Documentation updated
-
-## ✅ **Dependencies Installed**
-
-Backend dependencies are now installed in the `MPI-Applications` environment:
-- ✅ Flask-CORS
-- ✅ Flask
-- ✅ SQLAlchemy
-- ✅ And all other requirements from requirements.txt
-
-## 🚀 **Ready to Use**
+From the repository root:
 
 ```bash
-# Start everything (from project root)
-npm run dev
+npm run dev:server
 ```
 
-This will:
-1. Start the React frontend on http://localhost:3000
-2. Start the Flask backend on http://localhost:5000 (using MPI-Applications env)
-3. Proxy API requests from frontend to backend
+Or directly from `server/`:
 
----
+```bash
+uv run python app.py
+```
 
-**🎉 Your project is now properly configured with the MPI-Applications conda environment!**
+`uv run` uses the project's locked environment and keeps the backend
+independent of a separately activated Conda environment.

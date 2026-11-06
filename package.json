@@ -6,19 +6,20 @@
   "scripts": {
     "dev": "npx concurrently \"npm run dev:server\" \"npm run dev:web\"",
     "dev:web": "cd web && npm run dev",
-    "dev:server": "cd server && conda run -n portfolio-312 python app.py",
+    "dev:server": "cd server && uv run python app.py",
     "build": "cd web && npm run build",
     "build:web": "cd web && npm run build",
     "install:web": "cd web && npm install",
-    "install:server": "cd server && conda run -n portfolio-312 pip install -r requirements.txt",
+    "install:server": "cd server && uv sync",
     "install:all": "npm run install:web && npm run install:server",
-    "start:server": "conda run -n portfolio-312 python scripts/start.py",
+    "start:server": "cd server && uv run python app.py",
     "setup": "python scripts/setup.py",
     "clean": "cd web && npx rimraf dist node_modules/.vite",
     "clean:all": "cd web && npx rimraf dist node_modules"
   },
   "engines": {
     "node": ">=18.0.0",
-    "python": ">=3.8"
+    "python": ">=3.9",
+    "uv": ">=0.5.0"
   }
 }
