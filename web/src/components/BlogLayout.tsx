@@ -495,6 +495,7 @@ export default function BlogLayout({
               </DropdownMenu>
             )}
           </div>
+        </div>
         </header>
 
       {/* Main Content with Sidebars */}
